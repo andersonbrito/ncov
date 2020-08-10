@@ -225,7 +225,7 @@ if __name__ == '__main__':
         if len(notFound) > 0:
             print('\nPlease check for inconsistencies (see above).')
 
-    # write renaming file
+    # write sequence file
     exported = []
     with open(output3, 'w') as outfile3:
         # export new metadata lines
