@@ -164,12 +164,12 @@ rule colours:
 ### STARTING NEXTSTRAIN PIPELINE
 
 
-input_fasta = rules.filter_metadata.output.sequences,
-input_metadata = rules.geoscheme.output.final_metadata,
+input_fasta = "data/sequences.fasta",
+input_metadata = "data/metadata.tsv",
+lat_longs = "config/latlongs.tsv",
+colors = "config/colors.tsv",
 reference = files.reference,
 clades = files.clades,
-lat_longs = rules.coordinates.output.latlongs,
-colors = rules.colours.output.colours,
 dropped_strains = files.dropped_strains,
 auspice_config = "config/auspice_config.json"
 
@@ -426,6 +426,18 @@ rule export:
 ### Clearing the working directory (only executed when needed)
 
 rule clean:
+	message: "Removing directories: {params}"
+	params:
+		"results ",
+		"auspice"
+
+	shell:
+		"""
+		rm -rfv {params}
+		"""
+
+
+rule clean_all:
 	message: "Removing directories: {params}"
 	params:
 		"results ",

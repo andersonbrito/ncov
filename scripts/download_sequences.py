@@ -15,7 +15,7 @@ if __name__ == '__main__':
         description="Append newly sequenced genomes to current genome dataset, and export metadata",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    parser.add_argument("--fasta", required=True, help="FASTA file with newly sequenced genomes")
+    parser.add_argument("--fasta", required=True, help="FASTA file with all existing genomes already downloaded")
     parser.add_argument("--skip", required=True, help="TXT file with accession number of genomes already downloaded")
     parser.add_argument("--metadata", required=True, help="Newly generated metadata file")
     args = parser.parse_args()
