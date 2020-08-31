@@ -16,8 +16,8 @@ if __name__ == '__main__':
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     parser.add_argument("--fasta", required=True, help="FASTA file with newly sequenced genomes")
-    parser.add_argument("--skip", required=True, help="TXT file with accession number of genomes to be included")
-    parser.add_argument("--metadata", required=True, help="TXT file with accession number of genomes to be removed")
+    parser.add_argument("--skip", required=True, help="TXT file with accession number of genomes already downloaded")
+    parser.add_argument("--metadata", required=True, help="Newly generated metadata file")
     args = parser.parse_args()
 
     ncbi_fasta = args.fasta
