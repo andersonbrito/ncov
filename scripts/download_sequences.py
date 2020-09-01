@@ -7,7 +7,6 @@ import pandas as pd
 import pycountry_convert as pcc
 import pycountry
 
-
 Entrez.email = "Your.Name.Here@example.org"
 
 if __name__ == '__main__':
@@ -24,9 +23,10 @@ if __name__ == '__main__':
     redundant = args.skip
     metadata = args.metadata
 
-    # ncbi_fasta = path + 'ncbi_hcov-19.fasta'
-    # redundant = path + 'redundant_entries.txt'
-    # metadata = path + 'metadata_nextstrain.tsv'
+    # path = '/Users/anderson/GLab Dropbox/Anderson Brito/projects/ncov_2ndWave/nextstrain/test/'
+    # ncbi_fasta = path + 'sequences.fasta'
+    # redundant = path + 'skip.txt'
+    # metadata = path + 'metadata_short.tsv'
 
 
     # existing ncbi fasta file
@@ -77,7 +77,7 @@ if __name__ == '__main__':
             start_at = num * 1000 # define the rounds of search
 
             header = ['strain', 'virus', 'genbank_accession', 'date', 'country',
-                      'division', 'location', 'segment', 'length', 'host', 'authors']
+                      'division', 'location', 'segment', 'length', 'host', 'authors', 'date_submitted']
 
             previous = 1
             count = 1
@@ -108,7 +108,7 @@ if __name__ == '__main__':
                     try:
                         handle = Entrez.efetch(db="nucleotide", id=accno, rettype="gb", retmode="text")
                         strain, virus, genbank_accession, date, country, division,\
-                        location, segment, length, host, authors = ['' for x in header]
+                        location, segment, length, host, authors, submitted_date = ['' for x in header]
                         sequence = ''
                         isolate = ''
                         for seq_record in SeqIO.parse(handle, "gb"):
@@ -117,6 +117,8 @@ if __name__ == '__main__':
                             for feature in seq_record.annotations['references']:
                                 length = str(len(seq_record.seq))
                                 authors = feature.authors.split(",")[0] + " et al"
+                                submitted_date = feature.journal.split('(')[1].split(')')[0]
+                                submitted_date = pd.to_datetime(submitted_date).strftime('%Y-%m-%d')
                             for feature in seq_record.features:
                                 if feature.type == 'source':
                                     try:
@@ -166,7 +168,7 @@ if __name__ == '__main__':
 
                         data = {'strain': strain, 'virus': 'ncov', 'genbank_accession': accno, 'date': date,
                                         'country': country, 'division': division, 'location': location, 'segment': segment,
-                                        'length': length, 'host': host, 'authors': authors}
+                                        'length': length, 'host': host, 'authors': authors, 'submitted_date': submitted_date}
                         # print(data)
                         new_row.update(data)
 
