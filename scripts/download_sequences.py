@@ -108,7 +108,7 @@ if __name__ == '__main__':
                     try:
                         handle = Entrez.efetch(db="nucleotide", id=accno, rettype="gb", retmode="text")
                         strain, virus, genbank_accession, date, country, division,\
-                        location, segment, length, host, authors, submitted_date = ['' for x in header]
+                        location, segment, length, host, authors, date_submitted = ['' for x in header]
                         sequence = ''
                         isolate = ''
                         for seq_record in SeqIO.parse(handle, "gb"):
@@ -117,8 +117,7 @@ if __name__ == '__main__':
                             for feature in seq_record.annotations['references']:
                                 length = str(len(seq_record.seq))
                                 authors = feature.authors.split(",")[0] + " et al"
-                                submitted_date = feature.journal.split('(')[1].split(')')[0]
-                                submitted_date = pd.to_datetime(submitted_date).strftime('%Y-%m-%d')
+                                date_submitted = pd.to_datetime(feature.journal.split('(')[1].split(')')[0]).strftime('%Y-%m-%d')
                             for feature in seq_record.features:
                                 if feature.type == 'source':
                                     try:
@@ -168,7 +167,7 @@ if __name__ == '__main__':
 
                         data = {'strain': strain, 'virus': 'ncov', 'genbank_accession': accno, 'date': date,
                                         'country': country, 'division': division, 'location': location, 'segment': segment,
-                                        'length': length, 'host': host, 'authors': authors, 'submitted_date': submitted_date}
+                                        'length': length, 'host': host, 'authors': authors, 'date_submitted': date_submitted}
                         # print(data)
                         new_row.update(data)
 
@@ -197,12 +196,12 @@ if __name__ == '__main__':
                         #         print(str(c) + '/' + str(total_entries) + " - Sequence already processed: " + accno)
 
                         # exporting new metadata lines
-                        if strain not in dfN['strain'].to_list() and strain.replace('_', '-') not in dfN['strain'].to_list():
+                        if strain not in dfN['strain'].to_list():# and strain.replace('_', '-') not in dfN['strain'].to_list():
                             dfG = pd.DataFrame(columns=dfN.columns.to_list())
                             dfG = dfG.append(new_row, ignore_index=True)
                             dfG.to_csv(metadata, sep='\t', index=False, header=False, mode='a')
 
-                            # print(list(dfN.loc[dfN['strain'] == strain].values[0]))
+                            # print(list(dfN.loc[dfN['strain'] == strain].values))
                             print("\t- Exporting NCBI metadata: " + ncbi_header)
 
                             # exporting new NCBI sequences
@@ -232,6 +231,3 @@ if __name__ == '__main__':
         print('\nThe following genomes were not retrieved:\n')
         for entry in notFound:
             print('\t' + entry)
-
-
-
