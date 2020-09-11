@@ -95,26 +95,6 @@ Notes:<br />
 - Source *→ lab source of the viral samples*
 - Update *→ number of the genome release, if new genomes are released in a regular basis*
 
-#### Adapting the Python scripts
-A few lines in the scripts `add_newgenomes.py` ans `filter_metadata.py` need to be changed to match your lab's sample naming and origin.
-
-Lines to be changed in `add_newgenomes.py`:
-- Lines 45, 56 and 81: **"Yale-"** must match the unique identifier, only found in your lab's genome IDs. Ours is set (in bold) as follows: hCoV-19/USA/**CT-Yale-001**/2020
-
-
-Lines to be changed in `filter_metadata.py`:
-- Line 77: `sheet_name` must be changed to match the sheet tab name (without spaces), inside the Excel file
-
-- Lines 91 and 142: Same as described above, **"Yale-"** must match the unique identifier, only found in your lab's genome IDs. Ours is set (in bold) as follows: hCoV-19/USA/**CT-Yale-001**/2020
-
-- Lines 156 and 179: change these lines to match the country of origin (alpha-3 ISO code)
-
-- Lines 153 and 169: change these lines to match the name and acronym of the most likely state of origin of the samples, if the 'State' field is unknown
-
-- Line 187: change this line to match you lab's name
-
-- Line 188: change this line to match you lab's main author's name
-
 ## Running the pipeline
 
 ### Generating augur input data
