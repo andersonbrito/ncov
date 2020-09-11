@@ -1,7 +1,7 @@
 type	area	subarea	latitude	longitude	members
 region	Oceania	Oceania	-32.395085	152.518443	Australia, Christmas Island, Cocos, Heard Island and McDonald Islands, New Zealand, Norfolk Island, Melanesia, Fiji, New Caledonia, Papua New Guinea, Solomon Islands, Vanuatu, Micronesia, Guam, Kiribati, Marshall Islands, Micronesia, Nauru, Northern Mariana Islands, Palau, Polynesia, American Samoa, Cook Islands, French Polynesia, Niue, Pitcairn Islands, Samoa, Tokelau, Tonga, Tuvalu, Wallis and Futuna
 region	Asia	Eastern Asia	32.974946	103.95701	China, Hong Kong, Macau, Japan, Mongolia, North Korea, South Korea, Taiwan
-region	Asia	Southeastern Asia	3.96578	108.343168	Brunei Darussalam, Cambodia, Indonesia, Laos, Malaysia, Myanmar, Philippines, Singapore, Thailand, Timor-Leste, Vietnam
+region	Asia	Southeastern Asia	3.96578	108.343168	Brunei, Brunei Darussalam, Cambodia, Indonesia, Laos, Malaysia, Myanmar, Philippines, Singapore, Thailand, Timor-Leste, Vietnam
 region	Asia	Southern Asia	27.961237	71.898465	Afghanistan, Bangladesh, Bhutan, India, Iran, Maldives, Nepal, Pakistan, Sri Lanka
 region	Asia	Central Asia	43.735259	64.932677	Kazakhstan, Kyrgyzstan, Tajikistan, Turkmenistan, Uzbekistan
 region	Asia	Western Asia	32.154283	39.200932	Armenia, Azerbaijan, Bahrain, Cyprus, Georgia, Iraq, Israel, Jordan, Kuwait, Lebanon, Oman, Qatar, Saudi Arabia, State of Palestine, Syria, Turkey, United Arab Emirates, Yemen
