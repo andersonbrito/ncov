@@ -58,9 +58,9 @@ ncov/
 │ └── remove.txt 		→ TXT file with IDs of genomes to be removed prior to the run
 │
 ├── pre-analyses/
-│ ├── gisaid_cov2020_sequences.fasta 	→ FASTA file with the latest genomes from GISAID
+│ ├── gisaid_hcov-19.fasta 	→ FASTA file with the latest genomes from GISAID
 │ ├── new_genomes.fasta 		→ FASTA file with the lab's newly sequenced genomes
-│ ├── metadata_nextstrain.tsv	        → nextstrain metadata file, downloaded from GISAID
+│ ├── metadata_nextstrain.tsv	    → nextstrain metadata file, downloaded from GISAID
 │ └── COVID-19_sequencing.xlsx 		→ Custom lab metadata file
 │
 └── README.md
@@ -75,7 +75,7 @@ Files in the `pre-analyses` directory need to be downloaded from distinct source
 |:------------------------------:|:-----------------------------------------------------------------------------------------------:|
 | gisaid_hcov-19.fasta |         Downloaded from GISAID (all complete genomes submitted from 2019-Dec-01)        |
 |        new_genomes.fasta¹       | Newly sequenced genomes, with headers formatted as ">Yale-XXX", downloaded from the Lab's Dropbox |
-| metadata.tsv² | File 'nextmeta.tsv' available on GISAID |
+| metadata_nextstrain.tsv² | File 'nextmeta.tsv' available on GISAID |
 |    COVID-19_sequencing.xlsx³    |                     Metadata spreadsheet downloaded from an internal Google Sheet                    |
 
 
