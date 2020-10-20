@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
     # open metadata file as dataframe
     dfN = pd.read_csv(metadata, encoding='utf-8', sep='\t', dtype=str)
-    dfN = dfN[['region', 'country', 'division', 'location', 'update']]
+    dfN = dfN[['region_exposure', 'country_exposure', 'division_exposure', 'location', 'update']]
 
     ordered_regions = {}
     dcountries = {}
@@ -228,7 +228,7 @@ if __name__ == '__main__':
     for line in scheme_list:
         if not line.startswith('\n'):
             type = line.split('\t')[0]
-            if type == 'region':
+            if type == 'region_exposure':
                 continent = line.split('\t')[1]
                 region = line.split('\t')[2]
                 if region in sampled_region:
@@ -388,8 +388,8 @@ if __name__ == '__main__':
             gradient = linear_gradient(start, end, len(regions))
 
         for region, colour in zip(regions, gradient):
-            print('region', region, colour)
-            results['region'].update({region: colour})
+            print('region_exposure', region, colour)
+            results['region_exposure'].update({region: colour})
 
     # define gradients for country
     for hue, countries in country_colours.items():
@@ -400,8 +400,8 @@ if __name__ == '__main__':
         else:
             gradient = linear_gradient(start, end, len(countries))
         for country, colour in zip(countries, gradient):
-            print('country', country, colour)
-            results['country'].update({country: colour})
+            print('country_exposure', country, colour)
+            results['country_exposure'].update({country: colour})
 
     # define gradients for divisions
     for hue, divisions in division_colours.items():
@@ -412,8 +412,8 @@ if __name__ == '__main__':
         else:
             gradient = linear_gradient(start, end, len(divisions))
         for division, colour in zip(divisions, gradient):
-            print('division', division, colour)
-            results['division'].update({division: colour})
+            print('division_exposure', division, colour)
+            results['division_exposure'].update({division: colour})
 
     # define gradients for locations
     for hue, locations in location_colours.items():

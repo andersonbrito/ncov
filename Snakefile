@@ -10,6 +10,11 @@ rule preanalyses:
 		"config/latlongs.tsv",
 		"config/colors.tsv"
 
+rule options:
+	params:
+		threads = 4
+options = rules.options.params
+
 
 # Define file names
 rule files:
@@ -30,9 +35,7 @@ rule files:
 		aligned = "config/aligned.fasta"
 
 
-
 files = rules.files.params
-
 
 rule add_sequences:
 	message:
@@ -72,7 +75,6 @@ rule filter_metadata:
 		metadata2 = files.metadata_lab
 	output:
 		filtered_metadata = "pre-analyses/metadata_filtered.tsv",
-		renaming = "pre-analyses/rename.tsv",
 		sequences = "data/sequences.fasta"
 	shell:
 		"""
@@ -81,8 +83,7 @@ rule filter_metadata:
 			--metadata1 {input.metadata1} \
 			--metadata2 {input.metadata2} \
 			--output1 {output.filtered_metadata} \
-			--output2 {output.renaming} \
-			--output3 {output.sequences}
+			--output2 {output.sequences}
 		"""
 
 
@@ -116,7 +117,7 @@ rule coordinates:
 		geoscheme = files.geoscheme,
 		cache = files.cache
 	params:
-		columns = "region country division location"
+		columns = "region_exposure country_exposure division_exposure location"
 	output:
 		latlongs = "config/latlongs.tsv"
 	shell:
@@ -142,7 +143,7 @@ rule colours:
 		geoscheme = files.geoscheme,
 		colour_grid = files.colour_grid
 	params:
-		columns = "region country division location"
+		columns = "region_exposure country_exposure division_exposure location"
 	output:
 		colours = "config/colors.tsv"
 	shell:
@@ -158,71 +159,69 @@ rule colours:
 
 
 
-
-
-
 ### STARTING NEXTSTRAIN PIPELINE
 
 
 input_fasta = "data/sequences.fasta",
 input_metadata = "data/metadata.tsv",
-lat_longs = "config/latlongs.tsv",
-colors = "config/colors.tsv",
 reference = files.reference,
 clades = files.clades,
+lat_longs = "config/latlongs.tsv",
+colors = "config/colors.tsv",
 dropped_strains = files.dropped_strains,
-auspice_config = "config/auspice_config.json"
+auspice_config = "config/auspice_config.json",
+weights = "config/weights.tsv"
+
 
 ### Excluding sequences included in dropped_strains
 rule filter:
-    message:
-        """
-        Filtering to
-          - excluding strains in {input.exclude}
-        """
-    input:
-        sequences = input_fasta,
-        metadata = input_metadata,
-        exclude = dropped_strains
-    output:
-        sequences = "results/filtered.fasta"
-    params:
-        group_by = "country year month",
-        sequences_per_group = 20,
-        min_date = 1900
-    shell:
-        """
-        augur filter \
-            --sequences {input.sequences} \
-            --metadata {input.metadata} \
-            --exclude {input.exclude} \
-            --output {output.sequences}
-        """
+	message:
+		"""
+		Filtering to
+		  - excluding strains in {input.exclude}
+		"""
+	input:
+		sequences = input_fasta,
+		metadata = input_metadata,
+		exclude = dropped_strains
+	output:
+		sequences = "results/filtered.fasta"
+	shell:
+		"""
+		augur filter \
+			--sequences {input.sequences} \
+			--metadata {input.metadata} \
+			--exclude {input.exclude} \
+			--output {output.sequences}
+		"""
 
 
 ### Aligning the sequences using MAFFT
 rule align:
-    message:
-        """
-        Aligning sequences to {input.reference}
-          - filling gaps with N
-        """
-    input:
-        sequences = rules.filter.output.sequences,
-        reference = reference,
-        aligned = files.aligned
-    output:
-        alignment = "results/aligned.fasta"
-    shell:
-        """
-        augur align \
-            --existing-alignment {files.aligned} \
-            --sequences {input.sequences} \
-            --reference-sequence {input.reference} \
-            --output {output.alignment} \
-            --remove-reference \
-            --fill-gaps \
-        """
+	message:
+		"""
+		Aligning sequences to {input.reference}
+		  - filling gaps with N
+		"""
+	input:
+		sequences = rules.filter.output.sequences,
+		aligned = files.aligned,
+		reference = reference
+	output:
+		alignment = "results/aligned.fasta"
+	params:
+		threads = options.threads
+	shell:
+		"""
+		augur align \
+			--sequences {input.sequences} \
+			--existing-alignment {files.aligned} \
+			--reference-sequence {input.reference} \
+			--nthreads {params.threads} \
+			--output {output.alignment} \
+			--remove-reference \
+			--fill-gaps
+		"""
 
 
 ### Masking alignment sites
@@ -256,59 +255,65 @@ rule mask:
 ### Inferring Maximum Likelihood tree using the default software (IQTree)
 
 rule tree:
-    message: "Building tree"
-    input:
-        alignment = rules.mask.output.alignment
-    output:
-        tree = "results/tree_raw.nwk"
-    shell:
-        """
-        augur tree \
-            --alignment {input.alignment} \
-            --output {output.tree}
-        """
+	message: "Building tree"
+	input:
+		alignment = rules.mask.output.alignment
+	output:
+		tree = "results/tree_raw.nwk"
+	params:
+		threads = options.threads
+	shell:
+		"""
+		augur tree \
+			--alignment {input.alignment} \
+			--nthreads {params.threads} \
+			--output {output.tree}
+		"""
 
 
 ### Running TreeTime to estimate time for ancestral genomes
 
 rule refine:
-    message:
-        """
-        Refining tree
-          - estimate timetree
-          - use {params.coalescent} coalescent timescale
-          - estimate {params.date_inference} node dates
-        """
-    input:
-        tree = rules.tree.output.tree,
-        alignment = rules.align.output,
-        metadata = input_metadata
-    output:
-        tree = "results/tree.nwk",
-        node_data = "results/branch_lengths.json"
-    params:
-        root = "Wuhan/WH01/2019",
-        coalescent = "skyline",
-        clock_rate = 0.0008,
-        clock_std_dev = 0.0004,
-        date_inference = "marginal",
-    shell:
-        """
-        augur refine \
-            --tree {input.tree} \
-            --alignment {input.alignment} \
-            --metadata {input.metadata} \
-            --output-tree {output.tree} \
-            --output-node-data {output.node_data} \
-            --root {params.root} \
-            --timetree \
-            --coalescent {params.coalescent} \
-            --date-confidence \
-            --clock-filter-iqd 3 \
-            --clock-rate {params.clock_rate} \
-            --clock-std-dev {params.clock_std_dev} \
-            --date-inference {params.date_inference}
-        """
+	message:
+		"""
+		Refining tree
+		  - estimate timetree
+		  - use {params.coalescent} coalescent timescale
+		  - estimate {params.date_inference} node dates
+		"""
+	input:
+		tree = rules.tree.output.tree,
+		alignment = rules.align.output,
+		metadata = input_metadata
+	output:
+		tree = "results/tree.nwk",
+		node_data = "results/branch_lengths.json"
+	params:
+		root = "Wuhan/Hu-1/2019 Wuhan/WH01/2019",
+		coalescent = "skyline",
+		clock_rate = 0.0008,
+		clock_std_dev = 0.0004,
+		date_inference = "marginal",
+		unit = "mutations"
+	shell:
+		"""
+		augur refine \
+			--tree {input.tree} \
+			--alignment {input.alignment} \
+			--metadata {input.metadata} \
+			--output-tree {output.tree} \
+			--output-node-data {output.node_data} \
+			--root {params.root} \
+			--timetree \
+			--coalescent {params.coalescent} \
+			--date-confidence \
+            --clock-filter 3 \
+			--clock-rate {params.clock_rate} \
+			--clock-std-dev {params.clock_std_dev} \
+			--divergence-units {params.unit} \
+			--date-inference {params.date_inference}
+		"""
+
 
 
 ### Reconstructing ancestral sequences and mutations
@@ -361,7 +366,7 @@ rule traits:
     output:
         node_data = "results/traits.json",
     params:
-        columns = "region country division location area"
+        columns = "region_exposure country_exposure division_exposure location"
     shell:
         """
         augur traits \
@@ -437,7 +442,7 @@ rule clean:
 		"""
 
 
-rule clean_all:
+rule reset:
 	message: "Removing directories: {params}"
 	params:
 		"results ",
@@ -446,8 +451,7 @@ rule clean_all:
 		"config/colors.tsv",
 		"config/latlongs.tsv",
 		"pre-analyses/metadata_filtered.tsv",
-		"pre-analyses/temp_sequences.fasta",
-		"pre-analyses/rename.tsv"
+		"pre-analyses/temp_sequences.fasta"
 
 	shell:
 		"""
@@ -461,3 +465,4 @@ rule delete:
 		"pre-analyses"
 	shell:
 		"rm -rfv {params}"
+

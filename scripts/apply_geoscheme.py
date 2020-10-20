@@ -52,14 +52,14 @@ if __name__ == '__main__':
         if not line.startswith('\n'):
             id = line.split('\t')[2]
             type = line.split('\t')[0]
-            if type == 'region':
+            if type == 'region_exposure':
                 members = line.split('\t')[5].split(',') # elements inside the subarea
                 for country in members:
                     iso = get_iso(country.strip())
                     geoLevels[iso] = id
 
             # parse subnational regions for countries in geoscheme
-            if type == 'country':
+            if type == 'country_exposure':
                 members = line.split('\t')[5].split(',') # elements inside the subarea
                 for state in members:
                     if state.strip() not in geoLevels.keys():
@@ -76,11 +76,11 @@ if __name__ == '__main__':
     # open metadata file as dataframe
     dfN = pd.read_csv(metadata, encoding='utf-8', sep='\t')
     try:
-        dfN.insert(4, 'region', '')
+        dfN.insert(4, 'region_exposure', '')
         dfN.insert(8, 'area', '')
     except:
         pass
-    dfN['region'] = dfN['iso'].map(geoLevels) # add 'column' region in metadata
+    dfN['region_exposure'] = dfN['iso'].map(geoLevels) # add 'column' region in metadata
 
 
     # add column 'area' in metadata
@@ -91,7 +91,7 @@ if __name__ == '__main__':
         else:
             return 'Other US areas'
 
-    dfN['area'] = dfN['division'].map(add_area)
+    dfN['area'] = dfN['division_exposure'].map(add_area)
 
     def is_international(country):
         if not country.startswith('USA'):
@@ -99,7 +99,7 @@ if __name__ == '__main__':
         else:
             return 'no'
 
-    dfN['from_abroad'] = dfN['country'].map(is_international)
+    dfN['from_abroad'] = dfN['country_exposure'].map(is_international)
     dfN.loc[dfN['from_abroad'] == 'yes', 'area'] = 'International' # assign non-US genomes as 'International'
 
     dfN = dfN.drop(['from_abroad'], axis=1)
@@ -112,15 +112,15 @@ if __name__ == '__main__':
     for idx, row in dfN.iterrows():
 
         # flatten divison names as country names, for countries that are not a focus of study
-        country = dfN.loc[idx, 'country']
+        country = dfN.loc[idx, 'country_exposure']
         if country not in focus:
-            dfN.loc[idx, 'division'] = country
+            dfN.loc[idx, 'division_exposure'] = country
 
         # convert sets of states into subnational regions
-        division = dfN.loc[idx, 'division']
+        division = dfN.loc[idx, 'division_exposure']
         if division not in ['', 'unknown']:
             if division in geoLevels.keys():
-                dfN.loc[idx, 'country'] = geoLevels[dfN.loc[idx, 'division']]
+                dfN.loc[idx, 'country_exposure'] = geoLevels[dfN.loc[idx, 'division_exposure']]
 
         # convert sets of cities into sub-state regions
         location = dfN.loc[idx, 'location']

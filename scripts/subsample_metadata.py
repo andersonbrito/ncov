@@ -8,7 +8,7 @@ import argparse
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description="Subsample nextstrain metadata entries keeping only pre-selected samples",
+        description="Subsample nextstrain metadata following pre-defined sampling scheme",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     parser.add_argument("--metadata", required=True, help="Metadata file from nextstrain")
@@ -49,7 +49,6 @@ if __name__ == '__main__':
     results = {}
 
     ### IGNORING SAMPLES
-
     # list of rows to be ignored
     ignore = {}
     for idx, val in dfS.loc[dfS['purpose'] == 'ignore', 'name'].to_dict().items():
@@ -60,14 +59,9 @@ if __name__ == '__main__':
             ignore[key].append(val)
     # print(ignore)
 
+    print('\n* Loading metadata...')
     # nextstrain metadata
     dfN = pd.read_csv(metadata, encoding='utf-8', sep='\t', dtype=str)
-    try:
-        dfN = dfN[['strain', 'gisaid_epi_isl', 'genbank_accession', 'date', 'region', 'country', 'division', 'location',
-                      'region_exposure', 'country_exposure', 'division_exposure', 'originating_lab', 'submitting_lab']]
-    except:
-        pass
-
     dfN.fillna('', inplace=True) # replace empty values by blank
 
     # drop lines if samples are set to be ignored
@@ -75,7 +69,7 @@ if __name__ == '__main__':
         dfN = dfN[~dfN[column].isin(names)]
     # print(sorted(dfN['country'].unique()))
 
-
+    print('\n* Removing unwanted samples, if any is listed...')
     # drop rows listed in remove.txt
     if remove == None:
         to_remove = []
@@ -86,6 +80,7 @@ if __name__ == '__main__':
     # prevent samples already selected in keep.txt from being resampled
     dfN = dfN[~dfN['strain'].isin(to_keep)]
 
+    print('\n* Dropping sequences with incomplete date...')
     # drop rows with incomplete dates
     dfN = dfN[dfN['date'].apply(lambda x: len(x.split('-')) == 3)] # accept only full dates
     dfN = dfN[dfN['date'].apply(lambda x: 'X' not in x)] # exclude -XX-XX missing dates
@@ -95,22 +90,25 @@ if __name__ == '__main__':
     dfN = dfN.sort_values(by='date')  # sorting lines by date
     start, end = dfN['date'].min(), today
 
-
-    # drop columns where 'country' and 'country_exposure' disagree
-    dfN['same_division'] = np.where(dfN['division'] == dfN['division_exposure'], 'yes', 'no') # compare values
-    dfN.loc[dfN['division_exposure'] == '', 'same_division'] = 'yes'
-    dfN = dfN[dfN['same_division'].apply(lambda x: 'yes' in x)] # exclude rows with conflicting place of origin
-    # print(dfN[['same_country', 'country', 'country_exposure']])
-    dfN.drop(columns=['same_division'])
-
+    print('\n* Fixing information about place of exposure...')
+    # fix exposure
+    for exposure_column in ['region_exposure', 'country_exposure', 'division_exposure']:
+        for idx, row in dfN.iterrows():
+            level = exposure_column.split('_')[0]
+            if dfN.loc[idx, exposure_column].lower() in ['', 'unknown', 'na']:
+                dfN.loc[idx, exposure_column] = dfN.loc[idx, level]
+                if dfN.loc[idx, level] == 'Massachussets':
+                    print(dfN.loc[idx, level], dfN.loc[idx, exposure_column])
     # print(dfN[['strain', 'date']].iloc[[0, -1]])
 
+    print('\n* Assigning epiweek column...')
     # get epiweek end date, create column
     dfN['date'] = pd.to_datetime(dfN['date'], errors='coerce')
     dfN['epiweek'] = dfN['date'].apply(lambda x: Week.fromdate(x, system="cdc").enddate())
 
 
     ## SAMPLE FOCAL AND CONTEXTUAL SEQUENCES
+    print('\n* Loading sampling scheme...')
     purposes = ['focus', 'context']
     subsamplers = [] # list of focal and contextual categories
     for category in purposes:
@@ -123,6 +121,7 @@ if __name__ == '__main__':
                 query[key].append(val)
             subsamplers.append(query)
 
+    print('\n* Performing the subsampling...')
     # perform subsampling
     for scheme_dict in subsamplers:
         # print(scheme_dict)
@@ -175,7 +174,7 @@ if __name__ == '__main__':
 
 
     ### EXPORT RESULTS
-    print('\n# Genomes sampled per category in subsampling scheme\n')
+    print('\n\n# Genomes sampled per category in subsampling scheme\n')
     exported = []
     genome_count = 0
     outfile = open(output, 'w')
