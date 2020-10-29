@@ -68,7 +68,7 @@ if __name__ == '__main__':
     # print(dfN)
 
     # Lab genomes metadata
-    dfL = pd.read_excel(metadata2, index_col=None, header=0, sheet_name=1,
+    dfL = pd.read_excel(metadata2, index_col=None, header=0, sheet_name=0,
                         converters={'Sample-ID': str, 'Collection-date': str, 'Update': str})
     dfL.fillna('', inplace=True)
 
