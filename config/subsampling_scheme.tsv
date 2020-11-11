@@ -2,4 +2,4 @@ purpose	level	name	size	start	end
 focus	division_exposure	Pennsylvania	150		
 focus	division_exposure	Massachusetts	150		
 context	country_exposure	USA	500		
-ignore	division_exposure	Texas		
+ignore	division_exposure	Texas			
