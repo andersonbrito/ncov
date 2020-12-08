@@ -6,7 +6,11 @@
      "url": "https://grubaughlab.com/"}
   ],
   "colorings": [
-
+    {
+      "key": "pangolin_lineage",
+      "title": "Lineage",
+      "type": "categorical"
+    },
     {
       "key": "region_exposure",
       "title": "Region",
@@ -59,6 +63,7 @@
   "filters": [
     "update",
     "area",
+    "pangolin_lineage",
     "location",
     "division_exposure",
     "country_exposure",
