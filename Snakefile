@@ -1,6 +1,6 @@
 rule all:
-    input:
-        auspice = "auspice/ncov_update.json",
+	input:
+		auspice = "auspice/ncov_update.json",
 
 # Triggers the pre-analyses
 rule preanalyses:
@@ -226,30 +226,30 @@ rule align:
 
 ### Masking alignment sites
 rule mask:
-    message:
-        """
-        Mask bases in alignment
-          - masking {params.mask_from_beginning} from beginning
-          - masking {params.mask_from_end} from end
-          - masking other sites: {params.mask_sites}
-        """
-    input:
-        alignment = rules.align.output.alignment
-    output:
-        alignment = "results/masked.fasta"
-    params:
-        mask_from_beginning = 55,
-        mask_from_end = 100,
-        mask_sites = "150, 153, 635, 1707, 1895, 2091, 2094, 2198, 2604, 3145, 3564, 3639, 3778, 4050, 5011, 5257, 5736, 5743, 5744, 6167, 6255, 6869, 8022, 8026, 8790, 8827, 8828, 9039, 10129, 10239, 11074, 11083, 11535, 13402, 13408, 13476, 13571, 14277, 15435, 15922, 16290, 16887, 19298, 19299, 19484, 19548, 20056, 20123, 20465, 21550, 21551, 21575, 22335, 22516, 22521, 22661, 22802, 24389, 24390, 24622, 24933, 25202, 25381, 26549, 27760, 27761, 27784, 28253, 28985, 29037, 29039, 29425, 29553, 29827, 29830"
-    shell:
-        """
-        python3 scripts/mask-alignment.py \
-            --alignment {input.alignment} \
-            --mask-from-beginning {params.mask_from_beginning} \
-            --mask-from-end {params.mask_from_end} \
-            --mask-sites {params.mask_sites} \
-            --output {output.alignment}
-        """
+	message:
+		"""
+		Mask bases in alignment
+		  - masking {params.mask_from_beginning} from beginning
+		  - masking {params.mask_from_end} from end
+		  - masking other sites: {params.mask_sites}
+		"""
+	input:
+		alignment = rules.align.output.alignment
+	output:
+		alignment = "results/masked.fasta"
+	params:
+		mask_from_beginning = 55,
+		mask_from_end = 100,
+		mask_sites = "150, 153, 635, 1707, 1895, 2091, 2094, 2198, 2604, 3145, 3564, 3639, 3778, 4050, 5011, 5257, 5736, 5743, 5744, 6167, 6255, 6869, 8022, 8026, 8790, 8827, 8828, 9039, 10129, 10239, 11074, 11083, 11535, 13402, 13408, 13476, 13571, 14277, 15435, 15922, 16290, 16887, 19298, 19299, 19484, 19548, 20056, 20123, 20465, 21550, 21551, 21575, 22335, 22516, 22521, 22661, 22802, 24389, 24390, 24622, 24933, 25202, 25381, 26549, 27760, 27761, 27784, 28253, 28985, 29037, 29039, 29425, 29553, 29827, 29830"
+	shell:
+		"""
+		python3 scripts/mask-alignment.py \
+			--alignment {input.alignment} \
+			--mask-from-beginning {params.mask_from_beginning} \
+			--mask-from-end {params.mask_from_end} \
+			--mask-sites {params.mask_sites} \
+			--output {output.alignment}
+		"""
 
 
 ### Inferring Maximum Likelihood tree using the default software (IQTree)
@@ -307,7 +307,7 @@ rule refine:
 			--timetree \
 			--coalescent {params.coalescent} \
 			--date-confidence \
-            --clock-filter 3 \
+			--clock-filter 3 \
 			--clock-rate {params.clock_rate} \
 			--clock-std-dev {params.clock_std_dev} \
 			--divergence-units {params.unit} \
@@ -319,113 +319,113 @@ rule refine:
 ### Reconstructing ancestral sequences and mutations
 
 rule ancestral:
-    message: "Reconstructing ancestral sequences and mutations"
-    input:
-        tree = rules.refine.output.tree,
-        alignment = rules.align.output
-    output:
-        node_data = "results/nt_muts.json"
-    params:
-        inference = "joint"
-    shell:
-        """
-        augur ancestral \
-            --tree {input.tree} \
-            --alignment {input.alignment} \
-            --inference {params.inference} \
-            --output-node-data {output.node_data}
-        """
+	message: "Reconstructing ancestral sequences and mutations"
+	input:
+		tree = rules.refine.output.tree,
+		alignment = rules.align.output
+	output:
+		node_data = "results/nt_muts.json"
+	params:
+		inference = "joint"
+	shell:
+		"""
+		augur ancestral \
+			--tree {input.tree} \
+			--alignment {input.alignment} \
+			--inference {params.inference} \
+			--output-node-data {output.node_data}
+		"""
 
 ## Performing amino acid translation
 
 rule translate:
-    message: "Translating amino acid sequences"
-    input:
-        tree = rules.refine.output.tree,
-        node_data = rules.ancestral.output.node_data,
-        reference = reference
-    output:
-        node_data = "results/aa_muts.json"
-    shell:
-        """
-        augur translate \
-            --tree {input.tree} \
-            --ancestral-sequences {input.node_data} \
-            --reference-sequence {input.reference} \
-            --output {output.node_data} \
-        """
+	message: "Translating amino acid sequences"
+	input:
+		tree = rules.refine.output.tree,
+		node_data = rules.ancestral.output.node_data,
+		reference = reference
+	output:
+		node_data = "results/aa_muts.json"
+	shell:
+		"""
+		augur translate \
+			--tree {input.tree} \
+			--ancestral-sequences {input.node_data} \
+			--reference-sequence {input.reference} \
+			--output {output.node_data} \
+		"""
 
 
 ### Inferring ancestral locations of genomes
 
 rule traits:
-    message: "Inferring ancestral traits for {params.columns!s}"
-    input:
-        tree = rules.refine.output.tree,
-        metadata = input_metadata
-    output:
-        node_data = "results/traits.json",
-    params:
-        columns = "region_exposure country_exposure division_exposure location"
-    shell:
-        """
-        augur traits \
-            --tree {input.tree} \
-            --metadata {input.metadata} \
-            --output {output.node_data} \
-            --columns {params.columns} \
-            --confidence
-        """
+	message: "Inferring ancestral traits for {params.columns!s}"
+	input:
+		tree = rules.refine.output.tree,
+		metadata = input_metadata
+	output:
+		node_data = "results/traits.json",
+	params:
+		columns = "region_exposure country_exposure division_exposure location"
+	shell:
+		"""
+		augur traits \
+			--tree {input.tree} \
+			--metadata {input.metadata} \
+			--output {output.node_data} \
+			--columns {params.columns} \
+			--confidence
+		"""
 
 
 ### Define clades based on sets of mutations
 
 rule clades:
-    message: " Labeling clades as specified in config/clades.tsv"
-    input:
-        tree = rules.refine.output.tree,
-        aa_muts = rules.translate.output.node_data,
-        nuc_muts = rules.ancestral.output.node_data,
-        clades = clades
-    output:
-        clade_data = "results/clades.json"
-    shell:
-        """
-        augur clades --tree {input.tree} \
-            --mutations {input.nuc_muts} {input.aa_muts} \
-            --clades {input.clades} \
-            --output {output.clade_data}
-        """
+	message: " Labeling clades as specified in config/clades.tsv"
+	input:
+		tree = rules.refine.output.tree,
+		aa_muts = rules.translate.output.node_data,
+		nuc_muts = rules.ancestral.output.node_data,
+		clades = clades
+	output:
+		clade_data = "results/clades.json"
+	shell:
+		"""
+		augur clades --tree {input.tree} \
+			--mutations {input.nuc_muts} {input.aa_muts} \
+			--clades {input.clades} \
+			--output {output.clade_data}
+		"""
 
 
 ### Generating final results for visualisation with auspice
 
 rule export:
-    message: "Exporting data files for for auspice"
-    input:
-        tree = rules.refine.output.tree,
-        metadata = input_metadata,
-        branch_lengths = rules.refine.output.node_data,
-        traits = rules.traits.output.node_data,
-        nt_muts = rules.ancestral.output.node_data,
-        aa_muts = rules.translate.output.node_data,
-        colors = colors,
-        lat_longs = lat_longs,
-        clades = rules.clades.output.clade_data,
-        auspice_config = auspice_config
-    output:
-        auspice = rules.all.input.auspice,
-    shell:
-        """
-        augur export v2 \
-            --tree {input.tree} \
-            --metadata {input.metadata} \
-            --node-data {input.branch_lengths} {input.traits} {input.nt_muts} {input.aa_muts} {input.clades} \
-            --colors {input.colors} \
-            --lat-longs {input.lat_longs} \
-            --auspice-config {input.auspice_config} \
-            --output {output.auspice}
-        """
+	message: "Exporting data files for for auspice"
+	input:
+		tree = rules.refine.output.tree,
+		metadata = input_metadata,
+		branch_lengths = rules.refine.output.node_data,
+		traits = rules.traits.output.node_data,
+		nt_muts = rules.ancestral.output.node_data,
+		aa_muts = rules.translate.output.node_data,
+		colors = colors,
+		lat_longs = lat_longs,
+		clades = rules.clades.output.clade_data,
+		auspice_config = auspice_config
+	output:
+		auspice = rules.all.input.auspice,
+	shell:
+		"""
+		augur export v2 \
+			--tree {input.tree} \
+			--metadata {input.metadata} \
+			--node-data {input.branch_lengths} {input.traits} {input.nt_muts} {input.aa_muts} {input.clades} \
+			--colors {input.colors} \
+			--lat-longs {input.lat_longs} \
+			--auspice-config {input.auspice_config} \
+			--output {output.auspice}
+		"""
 
 
 ### Clearing the working directory (only executed when needed)
