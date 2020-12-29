@@ -82,28 +82,6 @@ if __name__ == '__main__':
         pass
     dfN['region_exposure'] = dfN['iso'].map(geoLevels) # add 'column' region in metadata
 
-
-    # add column 'area' in metadata
-    def add_area(division):
-        area = ['Connecticut', 'Maine', 'Massachusetts', 'New Hampshire', 'Rhode Island', 'Vermont']
-        if division in area:
-            return 'New England'
-        else:
-            return 'Other US areas'
-
-    dfN['area'] = dfN['division_exposure'].map(add_area)
-
-    def is_international(country):
-        if not country.startswith('USA'):
-            return 'yes'
-        else:
-            return 'no'
-
-    dfN['from_abroad'] = dfN['country_exposure'].map(is_international)
-    dfN.loc[dfN['from_abroad'] == 'yes', 'area'] = 'International' # assign non-US genomes as 'International'
-
-    dfN = dfN.drop(['from_abroad'], axis=1)
-
     notfound = []
     # convert sets of locations into sub-locations
     print('\nApplying geo-schemes...')
