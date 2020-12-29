@@ -270,7 +270,7 @@ USA/CruiseA-8/2020
 USA/CruiseA-9/2020
 USA/UPHL-01/2020
 
-# US outliers or genomes that don't tell us anything
+# molecular clock outliers
 USA/CT-UW-5043/2020
 USA/NY-NYUMC497/2020
 USA/WA-UW-1695/2020
