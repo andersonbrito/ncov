@@ -40,11 +40,6 @@
       "key": "update",
       "title": "Update",
       "type": "categorical"
-    },
-    {
-      "key": "area",
-      "title": "Area",
-      "type": "categorical"
     }
   ],
   "geo_resolutions": [
@@ -62,7 +57,6 @@
   },
   "filters": [
     "update",
-    "area",
     "pangolin_lineage",
     "location",
     "division_exposure",
