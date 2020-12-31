@@ -201,7 +201,7 @@ rule align:
 	message:
 		"""
 		Aligning sequences to {input.reference}
-		  - filling gaps with N
+		    - gaps relative to reference are considered real
 		"""
 	input:
 		sequences = rules.filter.output.sequences,
@@ -219,8 +219,7 @@ rule align:
 			--reference-sequence {input.reference} \
 			--nthreads {params.threads} \
 			--output {output.alignment} \
-			--remove-reference \
-			--fill-gaps
+			--remove-reference
 		"""
 
 
