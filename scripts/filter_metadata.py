@@ -2,10 +2,10 @@
 
 import pycountry_convert as pyCountry
 import pycountry
-import argparse
 from Bio import SeqIO
 import pandas as pd
-import numpy as np
+from epiweeks import Week
+import argparse
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
@@ -55,6 +55,12 @@ if __name__ == '__main__':
                     isos[country] = ''
         return isos[country]
 
+    # create epiweek column
+    def get_epiweeks(date):
+        date = pd.to_datetime(date)
+        epiweek = str(Week.fromdate(date, system="cdc")) # get epiweeks
+        epiweek = epiweek[:4] + '_' + 'EW' + epiweek[-2:]
+        return epiweek
 
     # nextstrain metadata
     dfN = pd.read_csv(metadata1, encoding='utf-8', sep='\t', dtype='str')
@@ -63,6 +69,8 @@ if __name__ == '__main__':
     except:
         pass
     dfN['update'] = ''
+    dfN['variants'] = ''
+
     dfN.fillna('', inplace=True)
     list_columns = dfN.columns.values  # list of column in the original metadata file
     # print(dfN)
@@ -72,7 +80,6 @@ if __name__ == '__main__':
                         converters={'Sample-ID': str, 'Collection-date': str, 'Update': str})
     dfL.fillna('', inplace=True)
 
-    # dfL = dfL.rename(columns={'Sample-ID': 'strain', 'colB': 'columnB', 'colD': 'columnD', 'colE': 'columnE', 'colF': 'columnF'})
     dfL = dfL.rename(columns={'Sample-ID': 'id', 'Collection-date': 'date', 'Country': 'country', 'Division': 'division',
                               'State': 'code', 'Location': 'location', 'Lineage': 'pangolin_lineage', 'Source': 'originating_lab',
                               'Update': 'update'})
@@ -105,8 +112,10 @@ if __name__ == '__main__':
             strain = 'USA/' + code + '-' + dfL.loc[idx, 'id'] + '/2020' # set the strain name
             dict_row['strain'] = strain
 
+            collection_date = ''
             if len(str(dict_row['date'])) > 1:
-                dict_row['date'] = dict_row['date'].split(' ')[0].replace('.', '-').replace('/', '-')
+                collection_date = dict_row['date'].split(' ')[0].replace('.', '-').replace('/', '-')
+                dict_row['date'] = collection_date
 
             # fix exposure
             columns_exposure = ['country_exposure', 'division_exposure']
@@ -118,8 +127,13 @@ if __name__ == '__main__':
             dict_row['iso'] = get_iso(dict_row['country_exposure'])
             dict_row['submitting_lab'] = 'Grubaugh Lab - Yale School of Public Health'
             dict_row['authors'] = 'Fauver et al'
-            dict_row['update'] = 'Update' + str('0' * (2 - len(dfL.loc[idx, 'update']))) + dfL.loc[idx, 'update']
 
+            if dfL.loc[idx, 'update'] == 'variant':
+                dict_row['variants'] = get_epiweeks(collection_date)
+                dict_row['update'] = ''
+            else:
+                dict_row['update'] = 'Update' + str('0' * (2 - len(dfL.loc[idx, 'update']))) + dfL.loc[idx, 'update']
+                dict_row['variants'] = ''
             found.append(strain)
             lab_label[id] = strain
 

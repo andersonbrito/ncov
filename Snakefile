@@ -433,6 +433,7 @@ rule export:
 rule clean:
 	message: "Removing directories: {params}"
 	params:
+		"data",
 		"results ",
 		"auspice"
 

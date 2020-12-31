@@ -1,5 +1,12 @@
 purpose	level	name	size	start	end
-focus	division_exposure	Pennsylvania	150		
-focus	division_exposure	Massachusetts	150		
-context	country_exposure	USA	500		
-ignore	division_exposure	Texas			
+focus	pangolin_lineage	B.1.1.7	40		
+focus	pangolin_lineage	B.1.351	40		
+focus	country_exposure	USA	800		
+context	country_exposure	Australia	80		
+context	country_exposure	South Africa	80		
+context	region_exposure	Europe	80		
+context	region_exposure	Asia	80		
+context	country_exposure	Canada	80		
+ignore	country_exposure	India			
+ignore	country_exposure	Bangladesh			
+ignore	country_exposure	Saudi Arabia			

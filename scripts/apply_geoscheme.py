@@ -77,7 +77,6 @@ if __name__ == '__main__':
     dfN = pd.read_csv(metadata, encoding='utf-8', sep='\t')
     try:
         dfN.insert(4, 'region_exposure', '')
-        dfN.insert(8, 'area', '')
     except:
         pass
     dfN['region_exposure'] = dfN['iso'].map(geoLevels) # add 'column' region in metadata

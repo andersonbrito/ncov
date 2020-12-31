@@ -34,10 +34,9 @@ country_exposure	Belize	16.8259793	-88.7600927
 country_exposure	Benin	9.5293472	2.2584408
 country_exposure	Bosnia and Herzegovina	44.3053476	17.5961467
 country_exposure	Brazil	-10.3333333	-53.2
+country_exposure	Europe	51.0	10.0
 country_exposure	Brunei	4.4137155	114.5653908
 country_exposure	Canada	61.0666922	-107.9917071
-country_exposure	Chile	-31.7613365	-71.3187697
-country_exposure	Colombia	2.8894434	-73.783892
 country_exposure	Costa Rica	10.2735633	-84.0739102
 country_exposure	Croatia	45.5643442	17.0118954
 country_exposure	Cuba	23.0131338	-80.8328748
@@ -58,14 +57,12 @@ country_exposure	Greece	38.9953683	21.9877132
 country_exposure	Guatemala	15.6356088	-89.8988087
 country_exposure	Hong Kong	22.2793278	114.1628131
 country_exposure	Hungary	47.1817585	19.5060937
-country_exposure	Italy	42.6384261	12.674297
 country_exposure	Iceland	64.9841821	-18.1059013
 country_exposure	India	22.3511148	78.6677428
 country_exposure	Indonesia	-2.4833826	117.8902853
 country_exposure	Iran	32.6475314	54.5643516
-country_exposure	Ireland	52.865196	-7.9794599
 country_exposure	Israel	31.5313113	34.8667654
-country_exposure	Jamaica	18.1152958	-77.1598454610168
+country_exposure	Jamaica	18.1850507	-77.3947693
 country_exposure	Japan	36.5748441	139.2394179
 country_exposure	Jordan	31.1667049	36.941628
 country_exposure	Kazakhstan	47.2286086	65.2093197
@@ -76,7 +73,7 @@ country_exposure	Lebanon	33.8750629	35.843409
 country_exposure	Luxembourg	49.8158683	6.1296751
 country_exposure	Malaysia	4.5693754	102.2656823
 country_exposure	Mali	16.3700359	-2.2900239
-country_exposure	Mexico	19.4326296	-99.1331785
+country_exposure	Mexico	22.5000485	-100.0000375
 country_exposure	Moldova	47.2879608	28.5670941
 country_exposure	Montenegro	42.9868853	19.5180992
 country_exposure	Morocco	31.1728205	-7.3362482
@@ -85,7 +82,7 @@ country_exposure	Netherlands	52.5001698	5.7480821
 country_exposure	New Zealand	-41.5000831	172.8344077
 country_exposure	Nigeria	9.6000359	7.9999721
 country_exposure	North Macedonia	41.6171214	21.7168387
-country_exposure	Norway	64.5731537	11.52803643954819
+country_exposure	Norway	60.5000209	9.0999715
 country_exposure	Oman	21.0000287	57.0036901
 country_exposure	Pakistan	30.3308401	71.247499
 country_exposure	Panama	8.559559	-81.1308434
@@ -99,18 +96,17 @@ country_exposure	Romania	45.9852129	24.6859225
 country_exposure	Russia	64.6863136	97.7453061
 country_exposure	Saudi Arabia	25.6242618	42.3528328
 country_exposure	Senegal	14.4750607	-14.4529612
-country_exposure	Serbia	44.024322850000004	21.07657433209902
+country_exposure	Serbia	44.1534121	20.55144
 country_exposure	Sierra Leone	8.6400349	-11.8400269
-country_exposure	Singapore	1.3408630000000001	103.83039182212079
+country_exposure	Singapore	1.357107	103.8194992
+country_exposure	Italy	42.6384261	12.674297
 country_exposure	Slovakia	48.7411522	19.4528646
 country_exposure	Slovenia	45.8133113	14.4808369
 country_exposure	South Africa	-28.8166236	24.991639
 country_exposure	South Korea	36.638392	127.6961188
-country_exposure	Spain	39.3262345	-4.8380649
 country_exposure	Sri Lanka	7.5554942	80.7137847
 country_exposure	Suriname	4.1413025	-56.0771187
 country_exposure	Sweden	59.6749712	14.5208584
-country_exposure	Switzerland	46.7985624	8.2319736
 country_exposure	Taiwan	23.9739374	120.9820179
 country_exposure	Thailand	14.8971921	100.83273
 country_exposure	Timor-Leste	-8.5151979	125.8375756
@@ -123,10 +119,13 @@ country_exposure	Uruguay	-32.8755548	-56.0201525
 country_exposure	Venezuela	8.0018709	-66.1109318
 country_exposure	Vietnam	13.2904027	108.4265113
 country_exposure	Zambia	-14.5186239	27.5599164
-country_exposure	Iraq	33.0955793	44.1749775
 
 division_exposure	Connecticut	41.6500201	-72.7342163
 division_exposure	New York	43.1561681	-75.8449946
+division_exposure	Massachusetts	42.358796	-71.0577937
+division_exposure	Rhode Island	41.7962409	-71.5992372
+division_exposure	Florida	27.7567667	-81.4639835
+division_exposure	New Hampshire	43.4849133	-71.6553992
 division_exposure	Algeria	28.0000272	2.9999825
 division_exposure	Argentina	-34.9964963	-64.9672817
 division_exposure	Australia	-24.7761086	134.755
@@ -139,6 +138,7 @@ division_exposure	Belize	16.8259793	-88.7600927
 division_exposure	Benin	9.5293472	2.2584408
 division_exposure	Bosnia and Herzegovina	44.3053476	17.5961467
 division_exposure	Brazil	-10.3333333	-53.2
+division_exposure	Europe	51.0	10.0
 division_exposure	Brunei	4.4137155	114.5653908
 division_exposure	Alberta	55.001251	-115.002136
 division_exposure	British Columbia	55.001251	-125.002441
@@ -146,8 +146,6 @@ division_exposure	New Brunswick	46.500283	-66.750183
 division_exposure	Newfoundland and Labrador	53.8217327	-61.2295532
 division_exposure	Ontario	50.000678	-86.000977
 division_exposure	Quebec	52.4760892	-71.8258668
-division_exposure	Chile	-31.7613365	-71.3187697
-division_exposure	Colombia	2.8894434	-73.783892
 division_exposure	Costa Rica	10.2735633	-84.0739102
 division_exposure	Croatia	45.5643442	17.0118954
 division_exposure	Cuba	23.0131338	-80.8328748
@@ -158,7 +156,7 @@ division_exposure	Denmark	55.670249	10.3333283
 division_exposure	Dominican Republic	19.0974031	-70.3028026
 division_exposure	Ecuador	-1.3397668	-79.3666965
 division_exposure	Egypt	26.2540493	29.2675469
-division_exposure	England	52.7954791	-0.5402402866174321
+division_exposure	England	52.5310214	-1.2649062
 division_exposure	Finland	63.2467777	25.9209164
 division_exposure	France	46.603354	1.8883335
 division_exposure	Gambia	13.470062	-15.4900464
@@ -169,14 +167,12 @@ division_exposure	Greece	38.9953683	21.9877132
 division_exposure	Guatemala	15.6356088	-89.8988087
 division_exposure	Hong Kong	22.2793278	114.1628131
 division_exposure	Hungary	47.1817585	19.5060937
-division_exposure	Italy	42.6384261	12.674297
 division_exposure	Iceland	64.9841821	-18.1059013
 division_exposure	India	22.3511148	78.6677428
 division_exposure	Indonesia	-2.4833826	117.8902853
 division_exposure	Iran	32.6475314	54.5643516
-division_exposure	Ireland	52.865196	-7.9794599
 division_exposure	Israel	31.5313113	34.8667654
-division_exposure	Jamaica	18.1152958	-77.1598454610168
+division_exposure	Jamaica	18.1850507	-77.3947693
 division_exposure	Japan	36.5748441	139.2394179
 division_exposure	Jordan	31.1667049	36.941628
 division_exposure	Kazakhstan	47.2286086	65.2093197
@@ -187,7 +183,7 @@ division_exposure	Lebanon	33.8750629	35.843409
 division_exposure	Luxembourg	49.8158683	6.1296751
 division_exposure	Malaysia	4.5693754	102.2656823
 division_exposure	Mali	16.3700359	-2.2900239
-division_exposure	Mexico	19.4326296	-99.1331785
+division_exposure	Mexico	22.5000485	-100.0000375
 division_exposure	Moldova	47.2879608	28.5670941
 division_exposure	Montenegro	42.9868853	19.5180992
 division_exposure	Morocco	31.1728205	-7.3362482
@@ -196,8 +192,8 @@ division_exposure	Netherlands	52.5001698	5.7480821
 division_exposure	New Zealand	-41.5000831	172.8344077
 division_exposure	Nigeria	9.6000359	7.9999721
 division_exposure	North Macedonia	41.6171214	21.7168387
-division_exposure	Northern Ireland	54.6294982	-6.7654416
-division_exposure	Norway	64.5731537	11.52803643954819
+division_exposure	Northern Ireland	54.5859836	-6.9591554
+division_exposure	Norway	60.5000209	9.0999715
 division_exposure	Oman	21.0000287	57.0036901
 division_exposure	Pakistan	30.3308401	71.247499
 division_exposure	Panama	8.559559	-81.1308434
@@ -212,24 +208,23 @@ division_exposure	Russia	64.6863136	97.7453061
 division_exposure	Saudi Arabia	25.6242618	42.3528328
 division_exposure	Scotland	56.7861112	-4.1140518
 division_exposure	Senegal	14.4750607	-14.4529612
-division_exposure	Serbia	44.024322850000004	21.07657433209902
+division_exposure	Serbia	44.1534121	20.55144
 division_exposure	Sierra Leone	8.6400349	-11.8400269
-division_exposure	Singapore	1.3408630000000001	103.83039182212079
+division_exposure	Singapore	1.357107	103.8194992
+division_exposure	Italy	42.6384261	12.674297
 division_exposure	Slovakia	48.7411522	19.4528646
 division_exposure	Slovenia	45.8133113	14.4808369
 division_exposure	South Africa	-28.8166236	24.991639
 division_exposure	South Korea	36.638392	127.6961188
-division_exposure	Spain	39.3262345	-4.8380649
 division_exposure	Sri Lanka	7.5554942	80.7137847
 division_exposure	Suriname	4.1413025	-56.0771187
 division_exposure	Sweden	59.6749712	14.5208584
-division_exposure	Switzerland	46.7985624	8.2319736
 division_exposure	Taiwan	23.9739374	120.9820179
 division_exposure	Thailand	14.8971921	100.83273
 division_exposure	Timor-Leste	-8.5151979	125.8375756
 division_exposure	Tunisia	33.8439408	9.400138
 division_exposure	Turkey	38.9597594	34.9249653
-division_exposure	Alaska	64.4459613	-149.680909
+division_exposure	Alaska	61.5840639	-149.429444
 division_exposure	Alabama	34.785415	-87.619021
 division_exposure	Arkansas	33.9582866	-91.8401252
 division_exposure	Arizona	34.395342	-111.7632755
@@ -238,23 +233,21 @@ division_exposure	Louisiana	30.8703881	-92.007126
 division_exposure	Colorado	38.7251776	-105.6077167
 division_exposure	South Carolina	33.6874388	-80.4363743
 division_exposure	Washington DC	38.912708	-77.009223
-division_exposure	Florida	27.7567667	-81.4639835
 division_exposure	Hawaii	21.405690550000003	-157.81444575743768
 division_exposure	Iowa	42.070703	-90.6443905
-division_exposure	Idaho	43.6447642	-114.0154071
 division_exposure	Illinois	41.8908132	-87.6277338
+division_exposure	Idaho	43.6447642	-114.0154071
 division_exposure	Indiana	39.768534	-86.158011
 division_exposure	Kansas	37.8222598	-96.8784257
 division_exposure	Kentucky	37.5726028	-85.1551411
-division_exposure	Massachusetts	42.358796	-71.0577937
 division_exposure	Maryland	39.5162234	-76.9382069
 division_exposure	Maine	45.709097	-68.8590201
 division_exposure	Michigan	42.120868	-85.526382
 division_exposure	Minnesota	45.9896587	-94.6113288
 division_exposure	Missouri	38.7604815	-92.5617875
 division_exposure	Mississippi	33.4549304	-88.7859584
-division_exposure	Montana	46.402026649999996	-105.86368251764148
-division_exposure	North Carolina	36.066061	-79.3111587
+division_exposure	Montana	47.1219096	-104.66449332432518
+division_exposure	North Carolina	35.6729639	-79.0392919
 division_exposure	Nebraska	40.276199	-96.710805
 division_exposure	New Jersey	40.0757384	-74.4041622
 division_exposure	New Mexico	32.8684408	-108.5746086
@@ -262,17 +255,17 @@ division_exposure	Nevada	39.5158825	-116.8537227
 division_exposure	Ohio	41.8924345	-87.6277656
 division_exposure	Oklahoma	34.9550817	-97.2684063
 division_exposure	Oregon	43.9792797	-120.737257
-division_exposure	Pennsylvania	39.960841	-75.200541
-division_exposure	Rhode Island	41.7962409	-71.5992372
-division_exposure	South Dakota	43.76123855	-103.37602984586731
-division_exposure	Tennessee	35.1184299	-89.9389828
-division_exposure	Texas	29.88836715	-97.94477272012038
-division_exposure	Utah	39.4225192	-111.7143584
+division_exposure	Pennsylvania	39.9593026	-75.200498
+division_exposure	South Dakota	44.6471761	-100.348761
+division_exposure	Tennessee	35.1206029	-89.9392477
+division_exposure	Texas	29.8884765	-97.94479885849292
+division_exposure	Utah	37.654791700000004	-113.08566672138414
 division_exposure	Virginia	37.1232245	-78.4927721
+division_exposure	Virgin Islands	17.727304	-64.748327
 division_exposure	Vermont	44.5990718	-72.5002608
 division_exposure	Washington	47.2868352	-120.2126139
 division_exposure	Wisconsin	44.4308975	-89.6884637
-division_exposure	Wyoming	43.1700264	-107.5685348
+division_exposure	Wyoming	41.145138	-104.7689332
 division_exposure	Uganda	1.5333554	32.2166578
 division_exposure	Ukraine	49.4871968	31.2718321
 division_exposure	United Arab Emirates	24.0002488	53.9994829
@@ -281,8 +274,6 @@ division_exposure	Venezuela	8.0018709	-66.1109318
 division_exposure	Vietnam	13.2904027	108.4265113
 division_exposure	Wales	52.2928116	-3.73893
 division_exposure	Zambia	-14.5186239	27.5599164
-division_exposure	New Hampshire	43.4849133	-71.6553992
-division_exposure	Iraq	33.0955793	44.1749775
 
 location	Amston-Mansfield	41.74139	-72.33055
 location	Ashford-Putnam	41.90667	-71.94786
@@ -340,6 +331,16 @@ location	Mount Vernon	40.9125815	-73.8370786
 location	Port Chester	41.0017643	-73.6656834
 location	New Rochelle	40.9115386	-73.7826363
 location	Yorktown Heights	41.2695965	-73.77527040089426
+location	Middlesex	42.485452	-71.3968261
+location	Rhode Island	41.7962409	-71.5992372
+location	Plymouth	41.9583799	-70.6673851
+location	Suffolk	42.358796	-71.0577937
+location	Hampden	42.0640239	-72.4186602
+location	Bristol	41.7425538	-71.0856545
+location	Essex	42.6320389	-70.7828255
+location	Barnstable	41.7001132	-70.2994666
+location	Worcester	42.2761217	-71.8058232
+location	Florida	27.7567667	-81.4639835
 location	Algeria	28.0000272	2.9999825
 location	Argentina	-34.9964963	-64.9672817
 location	Australia	-24.7761086	134.755
@@ -352,6 +353,7 @@ location	Belize	16.8259793	-88.7600927
 location	Benin	9.5293472	2.2584408
 location	Bosnia and Herzegovina	44.3053476	17.5961467
 location	Brazil	-10.3333333	-53.2
+location	Europe	51.0	10.0
 location	Brunei	4.4137155	114.5653908
 location	Alberta	55.001251	-115.002136
 location	British Columbia	55.001251	-125.002441
@@ -359,8 +361,6 @@ location	New Brunswick	46.500283	-66.750183
 location	Newfoundland and Labrador	53.8217327	-61.2295532
 location	Ontario	50.000678	-86.000977
 location	Quebec	52.4760892	-71.8258668
-location	Chile	-31.7613365	-71.3187697
-location	Colombia	2.8894434	-73.783892
 location	Costa Rica	10.2735633	-84.0739102
 location	Croatia	45.5643442	17.0118954
 location	Cuba	23.0131338	-80.8328748
@@ -371,7 +371,7 @@ location	Denmark	55.670249	10.3333283
 location	Dominican Republic	19.0974031	-70.3028026
 location	Ecuador	-1.3397668	-79.3666965
 location	Egypt	26.2540493	29.2675469
-location	England	52.7954791	-0.5402402866174321
+location	England	52.5310214	-1.2649062
 location	Finland	63.2467777	25.9209164
 location	France	46.603354	1.8883335
 location	Gambia	13.470062	-15.4900464
@@ -382,14 +382,12 @@ location	Greece	38.9953683	21.9877132
 location	Guatemala	15.6356088	-89.8988087
 location	Hong Kong	22.2793278	114.1628131
 location	Hungary	47.1817585	19.5060937
-location	Italy	42.6384261	12.674297
 location	Iceland	64.9841821	-18.1059013
 location	India	22.3511148	78.6677428
 location	Indonesia	-2.4833826	117.8902853
 location	Iran	32.6475314	54.5643516
-location	Ireland	52.865196	-7.9794599
 location	Israel	31.5313113	34.8667654
-location	Jamaica	18.1152958	-77.1598454610168
+location	Jamaica	18.1850507	-77.3947693
 location	Japan	36.5748441	139.2394179
 location	Jordan	31.1667049	36.941628
 location	Kazakhstan	47.2286086	65.2093197
@@ -400,7 +398,7 @@ location	Lebanon	33.8750629	35.843409
 location	Luxembourg	49.8158683	6.1296751
 location	Malaysia	4.5693754	102.2656823
 location	Mali	16.3700359	-2.2900239
-location	Mexico	19.4326296	-99.1331785
+location	Mexico	22.5000485	-100.0000375
 location	Moldova	47.2879608	28.5670941
 location	Montenegro	42.9868853	19.5180992
 location	Morocco	31.1728205	-7.3362482
@@ -409,8 +407,8 @@ location	Netherlands	52.5001698	5.7480821
 location	New Zealand	-41.5000831	172.8344077
 location	Nigeria	9.6000359	7.9999721
 location	North Macedonia	41.6171214	21.7168387
-location	Northern Ireland	54.6294982	-6.7654416
-location	Norway	64.5731537	11.52803643954819
+location	Northern Ireland	54.5859836	-6.9591554
+location	Norway	60.5000209	9.0999715
 location	Oman	21.0000287	57.0036901
 location	Pakistan	30.3308401	71.247499
 location	Panama	8.559559	-81.1308434
@@ -425,24 +423,23 @@ location	Russia	64.6863136	97.7453061
 location	Saudi Arabia	25.6242618	42.3528328
 location	Scotland	56.7861112	-4.1140518
 location	Senegal	14.4750607	-14.4529612
-location	Serbia	44.024322850000004	21.07657433209902
+location	Serbia	44.1534121	20.55144
 location	Sierra Leone	8.6400349	-11.8400269
-location	Singapore	1.3408630000000001	103.83039182212079
+location	Singapore	1.357107	103.8194992
+location	Italy	42.6384261	12.674297
 location	Slovakia	48.7411522	19.4528646
 location	Slovenia	45.8133113	14.4808369
 location	South Africa	-28.8166236	24.991639
 location	South Korea	36.638392	127.6961188
-location	Spain	39.3262345	-4.8380649
 location	Sri Lanka	7.5554942	80.7137847
 location	Suriname	4.1413025	-56.0771187
 location	Sweden	59.6749712	14.5208584
-location	Switzerland	46.7985624	8.2319736
 location	Taiwan	23.9739374	120.9820179
 location	Thailand	14.8971921	100.83273
 location	Timor-Leste	-8.5151979	125.8375756
 location	Tunisia	33.8439408	9.400138
 location	Turkey	38.9597594	34.9249653
-location	Alaska	64.4459613	-149.680909
+location	Alaska	61.5840639	-149.429444
 location	Alabama	34.785415	-87.619021
 location	Arkansas	33.9582866	-91.8401252
 location	Arizona	34.395342	-111.7632755
@@ -451,11 +448,10 @@ location	Louisiana	30.8703881	-92.007126
 location	Colorado	38.7251776	-105.6077167
 location	South Carolina	33.6874388	-80.4363743
 location	Washington DC	38.912708	-77.009223
-location	Florida	27.7567667	-81.4639835
 location	Hawaii	21.405690550000003	-157.81444575743768
 location	Iowa	42.070703	-90.6443905
-location	Idaho	43.6447642	-114.0154071
 location	Illinois	41.8908132	-87.6277338
+location	Idaho	43.6447642	-114.0154071
 location	Indiana	39.768534	-86.158011
 location	Kansas	37.8222598	-96.8784257
 location	Kentucky	37.5726028	-85.1551411
@@ -465,37 +461,36 @@ location	Michigan	42.120868	-85.526382
 location	Minnesota	45.9896587	-94.6113288
 location	Missouri	38.7604815	-92.5617875
 location	Mississippi	33.4549304	-88.7859584
-location	Montana	46.402026649999996	-105.86368251764148
-location	North Carolina	36.066061	-79.3111587
+location	Montana	47.1219096	-104.66449332432518
+location	North Carolina	35.6729639	-79.0392919
 location	Nebraska	40.276199	-96.710805
 location	New Jersey	40.0757384	-74.4041622
 location	New Mexico	32.8684408	-108.5746086
 location	Nevada	39.5158825	-116.8537227
-location	New York City	40.7127281	-74.0060152
-location	Suffolk County	40.861636	-72.515976
+location	New York City	42.6840289	-73.84800690530612
+location	Suffolk County	40.8832318	-72.8578027
 location	Queens	40.7498243	-73.7976337
 location	Brooklyn	40.6501038	-73.9495823
-location	Bronx	40.8506558	-73.8665241
+location	Bronx	40.8466508	-73.8785937
 location	Manhattan	40.7896239	-73.9598939
 location	Staten Island	40.5834557	-74.1496048
 location	Nassau County	40.7430237	-73.56882214900722
 location	Rockland County	41.1519319	-74.0357266
-location	Westchester County	41.1763139	-73.7907554
 location	Onondaga County	43.015598	-76.2257127
 location	Ulster County	41.8689317	-74.2618518
 location	Ohio	41.8924345	-87.6277656
 location	Oklahoma	34.9550817	-97.2684063
 location	Oregon	43.9792797	-120.737257
-location	Pennsylvania	39.960841	-75.200541
-location	Rhode Island	41.7962409	-71.5992372
-location	South Dakota	43.76123855	-103.37602984586731
-location	Tennessee	35.1184299	-89.9389828
-location	Texas	29.88836715	-97.94477272012038
-location	Utah	39.4225192	-111.7143584
+location	Pennsylvania	39.9593026	-75.200498
+location	South Dakota	44.6471761	-100.348761
+location	Tennessee	35.1206029	-89.9392477
+location	Texas	29.8884765	-97.94479885849292
+location	Utah	37.654791700000004	-113.08566672138414
 location	Virginia	37.1232245	-78.4927721
+location	Virgin Islands	17.727304	-64.748327
 location	Washington	47.2868352	-120.2126139
 location	Wisconsin	44.4308975	-89.6884637
-location	Wyoming	43.1700264	-107.5685348
+location	Wyoming	41.145138	-104.7689332
 location	Uganda	1.5333554	32.2166578
 location	Ukraine	49.4871968	31.2718321
 location	United Arab Emirates	24.0002488	53.9994829
@@ -504,5 +499,4 @@ location	Venezuela	8.0018709	-66.1109318
 location	Vietnam	13.2904027	108.4265113
 location	Wales	52.2928116	-3.73893
 location	Zambia	-14.5186239	27.5599164
-location	Iraq	33.0955793	44.1749775
 

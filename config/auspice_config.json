@@ -40,6 +40,11 @@
       "key": "update",
       "title": "Update",
       "type": "categorical"
+    },
+    {
+      "key": "variants",
+      "title": "Variants",
+      "type": "categorical"
     }
   ],
   "geo_resolutions": [
@@ -57,6 +62,7 @@
   },
   "filters": [
     "update",
+    "variants",
     "pangolin_lineage",
     "location",
     "division_exposure",
