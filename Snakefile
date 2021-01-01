@@ -201,7 +201,7 @@ rule align:
 	message:
 		"""
 		Aligning sequences to {input.reference}
-			- gaps relative to reference are considered real
+		    - gaps relative to reference are considered real
 		"""
 	input:
 		sequences = rules.filter.output.sequences,
@@ -397,7 +397,36 @@ rule clades:
 		"""
 
 
-### Generating final results for visualisation with auspice
+### Estimate tip frequency
+
+rule tip_frequencies:
+    message: "Estimating censored KDE frequencies for tips"
+    input:
+        tree = rules.refine.output.tree,
+        metadata = input_metadata
+    output:
+        tip_frequencies_json = "results/ncov_update_tip-frequencies.json"
+    log:
+        "results/tip_frequencies.txt"
+    params:
+        min_date = 2020,
+        pivot_interval = 1,
+        narrow_bandwidth = 0.05,
+        proportion_wide = 0.0
+    shell:
+        """
+        augur frequencies \
+            --method kde \
+            --metadata {input.metadata} \
+            --tree {input.tree} \
+            --min-date {params.min_date} \
+            --pivot-interval {params.pivot_interval} \
+            --narrow-bandwidth {params.narrow_bandwidth} \
+            --proportion-wide {params.proportion_wide} \
+            --output {output.tip_frequencies_json} 2>&1 | tee {log}
+        """
+
+### Generating final results for visualization with auspice
 
 rule export:
 	message: "Exporting data files for for auspice"
@@ -411,9 +440,11 @@ rule export:
 		colors = colors,
 		lat_longs = lat_longs,
 		clades = rules.clades.output.clade_data,
-		auspice_config = auspice_config
+		auspice_config = auspice_config,
+		frequencies = rules.tip_frequencies.output.tip_frequencies_json
 	output:
 		auspice = rules.all.input.auspice,
+		tip_frequency_json = "auspice/ncov_update_tip-frequencies.json",
 	shell:
 		"""
 		augur export v2 \
@@ -424,6 +455,7 @@ rule export:
 			--lat-longs {input.lat_longs} \
 			--auspice-config {input.auspice_config} \
 			--output {output.auspice}
+		cp {input.frequencies} {output.tip_frequency_json}
 		"""
 
 
