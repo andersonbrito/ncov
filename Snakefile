@@ -201,7 +201,7 @@ rule align:
 	message:
 		"""
 		Aligning sequences to {input.reference}
-		    - gaps relative to reference are considered real
+			- gaps relative to reference are considered real
 		"""
 	input:
 		sequences = rules.filter.output.sequences,
@@ -365,7 +365,7 @@ rule traits:
 	output:
 		node_data = "results/traits.json",
 	params:
-		columns = "region_exposure country_exposure division_exposure location"
+		columns = "region_exposure"
 	shell:
 		"""
 		augur traits \
