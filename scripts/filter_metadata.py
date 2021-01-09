@@ -128,6 +128,13 @@ if __name__ == '__main__':
             dict_row['submitting_lab'] = 'Grubaugh Lab - Yale School of Public Health'
             dict_row['authors'] = 'Fauver et al'
 
+            # add lineage
+            lineage = ''
+            if dfL.loc[idx, 'pangolin_lineage'] != '':
+                lineage = dfL.loc[idx, 'pangolin_lineage']
+            dict_row['pangolin_lineage'] = lineage
+
+
             if dfL.loc[idx, 'update'] == 'variant':
                 dict_row['variants'] = get_epiweeks(collection_date)
                 dict_row['update'] = ''

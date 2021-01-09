@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
 
     # pre-determined HEX colours and hues
-    force_colour = {'Connecticut': '#8FEECB', 'New York': '#19ae77', 'Canada': '#663300'}
+    force_colour = {'Connecticut': '#8FEECB', 'Canada': '#663300'}
     force_hue = {'North America': 0}
 
     # content to be exported as final result
