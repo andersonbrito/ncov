@@ -10,7 +10,7 @@ region_exposure	Europe	Western Europe	49.469435	6.367516	Austria, Belgium, Franc
 region_exposure	Europe	Eastern Europe	52.111961	31.781771	Belarus, Bulgaria, Czechia, Czech Republic, Hungary, Moldova, Poland, Romania, Russia, Slovakia, Ukraine
 region_exposure	Europe	Southern Europe	41.315616	9.202824	Albania, Andorra, Bosnia and Herzegovina, Croatia, Gibraltar, Greece, Italy, Malta, Montenegro, North Macedonia, Portugal, San Marino, Serbia, Slovenia, Spain, Holy See
 region_exposure	Africa	Northern Africa	27.568083	9.819491	Algeria, Egypt, Libya, Morocco, Sudan, Tunisia, Western Sahara
-region_exposure	Africa	Western Africa	11.900251	2.404138	Benin, Burkina Faso, Cabo Verde, Côte dIvoire, Gambia, Ghana, Guinea, Guinea-Bissau, Liberia, Mali, Mauritania, Niger, Nigeria, Saint Helena, Ascension and Tristan da Cunha, Senegal, Sierra Leone, Togo
+region_exposure	Africa	Western Africa	11.900251	2.404138	Benin, Burkina Faso, Cabo Verde, Côte dIvoire, Côte d'Ivoire, Ivory Coast, Gambia, Ghana, Guinea, Guinea-Bissau, Liberia, Mali, Mauritania, Niger, Nigeria, Saint Helena, Ascension and Tristan da Cunha, Senegal, Sierra Leone, Togo
 region_exposure	Africa	Middle Africa	-2.494433	21.016337	Angola, Cameroon, Central African Republic, Chad, Democratic Republic of the Congo, Republic of the Congo, Equatorial Guinea, Gabon, São Tomé and Príncipe
 region_exposure	Africa	Eastern Africa	-2.139111	36.089406	Burundi, Comoros, Djibouti, Eritrea, Ethiopia, Kenya, Madagascar, Malawi, Mauritius, Mayotte, Mozambique, Réunion, Rwanda, Seychelles, Somalia, South Sudan, Tanzania, Uganda, Zambia, Zimbabwe
 region_exposure	Africa	Southern Africa	-25.274833	23.448701	Botswana, Eswatini (Swaziland), Lesotho, Namibia, South Africa
