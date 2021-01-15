@@ -1,9 +1,8 @@
 purpose	level	name	size	start	end
 focus	pangolin_lineage	B.1.1.7	40		
 focus	pangolin_lineage	B.1.351	40		
-focus	pangolin_lineage	B.1.346	40		
-focus	division_exposure	Utah	20	11/1/20	
-focus	division_exposure	Wisconsin	20	11/1/20	
+focus	pangolin_lineage	B.1.375	40		
+focus	pangolin_lineage	B.1.1.28	40		
 focus	country_exposure	USA	500		
 context	country_exposure	Australia	80		
 context	country_exposure	South Africa	80		
