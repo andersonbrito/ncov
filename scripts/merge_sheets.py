@@ -10,7 +10,7 @@ if __name__ == '__main__':
     )
     parser.add_argument("--sheet1", required=True, help="Spreadsheet file 1")
     parser.add_argument("--sheet2", required=True, help="Spreadsheet file 2")
-    parser.add_argument("--index", required=True, default='strain', type=str,  help="Name of column with unique identifiers")
+    parser.add_argument("--index", required=True, default='Sample-ID', type=str,  help="Name of column with unique identifiers")
     parser.add_argument("--output", required=True, help="Merged spreadsheet file")
     args = parser.parse_args()
 
