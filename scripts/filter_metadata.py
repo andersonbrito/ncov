@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
 
+# Created by: Anderson Brito
+# Email: andersonfbrito@gmail.com
+# Release date: 2020-03-24
+# Last update: 2021-01-30
+
+
 import pycountry_convert as pyCountry
 import pycountry
 from Bio import SeqIO
@@ -25,7 +31,6 @@ if __name__ == '__main__':
     output1 = args.output1
     output2 = args.output2
 
-    # path = '/Users/anderson/GLab Dropbox/Anderson Brito/projects/ncov/ncov_2ndWave/nextstrain/update13_20201019/pre-analyses/'
     # genomes = path + 'temp_sequences.fasta'
     # metadata1 = path + 'metadata_nextstrain.tsv'
     # metadata2 = path + 'COVID-19_sequencing.xlsx'
@@ -81,7 +86,8 @@ if __name__ == '__main__':
     dfL.fillna('', inplace=True)
 
     dfL = dfL.rename(columns={'Sample-ID': 'id', 'Collection-date': 'date', 'Country': 'country', 'Division': 'division',
-                              'State': 'code', 'Location': 'location', 'Lineage': 'pangolin_lineage', 'Source': 'originating_lab',
+                              'State': 'code', 'Location': 'location', 'Country of exposure': 'country_exposure',
+                              'State of exposure': 'division_exposure', 'Lineage': 'pangolin_lineage', 'Source': 'originating_lab',
                               'Update': 'update'})
     # add inexistent columns
     for col in list_columns:
@@ -104,13 +110,6 @@ if __name__ == '__main__':
                     # print(col)
                     dict_row[col] = dfL.loc[idx, col]
 
-            # fix strain name
-            if dfL.loc[idx, 'code'] == '':
-                code = 'XX'
-            else:
-                code = dfL.loc[idx, 'code']
-            strain = 'USA/' + code + '-' + dfL.loc[idx, 'id'] + '/2020' # set the strain name
-            dict_row['strain'] = strain
 
             collection_date = ''
             if len(str(dict_row['date'])) > 1:
@@ -121,8 +120,23 @@ if __name__ == '__main__':
             columns_exposure = ['country_exposure', 'division_exposure']
             for level_exposure in columns_exposure:
                 level = level_exposure.split('_')[0]
+                dict_row[level_exposure] = dfL.loc[idx, level_exposure]
                 if dict_row[level_exposure] in ['', None]:
-                    dict_row[level_exposure] = dict_row[level]
+                    if level_exposure == 'country_exposure':
+                        dict_row[level_exposure] = dict_row[level]
+                    else:
+                        if dict_row['country_exposure'] != dfL.loc[idx, 'country']:
+                            dict_row[level_exposure] = dict_row['country_exposure']
+
+
+
+            # fix strain name
+            if dfL.loc[idx, 'code'] == '':
+                code = 'XX'
+            else:
+                code = dfL.loc[idx, 'code']
+            strain = dfL.loc[idx, 'country'] + '/' + code + '-' + dfL.loc[idx, 'id'] + '/' + collection_date.split('-')[0] # set the strain name
+            dict_row['strain'] = strain
 
             dict_row['iso'] = get_iso(dict_row['country_exposure'])
             dict_row['submitting_lab'] = 'Grubaugh Lab - Yale School of Public Health'

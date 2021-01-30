@@ -1,4 +1,10 @@
 # coding=utf-8
+
+# Created by: Anderson Brito
+# Email: andersonfbrito@gmail.com
+# Release date: 2020-03-24
+# Last update: 2020-10-20
+
 import pandas as pd
 from geopy.geocoders import Nominatim
 import argparse

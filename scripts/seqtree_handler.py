@@ -2,14 +2,6 @@
 
 # Created by: Anderson Brito
 # Email: andersonfbrito@gmail.com
-#
-# seqtree_handler.py -> This code renames (-action=rename) tree tips (-format=tree) and sequence
-#                       headers (-format=fasta). given tab delimited file containing
-#                       old and new taxa names, one pair per line (split
-#                       by a \t character). It also removes (-action=remove) or keeps (-action=keep)
-#                       sequences in sequence files or taxa in trees, given a simple .txt file
-#                       matching the target sequences/taxa.
-#
 # Release date: 2020-05-24
 # Last update: 2020-06-07
 

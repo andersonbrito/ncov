@@ -1,4 +1,11 @@
 # coding=utf-8
+
+# Created by: Anderson Brito
+# Email: andersonfbrito@gmail.com
+# Release date: 2020-03-24
+# Last update: 2021-01-09
+
+
 import pycountry_convert as pyCountry
 import pandas as pd
 import argparse

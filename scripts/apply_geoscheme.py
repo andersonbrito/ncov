@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
 
+# Created by: Anderson Brito
+# Email: andersonfbrito@gmail.com
+# Release date: 2020-03-24
+# Last update: 2020-12-31
+
+
 import pycountry_convert as pyCountry
 import pycountry
 import pandas as pd

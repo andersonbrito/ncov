@@ -12,7 +12,7 @@ rule preanalyses:
 
 rule options:
 	params:
-		threads = 4
+		threads = 20
 options = rules.options.params
 
 
@@ -306,7 +306,7 @@ rule refine:
 			--timetree \
 			--coalescent {params.coalescent} \
 			--date-confidence \
-			--clock-filter 3 \
+			--clock-filter 4 \
 			--clock-rate {params.clock_rate} \
 			--clock-std-dev {params.clock_std_dev} \
 			--divergence-units {params.unit} \

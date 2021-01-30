@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
 
+# Created by: Anderson Brito
+# Email: andersonfbrito@gmail.com
+# Release date: 2021-01-17
+# Last update: 2021-01-17
+
+
 import pandas as pd
 import argparse
 
