@@ -22,7 +22,7 @@ rule files:
 		original_dataset = "pre-analyses/gisaid_hcov-19.fasta",
 		new_genomes = "pre-analyses/new_genomes.fasta",
 		full_metadata = "pre-analyses/metadata_nextstrain.tsv",
-		metadata_lab = "pre-analyses/COVID-19_sequencing.xlsx",
+		metadata_lab = "pre-analyses/GLab_SC2_sequencing_data.xlsx",
 		cache = "config/cache_coordinates.tsv",
 		keep = "config/keep.txt",
 		remove = "config/remove.txt",
