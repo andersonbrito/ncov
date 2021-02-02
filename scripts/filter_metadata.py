@@ -24,18 +24,18 @@ if __name__ == '__main__':
     parser.add_argument("--output1", required=True, help="Filtered metadata file")
     parser.add_argument("--output2", required=True, help="Reformatted, final FASTA file")
     args = parser.parse_args()
-
+    
     genomes = args.genomes
     metadata1 = args.metadata1
     metadata2 = args.metadata2
     output1 = args.output1
     output2 = args.output2
 
-    # genomes = path + 'temp_sequences.fasta'
-    # metadata1 = path + 'metadata_nextstrain.tsv'
-    # metadata2 = path + 'COVID-19_sequencing.xlsx'
-    # output1 = path + 'metadata_filtered.tsv'
-    # output2 = path + 'sequences.fasta'
+#     genomes = path + 'temp_sequences.fasta'
+#     metadata1 = path + 'metadata_nextstrain.tsv'
+#     metadata2 = path + 'GLab_SC2_sequencing_data.xlsx'
+#     output1 = path + 'metadata_filtered.tsv'
+#     output2 = path + 'sequences.fasta'
 
     # create a dict of existing sequences
     sequences = {}
@@ -67,6 +67,69 @@ if __name__ == '__main__':
         epiweek = epiweek[:4] + '_' + 'EW' + epiweek[-2:]
         return epiweek
 
+    # add state code
+
+    us_state_abbrev = {
+        'Alabama': 'AL',
+        'Alaska': 'AK',
+        'American Samoa': 'AS',
+        'Arizona': 'AZ',
+        'Arkansas': 'AR',
+        'California': 'CA',
+        'Colorado': 'CO',
+        'Connecticut': 'CT',
+        'Delaware': 'DE',
+        'District of Columbia': 'DC',
+        'Washington DC': 'DC',
+        'Florida': 'FL',
+        'Georgia': 'GA',
+        'Guam': 'GU',
+        'Hawaii': 'HI',
+        'Idaho': 'ID',
+        'Illinois': 'IL',
+        'Indiana': 'IN',
+        'Iowa': 'IA',
+        'Kansas': 'KS',
+        'Kentucky': 'KY',
+        'Louisiana': 'LA',
+        'Maine': 'ME',
+        'Maryland': 'MD',
+        'Massachusetts': 'MA',
+        'Michigan': 'MI',
+        'Minnesota': 'MN',
+        'Mississippi': 'MS',
+        'Missouri': 'MO',
+        'Montana': 'MT',
+        'Nebraska': 'NE',
+        'Nevada': 'NV',
+        'New Hampshire': 'NH',
+        'New Jersey': 'NJ',
+        'New Mexico': 'NM',
+        'New York': 'NY',
+        'North Carolina': 'NC',
+        'North Dakota': 'ND',
+        'Northern Mariana Islands': 'MP',
+        'Ohio': 'OH',
+        'Oklahoma': 'OK',
+        'Oregon': 'OR',
+        'Pennsylvania': 'PA',
+        'Puerto Rico': 'PR',
+        'Rhode Island': 'RI',
+        'South Carolina': 'SC',
+        'South Dakota': 'SD',
+        'Tennessee': 'TN',
+        'Texas': 'TX',
+        'Utah': 'UT',
+        'Vermont': 'VT',
+        'Virgin Islands': 'VI',
+        'Virginia': 'VA',
+        'Washington': 'WA',
+        'West Virginia': 'WV',
+        'Wisconsin': 'WI',
+        'Wyoming': 'WY'
+    }
+
+
     # nextstrain metadata
     dfN = pd.read_csv(metadata1, encoding='utf-8', sep='\t', dtype='str')
     try:
@@ -85,10 +148,13 @@ if __name__ == '__main__':
                         converters={'Sample-ID': str, 'Collection-date': str, 'Update': str})
     dfL.fillna('', inplace=True)
 
-    dfL = dfL.rename(columns={'Sample-ID': 'id', 'Collection-date': 'date', 'Country': 'country', 'Division': 'division',
-                              'State': 'code', 'Location': 'location', 'Country of exposure': 'country_exposure',
+    dfL = dfL.rename(columns={'Sample-ID': 'id', 'Collection-date': 'date', 'Country': 'country', 'Division (state)': 'division',
+                              'Sub-location (city)': 'location', 'Country of exposure': 'country_exposure',
                               'State of exposure': 'division_exposure', 'Lineage': 'pangolin_lineage', 'Source': 'originating_lab',
                               'Update': 'update'})
+    if 'id' in dfL.columns.to_list():
+        dfL = dfL[~dfL['id'].isin([''])]
+
     # add inexistent columns
     for col in list_columns:
         if col not in dfL.columns:
@@ -107,9 +173,7 @@ if __name__ == '__main__':
             for col in list_columns:
                 dict_row[col] = ''
                 if col in row:
-                    # print(col)
-                    dict_row[col] = dfL.loc[idx, col]
-
+                    dict_row[col] = dfL.loc[idx, col] # add values to dictionary
 
             collection_date = ''
             if len(str(dict_row['date'])) > 1:
@@ -127,17 +191,15 @@ if __name__ == '__main__':
                     else:
                         if dict_row['country_exposure'] != dfL.loc[idx, 'country']:
                             dict_row[level_exposure] = dict_row['country_exposure']
+                        else:
+                            dict_row[level_exposure] = dict_row[level]
 
+            code = 'un'
+            if dict_row['division'] in us_state_abbrev:
+                code = us_state_abbrev[dict_row['division']]
 
-
-            # fix strain name
-            if dfL.loc[idx, 'code'] == '':
-                code = 'XX'
-            else:
-                code = dfL.loc[idx, 'code']
             strain = dfL.loc[idx, 'country'] + '/' + code + '-' + dfL.loc[idx, 'id'] + '/' + collection_date.split('-')[0] # set the strain name
             dict_row['strain'] = strain
-
             dict_row['iso'] = get_iso(dict_row['country_exposure'])
             dict_row['submitting_lab'] = 'Grubaugh Lab - Yale School of Public Health'
             dict_row['authors'] = 'Fauver et al'

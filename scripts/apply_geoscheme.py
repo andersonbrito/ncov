@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Created by: Anderson Brito
-# Email: andersonfbrito@gmail.com
-# Release date: 2020-03-24
-# Last update: 2020-12-31
-
-
 import pycountry_convert as pyCountry
 import pycountry
 import pandas as pd
@@ -132,5 +126,6 @@ if __name__ == '__main__':
         for entry in notfound:
             print('- ' + entry)
 
+    dfN = dfN.drop_duplicates(subset=['strain'])
     dfN.to_csv(output, sep='\t', index=False)
 print('\nMetadata file successfully reformatted applying geo-scheme!\n')
