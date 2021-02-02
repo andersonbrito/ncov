@@ -2,7 +2,7 @@ purpose	level	name	size	start	end
 focus	pangolin_lineage	B.1.1.7	100	2020-09-01	
 focus	pangolin_lineage	B.1.351	50	2020-09-01	
 focus	pangolin_lineage	B.1.375	40	2020-09-01	
-focus	pangolin_lineage	B.1.1.28	50	2020-09-01	
+focus	pangolin_lineage	P.1	50	2020-09-01	
 focus	country_exposure	USA	500	2020-09-01	
 context	country_exposure	South Africa	80	2020-09-01	
 context	region_exposure	Europe	200	2020-09-01	
