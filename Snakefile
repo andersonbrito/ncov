@@ -164,10 +164,10 @@ rule colours:
 
 input_fasta = "data/sequences.fasta",
 input_metadata = "data/metadata.tsv",
-reference = files.reference,
-clades = files.clades,
 lat_longs = "config/latlongs.tsv",
 colors = "config/colors.tsv",
+reference = files.reference,
+clades = files.clades,
 dropped_strains = files.dropped_strains,
 auspice_config = "config/auspice_config.json",
 weights = "config/weights.tsv"
