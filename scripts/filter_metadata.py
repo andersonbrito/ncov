@@ -149,12 +149,12 @@ if __name__ == '__main__':
     dfL.fillna('', inplace=True)
 
     dfL = dfL.rename(columns={'Sample-ID': 'id', 'Collection-date': 'date', 'Country': 'country', 'Division (state)': 'division',
-                              'Sub-location (city)': 'location', 'Country of exposure': 'country_exposure',
+                              'Sub-location (city)': 'location', 'Location (county)': 'county', 'Country of exposure': 'country_exposure',
                               'State of exposure': 'division_exposure', 'Lineage': 'pangolin_lineage', 'Source': 'originating_lab',
                               'Update': 'update'})
     if 'id' in dfL.columns.to_list():
         dfL = dfL[~dfL['id'].isin([''])]
-
+    print(dfL.columns)
     # add inexistent columns
     for col in list_columns:
         if col not in dfL.columns:
@@ -174,7 +174,10 @@ if __name__ == '__main__':
                 dict_row[col] = ''
                 if col in row:
                     dict_row[col] = dfL.loc[idx, col] # add values to dictionary
-
+            
+            if dict_row['location'] in ['', None]:
+                dict_row['location'] = dfL.loc[idx, 'county']
+            
             collection_date = ''
             if len(str(dict_row['date'])) > 1:
                 collection_date = dict_row['date'].split(' ')[0].replace('.', '-').replace('/', '-')
@@ -200,7 +203,7 @@ if __name__ == '__main__':
 
             strain = dfL.loc[idx, 'country'] + '/' + code + '-' + dfL.loc[idx, 'id'] + '/' + collection_date.split('-')[0] # set the strain name
             dict_row['strain'] = strain
-            dict_row['iso'] = get_iso(dict_row['country_exposure'])
+            dict_row['iso'] = get_iso(dict_row['country'])
             dict_row['submitting_lab'] = 'Grubaugh Lab - Yale School of Public Health'
             dict_row['authors'] = 'Fauver et al'
 
@@ -209,7 +212,6 @@ if __name__ == '__main__':
             if dfL.loc[idx, 'pangolin_lineage'] != '':
                 lineage = dfL.loc[idx, 'pangolin_lineage']
             dict_row['pangolin_lineage'] = lineage
-
 
             if dfL.loc[idx, 'update'] == 'variant':
                 dict_row['variants'] = get_epiweeks(collection_date)
@@ -243,7 +245,7 @@ if __name__ == '__main__':
                 if dict_row[level_exposure] in ['', None]:
                     dict_row[level_exposure] = dict_row[level]
 
-            dict_row['iso'] = get_iso(dict_row['country_exposure'])
+            dict_row['iso'] = get_iso(dict_row['country'])
             found.append(strain)
 
             outputDF = outputDF.append(dict_row, ignore_index=True)

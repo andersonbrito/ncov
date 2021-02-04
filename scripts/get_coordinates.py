@@ -1,10 +1,4 @@
 # coding=utf-8
-
-# Created by: Anderson Brito
-# Email: andersonfbrito@gmail.com
-# Release date: 2020-03-24
-# Last update: 2020-10-20
-
 import pandas as pd
 from geopy.geocoders import Nominatim
 import argparse
@@ -77,7 +71,7 @@ if __name__ == '__main__':
                         results[type].update(coordinates)
                         dont_search.append(subarea)
                     country_name = subarea.split('-')[0]
-                    if type == 'country_exposure' and country_name not in set_countries:
+                    if type == 'country' and country_name not in set_countries:
                         set_countries.append(country_name)
                 except:
                     pass
@@ -99,9 +93,9 @@ if __name__ == '__main__':
     dfN = pd.read_csv(metadata, encoding='utf-8', sep='\t')
 
     queries = []
-    pinpoints = [dfN[trait].values.tolist() for trait in columns if trait != 'region_exposure']
+    pinpoints = [dfN[trait].values.tolist() for trait in columns if trait != 'region']
     for address in zip(*pinpoints):
-        traits = [trait for trait in columns if trait != 'region_exposure']
+        traits = [trait for trait in columns if trait != 'region']
         for position, place in enumerate(address):
             level = traits[position]
             query = list(address[0:position + 1])

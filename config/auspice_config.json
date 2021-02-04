@@ -12,17 +12,17 @@
       "type": "categorical"
     },
     {
-      "key": "region_exposure",
+      "key": "region",
       "title": "Region",
       "type": "categorical"
     },
     {
-      "key": "country_exposure",
+      "key": "country",
       "title": "Country",
       "type": "categorical"
     },
     {
-      "key": "division_exposure",
+      "key": "division",
       "title": "Division",
       "type": "categorical"
     },
@@ -49,12 +49,12 @@
   ],
   "geo_resolutions": [
     "location",
-    "division_exposure",
-    "country_exposure",
-    "region_exposure"
+    "division",
+    "country",
+    "region"
   ],
   "display_defaults": {
-    "color_by": "division_exposure",
+    "color_by": "division",
     "distance_measure": "div",
     "geo_resolution": "location",
     "map_triplicate": true,
@@ -65,9 +65,9 @@
     "variants",
     "pangolin_lineage",
     "location",
-    "division_exposure",
-    "country_exposure",
-    "region_exposure",
+    "division",
+    "country",
+    "region",
     "author",
     "originating_lab",
     "submitting_lab"

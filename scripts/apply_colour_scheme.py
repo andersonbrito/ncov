@@ -1,11 +1,4 @@
 # coding=utf-8
-
-# Created by: Anderson Brito
-# Email: andersonfbrito@gmail.com
-# Release date: 2020-03-24
-# Last update: 2021-01-09
-
-
 import pycountry_convert as pyCountry
 import pandas as pd
 import argparse
@@ -35,17 +28,17 @@ if __name__ == '__main__':
     columns = args.columns
     output = args.output
 
-
-    # metadata = path + 'metadata_short.tsv'
-    # coordinates = path + 'latlongs.tsv'
-    # geoscheme = path + 'geoscheme.tsv'
-    # grid = path + 'colour_grid.html'
+    # path = '/Users/anderson/GLab Dropbox/Anderson Brito/projects/ncov/ncov_variants/nextstrain/run6_20210202_b117/ncov/'
+    # metadata = path + 'pre-analyses/metadata_geo.tsv'
+    # coordinates = path + 'config/latlongs.tsv'
+    # geoscheme = path + 'config/geoscheme.tsv'
+    # grid = path + 'config/colour_grid.html'
     # columns = ['region', 'country', 'division', 'location']
-    # output = path + 'colors.tsv'
+    # output = path + 'data/colors.tsv'
 
 
     # pre-determined HEX colours and hues
-    force_colour = {'Connecticut': '#8FEECB', 'Canada': '#663300'}
+    force_colour = {'Connecticut': '#8FEECB', 'New York': '#19ae77', 'Canada': '#663300'}
     force_hue = {'North America': 0}
 
     # content to be exported as final result
@@ -87,7 +80,7 @@ if __name__ == '__main__':
 
     # open metadata file as dataframe
     dfN = pd.read_csv(metadata, encoding='utf-8', sep='\t', dtype=str)
-    dfN = dfN[['region_exposure', 'country_exposure', 'division_exposure', 'location', 'update']]
+    dfN = dfN[['region', 'country', 'division', 'location', 'update']]
 
     ordered_regions = {}
     dcountries = {}
@@ -231,11 +224,10 @@ if __name__ == '__main__':
     scheme_list = open(geoscheme, "r").readlines()[1:]
     sampled_region = [key for dict_ in ordered_regions.values() for key in dict_]
     geodata = {}
-
     for line in scheme_list:
         if not line.startswith('\n'):
             type = line.split('\t')[0]
-            if type == 'region_exposure':
+            if type == 'region':
                 continent = line.split('\t')[1]
                 region = line.split('\t')[2]
                 if region in sampled_region:
@@ -245,7 +237,6 @@ if __name__ == '__main__':
                         geodata[continent] += [region]
 
 
-
     ''' IMPORT COLOUR SCHEME '''
 
     print('\nGenerating colour scheme...\n')
@@ -253,7 +244,7 @@ if __name__ == '__main__':
     tables = html.find_all('table')
 
     # for colour_name in colour_scale.keys():
-    limits = {'dark': (60, 40), 'light': (100, 80)}  # define saturation and luminance, max and min, respectively
+    limits = {'dark': (60, 30), 'light': (100, 80)}  # define saturation and luminance, max and min, respectively
     hue_to_hex = {}
     for table in tables:
         string_head = str(table.caption)
@@ -295,13 +286,13 @@ if __name__ == '__main__':
     for area, subareas in geodata.items():
         num_subareas = len(subareas)
         hues = len(continent_hues[area])
-        # print(area, subareas)
+        print(area, subareas)
         for position, subarea in zip([int(x) for x in np.linspace(0, int(hues), num_subareas, endpoint=False)], subareas):
             if subarea not in palette.keys():
                 hue = continent_hues[area][position] # colour picker
                 palette[subarea] = hue
                 # print(subarea, hue)
-
+    print(colour_wheel)
     # print(sampled_region)
     # print(palette)
     for region in sampled_region:
@@ -309,7 +300,6 @@ if __name__ == '__main__':
             colour_wheel[region] = hue_to_hex[force_hue[region]]
         else:
             colour_wheel[region] = hue_to_hex[palette[region]]
-
 
 
     ''' SET COLOUR SCHEME FOR UPDATES '''
@@ -395,8 +385,8 @@ if __name__ == '__main__':
             gradient = linear_gradient(start, end, len(regions))
 
         for region, colour in zip(regions, gradient):
-            print('region_exposure', region, colour)
-            results['region_exposure'].update({region: colour})
+            print('region', region, colour)
+            results['region'].update({region: colour})
 
     # define gradients for country
     for hue, countries in country_colours.items():
@@ -407,8 +397,8 @@ if __name__ == '__main__':
         else:
             gradient = linear_gradient(start, end, len(countries))
         for country, colour in zip(countries, gradient):
-            print('country_exposure', country, colour)
-            results['country_exposure'].update({country: colour})
+            print('country', country, colour)
+            results['country'].update({country: colour})
 
     # define gradients for divisions
     for hue, divisions in division_colours.items():
@@ -419,8 +409,8 @@ if __name__ == '__main__':
         else:
             gradient = linear_gradient(start, end, len(divisions))
         for division, colour in zip(divisions, gradient):
-            print('division_exposure', division, colour)
-            results['division_exposure'].update({division: colour})
+            print('division', division, colour)
+            results['division'].update({division: colour})
 
     # define gradients for locations
     for hue, locations in location_colours.items():
@@ -435,12 +425,42 @@ if __name__ == '__main__':
             results['location'].update({location: colour})
 
 
-    # special colouring, hardcoded
-    area = {'International': '#b3914d', 'Other US areas': '#3d668f', 'New England': '#8f3d3d'}
-    results['area'] = {}
-    for cat, hex in area.items():
-        results['area'].update({cat: hex})
-        print('area', cat, hex)
+    # special colouring
+    geoLevels = {}
+    for line in scheme_list:
+        if not line.startswith('\n'):
+            line = line.strip()
+            id = line.split('\t')[2]
+            type = line.split('\t')[0]
+
+            # parse subnational regions for countries in geoscheme
+            if type == 'country':
+                members = [item.strip() for item in line.split('\t')[5].split(',')] # elements inside the subarea
+                if id not in geoLevels:
+                    geoLevels[id] = members
+
+    categories = {'Global': '#CCCCCC', 'Europe': '#666666'}
+    results['us_region'] = {}
+    usregion_hues = {
+        'USA-Northeast': colour_scale['purple'][3],
+        'USA-Midwest': colour_scale['green'][0],
+        'USA-Southwest': colour_scale['yellow'][1],
+        'USA-Southeast': colour_scale['cyan'][0],
+        'USA-West': colour_scale['red'][0]
+        }
+
+    for us_region, hue in usregion_hues.items():
+        start, end = hue_to_hex[hue]
+        divisions = geoLevels[us_region]
+        gradient = linear_gradient(start, end, len(divisions))
+        # print(us_region, hue, divisions, gradient)
+        for state, colour in zip(divisions, gradient):
+            categories[state] = colour
+    #
+    for reg, hex in categories.items():
+        results['us_region'].update({reg: hex})
+        print('us_region', reg, hex)
+        # print('')
 
 
     ''' EXPORT COLOUR FILE '''

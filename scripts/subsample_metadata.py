@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Created by: Anderson Brito
-# Email: andersonfbrito@gmail.com
-# Release date: 2020-11-21
-# Last update: 2020-12-29
-
-
 import pandas as pd
 import numpy as np
 from epiweeks import Week

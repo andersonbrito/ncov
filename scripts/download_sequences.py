@@ -1,9 +1,3 @@
-# Created by: Anderson Brito
-# Email: andersonfbrito@gmail.com
-# Release date: 2020-03-24
-# Last update: 2020-10-19
-
-
 from Bio import Entrez
 from Bio import SeqIO
 import time
