@@ -100,7 +100,7 @@ if __name__ == '__main__':
             else:
                 dfN.loc[idx, 'us_region'] = 'Global'
         if country == 'USA' and dfN.loc[idx, 'us_region'] == '':
-            dfN.loc[idx, 'us_region'] = geoLevels[dfN.loc[idx, 'division']]
+            dfN.loc[idx, 'us_region'] = dfN.loc[idx, 'division']
 
         # convert sets of states into subnational regions
         division = dfN.loc[idx, 'division']

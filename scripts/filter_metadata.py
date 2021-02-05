@@ -154,7 +154,7 @@ if __name__ == '__main__':
                               'Update': 'update'})
     if 'id' in dfL.columns.to_list():
         dfL = dfL[~dfL['id'].isin([''])]
-    print(dfL.columns)
+
     # add inexistent columns
     for col in list_columns:
         if col not in dfL.columns:
