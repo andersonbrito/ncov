@@ -14,7 +14,6 @@ dependencies:
 - beautifulsoup4
 - geopy
 - biopython
-- openpyxl
 - pip
 - pip:
   - git+https://github.com/nextstrain/augur@master
@@ -24,6 +23,7 @@ dependencies:
   - uszipcode
   - xlrd==1.2.0
   - lxml
+  - openpyxl
   - numpy
   - matplotlib
   - epiweeks

@@ -12,7 +12,7 @@ rule preanalyses:
 
 rule options:
 	params:
-		threads = 20
+		threads = 4
 options = rules.options.params
 
 
@@ -117,7 +117,7 @@ rule coordinates:
 		geoscheme = files.geoscheme,
 		cache = files.cache
 	params:
-		columns = "region_exposure country_exposure division_exposure location"
+		columns = "region country division location"
 	output:
 		latlongs = "config/latlongs.tsv"
 	shell:
@@ -143,7 +143,7 @@ rule colours:
 		geoscheme = files.geoscheme,
 		colour_grid = files.colour_grid
 	params:
-		columns = "region_exposure country_exposure division_exposure location"
+		columns = "region country division location"
 	output:
 		colours = "config/colors.tsv"
 	shell:
@@ -365,7 +365,7 @@ rule traits:
 	output:
 		node_data = "results/traits.json",
 	params:
-		columns = "region_exposure"
+		columns = "region"
 	shell:
 		"""
 		augur traits \
