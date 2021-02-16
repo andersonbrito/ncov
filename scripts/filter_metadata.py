@@ -252,7 +252,7 @@ if __name__ == '__main__':
 
 
     # write new metadata files
-    outputDF = outputDF.drop(columns=['region', 'region_exposure'])
+    outputDF = outputDF.drop(columns=['region'])
     outputDF.to_csv(output1, sep='\t', index=False)
 
 
