@@ -36,7 +36,7 @@ if __name__ == '__main__':
             entry = json.loads(line)
             id = entry['covv_virus_name'].replace('hCoV-19/', '').replace(' ', '')
             seq = entry['sequence'].replace('\n','').replace('N','')
-            if int(len(seq)) > min_size:
+            if int(len(seq)) >= min_size:
                 c += 1
                 print(str(c) + '. ' + id)
                 entry = ">" + id + "\n" + seq.upper() + "\n"
