@@ -16,9 +16,9 @@ if __name__ == '__main__':
         description="Convert GISAID JSON file into a fasta sequence file, filtering by genome coverage",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    parser.add_argument("--input", required=True, help="FASTA file with genome alignment")
+    parser.add_argument("--input", required=True, help="GISAID JSON file")
     parser.add_argument("--max-missing", required=False, type=int,  default='30', help="Maximum percentage of Ns or gaps (int: 1-100)")
-    parser.add_argument("--output", required=True, help="TSV file with variants")
+    parser.add_argument("--output", required=True, help="Fasta file, filtered by coverage")
     args = parser.parse_args()
 
     json_file = args.input
