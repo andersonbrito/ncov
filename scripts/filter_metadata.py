@@ -149,7 +149,7 @@ if __name__ == '__main__':
     dfL.fillna('', inplace=True)
 
     dfL = dfL.rename(columns={'Sample-ID': 'id', 'Collection-date': 'date', 'Country': 'country', 'Division (state)': 'division',
-                              'Sub-location (city)': 'location', 'Location (county)': 'county', 'Country of exposure': 'country_exposure',
+                              'Location (county)': 'location', 'Location (county)': 'county', 'Country of exposure': 'country_exposure',
                               'State of exposure': 'division_exposure', 'Lineage': 'pangolin_lineage', 'Source': 'originating_lab',
                               'Update': 'update'})
     if 'id' in dfL.columns.to_list():
