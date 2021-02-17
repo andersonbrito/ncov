@@ -4,8 +4,8 @@
 # Created by: Anderson Brito
 # Email: andersonfbrito@gmail.com
 #
-# Release date: 2021-20-16
-# Last update: 2021-20-17
+# Release date: 2021-02-16
+# Last update: 2021-02-17
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 import argparse
