@@ -22,7 +22,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     json_file = args.input
-    genome_size = 29420
+    genome_size = 29903
     max_gaps = args.max_missing
     min_size = genome_size - int(genome_size * max_gaps/100)
     output = args.output
