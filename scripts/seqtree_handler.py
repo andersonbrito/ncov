@@ -2,52 +2,45 @@
 
 # Created by: Anderson Brito
 # Email: andersonfbrito@gmail.com
-#
-# seqtree_handler.py -> This code renames (-action=rename) tree tips (-format=tree) and sequence
-#                       headers (-format=fasta). given tab delimited file containing
-#                       old and new taxa names, one pair per line (split
-#                       by a \t character). It also removes (-action=remove) or keeps (-action=keep)
-#                       sequences in sequence files or taxa in trees, given a simple .txt file
-#                       matching the target sequences/taxa.
-#
 # Release date: 2020-05-24
-# Last update: 2020-06-07
+# Last update: 2021-01-21
 
 from Bio import Phylo
 from Bio import SeqIO
+import pandas as pd
 import argparse
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description="Rename taxa names in tree and sequence files, and prune trees according to list provided by the user",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    parser.add_argument("-input", required=True, help="FASTA or TREE input file to be filtered")
-    parser.add_argument("-format", required=True, nargs=1, type=str, default='fasta',
-                        choices=['fasta', 'tree'], help="File format")
-    parser.add_argument("-action", required=True, nargs=1, type=str,  default='keep',
+    parser.add_argument("--input", required=True, help="FASTA or TREE input file to be filtered")
+    parser.add_argument("--format", required=True, nargs=1, type=str, default='fasta',
+                        choices=['fasta', 'tree', 'tsv'], help="File format")
+    parser.add_argument("--action", required=True, nargs=1, type=str,  default='keep',
                         choices=['keep', 'remove', 'rename'], help="Action to be executed to filter target taxa")
-    parser.add_argument("-list", required=True, help="List of target taxa or sequences")
-    parser.add_argument("-output", required=True, help="Filtered output file")
+    parser.add_argument("--list", required=True, help="List of target taxa or sequences")
+    parser.add_argument("--index", required=False, type=str,  help="Column name in TSV file where the listed taxa are found")
+    parser.add_argument("--output", required=True, help="Filtered output file")
     args = parser.parse_args()
 
     input = args.input
     format = args.format[0]
     list = args.list
     action = args.action[0]
+    index = args.index
     output = args.output
 
 
-    # path = "/Users/anderson/GLab Dropbox/Anderson Brito/projects/ncov/nextstrain/20200520_hcw1/pre-analyses/"
-    # input = path + "new_genomes.fasta"
-    # format = 'fasta'
-    # list = path + 'listSeq.txt'
+    # input = path + "metadata.tsv"
+    # format = 'tsv'
+    # list = path + 'seqList.txt'
     # action = 'keep'
-    # output = path + 'output_ren.txt'
+    # output = path + 'output_ren.tsv'
 
 
-    targets = [target.strip() for target in open(list, "r").readlines()]
+    targets = [target.strip() for target in open(list, "r").readlines() if target[0] not in ['\n', '#']]
     if format == 'tree':
         tree = Phylo.read(input, 'newick')
         print('Starting tree file processing...')
@@ -81,7 +74,6 @@ if __name__ == '__main__':
                 prune.append(tax.strip())
 
             if action == 'keep':
-                print(action)
                 prune = [item for item in allTaxa if item not in prune]
 
             # if in prune list, targets are removed
@@ -89,14 +81,13 @@ if __name__ == '__main__':
             notintree = []
             print('\n### Filtering taxa from tree\n')
             for taxon in prune:
-                if taxon in prune:
-                    try:
-                        tree.prune(target=taxon)
-                        print(str(c) + ' - ' + taxon + ' was filtered')
-                        c += 1
-                    except:
-                        print('Taxon ' + taxon + ' was not found in the tree!')
-                        notintree.append(taxon)
+                try:
+                    tree.prune(target=taxon)
+                    print(str(c) + ' - ' + taxon + ' was filtered')
+                    c += 1
+                except:
+                    print('Taxon ' + taxon + ' was not found in the tree!')
+                    notintree.append(taxon)
 
             if len(notintree) > 0:
                 print('\n### Taxa not found in the input tree = ' + str(len(notintree)) + '\n')
@@ -160,26 +151,27 @@ if __name__ == '__main__':
 
         if action in ['keep', 'remove']:
             found = []  # store all found headers
-            record_dict = {}
-            for fasta in SeqIO.parse(open(input), 'fasta'):
-                id, seq = fasta.description, fasta.seq
-                if id not in record_dict.keys():
-                    record_dict[id] = str(seq)
+#             record_dict = {}
+#             for fasta in SeqIO.parse(open(input), 'fasta'):
+#                 id, seq = fasta.description, fasta.seq
+#                 if id not in record_dict.keys():
+#                     record_dict[id] = str(seq)
 
             count = 1
             with open(output, 'w') as outfile:
-                for header in record_dict.keys():
+                for fasta in SeqIO.parse(open(input), 'fasta'):
+                    header, seq = fasta.description, fasta.seq
                     if action == 'keep':
                         if header not in found and header in targets:
                             found.append(header)
-                            entry = ">" + header + "\n" + str(record_dict[header]).upper() + "\n"
+                            entry = ">" + header + "\n" + str(seq).upper() + "\n"
                             outfile.write(entry)
                             print(str(count) + '/' + str(len(targets)) + " - Filtering sequence... " + header)
                             count += 1
 
                     if action == 'remove':  # remove selected sequences
-                        if header not in targets and header not in found:
-                            entry = ">" + header + "\n" + str(record_dict[header]).upper() + "\n"
+                        if header not in found and header not in targets:
+                            entry = ">" + header + "\n" + str(seq).upper() + "\n"
                             outfile.write(entry)
                         else:
                             print(str(count) + '/' + str(len(targets)) + " - Removing sequence... " + header)
@@ -199,3 +191,34 @@ if __name__ == '__main__':
                     print('\nCheck issues reported above!\n')
                 else:
                     print("\nDone! " + str(len(targets) - leftout) + " sequences were filtered.\n")
+
+    if format == 'tsv':
+        df1 = pd.read_csv(input, encoding='utf-8', sep='\t', dtype=str)
+        df1.fillna('', inplace=True)
+
+        if index == None:
+            df2 = pd.read_csv(list, encoding='utf-8', sep='\t', dtype=str)
+            index = df2.columns.tolist()[0]
+        else:
+            values = [x.strip() for x in open(list).readlines()]
+            data = {index: values}
+            df2 = pd.DataFrame.from_dict(data)
+
+        filter_target = [x for x in df2[index].tolist() if x in df1[index].tolist()]
+        not_found = [x for x in df2[index].tolist() if x not in df1[index].tolist()]
+
+        c = 1
+        if len(not_found) > 0:
+            print("\nThe following entries are not in the input TSV file:\n")
+            for s in not_found:
+                print('\t' + str(c) + '. ' + s)
+                c += 1
+
+        if action in ['keep', 'remove']:
+            if action == 'keep':
+                df1 = df1[df1[index].isin(filter_target)]
+            if action == 'remove':
+                df1 = df1[~df1[index].isin(filter_target)]  # remove bad quality sequences
+            print("\nDone! " + str(len(filter_target)) + " sequences were filtered.\n")
+
+        df1.to_csv(output, sep='\t', index=False)

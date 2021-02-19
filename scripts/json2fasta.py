@@ -35,7 +35,7 @@ if __name__ == '__main__':
         for line in infile:
             entry = json.loads(line)
             id = entry['covv_virus_name'].replace('hCoV-19/', '').replace(' ', '')
-            seq = entry['sequence'].replace('\n','').replace('N','')
+            seq = entry['sequence'].replace('\n','')
             if int(len(seq)) >= min_size:
                 c += 1
                 print(str(c) + '. ' + id)
