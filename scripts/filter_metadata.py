@@ -24,18 +24,18 @@ if __name__ == '__main__':
     parser.add_argument("--output1", required=True, help="Filtered metadata file")
     parser.add_argument("--output2", required=True, help="Reformatted, final FASTA file")
     args = parser.parse_args()
-    
+
     genomes = args.genomes
     metadata1 = args.metadata1
     metadata2 = args.metadata2
     output1 = args.output1
     output2 = args.output2
 
-#     genomes = path + 'temp_sequences.fasta'
-#     metadata1 = path + 'metadata_nextstrain.tsv'
-#     metadata2 = path + 'GLab_SC2_sequencing_data.xlsx'
-#     output1 = path + 'metadata_filtered.tsv'
-#     output2 = path + 'sequences.fasta'
+    #     genomes = path + 'temp_sequences.fasta'
+    #     metadata1 = path + 'metadata_nextstrain.tsv'
+    #     metadata2 = path + 'GLab_SC2_sequencing_data.xlsx'
+    #     output1 = path + 'metadata_filtered.tsv'
+    #     output2 = path + 'sequences.fasta'
 
     # create a dict of existing sequences
     sequences = {}
@@ -46,6 +46,8 @@ if __name__ == '__main__':
 
     # get ISO alpha3 country codes
     isos = {}
+
+
     def get_iso(country):
         global isos
         if country not in isos.keys():
@@ -60,12 +62,14 @@ if __name__ == '__main__':
                     isos[country] = ''
         return isos[country]
 
+
     # create epiweek column
     def get_epiweeks(date):
         date = pd.to_datetime(date)
-        epiweek = str(Week.fromdate(date, system="cdc")) # get epiweeks
+        epiweek = str(Week.fromdate(date, system="cdc"))  # get epiweeks
         epiweek = epiweek[:4] + '_' + 'EW' + epiweek[-2:]
         return epiweek
+
 
     # add state code
 
@@ -129,7 +133,6 @@ if __name__ == '__main__':
         'Wyoming': 'WY'
     }
 
-
     # nextstrain metadata
     dfN = pd.read_csv(metadata1, encoding='utf-8', sep='\t', dtype='str')
     try:
@@ -148,10 +151,11 @@ if __name__ == '__main__':
                         converters={'Sample-ID': str, 'Collection-date': str, 'Update': str})
     dfL.fillna('', inplace=True)
 
-    dfL = dfL.rename(columns={'Sample-ID': 'id', 'Collection-date': 'date', 'Country': 'country', 'Division (state)': 'division',
-                              'Location (county)': 'location', 'Country of exposure': 'country_exposure',
-                              'State of exposure': 'division_exposure', 'Lineage': 'pangolin_lineage', 'Source': 'originating_lab',
-                              'Update': 'update'})
+    dfL = dfL.rename(
+        columns={'Sample-ID': 'id', 'Collection-date': 'date', 'Country': 'country', 'Division (state)': 'division',
+                 'Location (county)': 'location', 'Country of exposure': 'country_exposure',
+                 'State of exposure': 'division_exposure', 'Lineage': 'pangolin_lineage', 'Source': 'originating_lab',
+                 'Update': 'update'})
     if 'id' in dfL.columns.to_list():
         dfL = dfL[~dfL['id'].isin([''])]
 
@@ -173,11 +177,11 @@ if __name__ == '__main__':
             for col in list_columns:
                 dict_row[col] = ''
                 if col in row:
-                    dict_row[col] = dfL.loc[idx, col] # add values to dictionary
-            
+                    dict_row[col] = dfL.loc[idx, col]  # add values to dictionary
+
             if dict_row['location'] in ['', None]:
-                dict_row['location'] = dfL.loc[idx, 'county']
-            
+                dict_row['location'] = dfL.loc[idx, 'location']
+
             collection_date = ''
             if len(str(dict_row['date'])) > 1:
                 collection_date = dict_row['date'].split(' ')[0].replace('.', '-').replace('/', '-')
@@ -201,7 +205,8 @@ if __name__ == '__main__':
             if dict_row['division'] in us_state_abbrev:
                 code = us_state_abbrev[dict_row['division']]
 
-            strain = dfL.loc[idx, 'country'] + '/' + code + '-' + dfL.loc[idx, 'id'] + '/' + collection_date.split('-')[0] # set the strain name
+            strain = dfL.loc[idx, 'country'] + '/' + code + '-' + dfL.loc[idx, 'id'] + '/' + collection_date.split('-')[
+                0]  # set the strain name
             dict_row['strain'] = strain
             dict_row['iso'] = get_iso(dict_row['country'])
             dict_row['submitting_lab'] = 'Grubaugh Lab - Yale School of Public Health'
@@ -223,7 +228,6 @@ if __name__ == '__main__':
             lab_label[id] = strain
 
             outputDF = outputDF.append(dict_row, ignore_index=True)
-
 
     # process metadata from TSV
     dfN = dfN[dfN['strain'].isin(sequences.keys())]
@@ -250,11 +254,9 @@ if __name__ == '__main__':
 
             outputDF = outputDF.append(dict_row, ignore_index=True)
 
-
     # write new metadata files
     outputDF = outputDF.drop(columns=['region'])
     outputDF.to_csv(output1, sep='\t', index=False)
-
 
     # write sequence file
     exported = []
