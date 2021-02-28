@@ -1,12 +1,10 @@
 #!/usr/bin/python
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Created by: Anderson Brito
 # Email: andersonfbrito@gmail.com
 #
 # Release date: 2021-02-16
 # Last update: 2021-02-17
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 import argparse
 import json

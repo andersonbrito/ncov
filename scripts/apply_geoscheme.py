@@ -94,12 +94,12 @@ if __name__ == '__main__':
             dfN.loc[idx, 'division'] = country
 
         # assign US region
-        if country not in ['USA']:
+        if not country.startswith('USA'):
             if 'Europe' in dfN.loc[idx, 'region']:
                 dfN.loc[idx, 'us_region'] = 'Europe'
             else:
                 dfN.loc[idx, 'us_region'] = 'Global'
-        if country == 'USA' and dfN.loc[idx, 'us_region'] == '':
+        if country.startswith('USA') and dfN.loc[idx, 'us_region'] == '':
             dfN.loc[idx, 'us_region'] = dfN.loc[idx, 'division']
 
         # divide country into subnational regions
