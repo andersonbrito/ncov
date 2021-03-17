@@ -1,6 +1,6 @@
 # Nextstrain template directory
 
-Repository with basic files to reproduce SARS-CoV-2 phylogenetic analyses done by [Grubaugh Lab](grubaughlab.com).
+Repository containing scripts to perform near-real time tracking of SARS-CoV-2 in Connecticut using genomic data. This pipeline is used by the [Grubaugh Lab](grubaughlab.com) at the Yale School of Public Health, and results are shared on [COVIDTrackerCT](covidtrackerct.com).
 
 
 ## Getting Started
