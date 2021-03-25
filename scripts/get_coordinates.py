@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
     force_coordinates = {'Washington DC': ('38.912708', '-77.009223'), 'New-York-State': ('43.1561681', '-75.8449946'),
                          'Puerto Rico': ('18.235853', '-66.522056'), 'Virgin Islands': ('17.727304', '-64.748327'),
-                         'Indiana': ('39.768534', '-86.158011')}
+                         'Indiana': ('39.768534', '-86.158011'), 'Middlesex':('41.482782', '-72.556658')}
 
     results = {trait: {} for trait in columns}  # content to be exported as final result
 

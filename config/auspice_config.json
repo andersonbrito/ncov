@@ -7,7 +7,7 @@
   ],
   "colorings": [
     {
-      "key": "pangolin_lineage",
+      "key": "pango_lineage",
       "title": "Lineage",
       "type": "categorical"
     },
@@ -43,7 +43,7 @@
     },
     {
       "key": "variants",
-      "title": "Variants",
+      "title": "Epidemiological Week",
       "type": "categorical"
     }
   ],
@@ -63,7 +63,7 @@
   "filters": [
     "update",
     "variants",
-    "pangolin_lineage",
+    "pango_lineage",
     "location",
     "division",
     "country",

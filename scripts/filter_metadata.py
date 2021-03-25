@@ -154,8 +154,8 @@ if __name__ == '__main__':
     dfL = dfL.rename(
         columns={'Sample-ID': 'id', 'Collection-date': 'date', 'Country': 'country', 'Division (state)': 'division',
                  'Location (county)': 'location', 'Country of exposure': 'country_exposure',
-                 'State of exposure': 'division_exposure', 'Lineage': 'pangolin_lineage', 'Source': 'originating_lab',
-                 'Update': 'update'})
+                 'State of exposure': 'division_exposure', 'Lineage': 'pango_lineage', 'Source': 'originating_lab',
+                 'Update': 'update', 'Authors':'authors','Submitting lab':'submitting_lab'})
     if 'id' in dfL.columns.to_list():
         dfL = dfL[~dfL['id'].isin([''])]
 
@@ -201,22 +201,22 @@ if __name__ == '__main__':
                         else:
                             dict_row[level_exposure] = dict_row[level]
 
-            code = 'un'
+            code = ''
             if dict_row['division'] in us_state_abbrev:
-                code = us_state_abbrev[dict_row['division']]
+                code = us_state_abbrev[dict_row['division']] + '-'
 
-            strain = dfL.loc[idx, 'country'] + '/' + code + '-' + dfL.loc[idx, 'id'] + '/' + collection_date.split('-')[
+            strain = dfL.loc[idx, 'country'] + '/' + code + dfL.loc[idx, 'id'] + '/' + collection_date.split('-')[
                 0]  # set the strain name
             dict_row['strain'] = strain
             dict_row['iso'] = get_iso(dict_row['country'])
-            dict_row['submitting_lab'] = 'Grubaugh Lab - Yale School of Public Health'
-            dict_row['authors'] = 'Fauver et al'
+            dict_row['submitting_lab'] = dict_row['submitting_lab']
+            dict_row['authors'] = dict_row['authors']
 
             # add lineage
             lineage = ''
-            if dfL.loc[idx, 'pangolin_lineage'] != '':
-                lineage = dfL.loc[idx, 'pangolin_lineage']
-            dict_row['pangolin_lineage'] = lineage
+            if dfL.loc[idx, 'pango_lineage'] != '':
+                lineage = dfL.loc[idx, 'pango_lineage']
+            dict_row['pango_lineage'] = lineage
 
             if dfL.loc[idx, 'update'] == 'variant':
                 dict_row['variants'] = get_epiweeks(collection_date)

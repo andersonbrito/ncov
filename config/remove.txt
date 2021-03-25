@@ -224,6 +224,8 @@ pangolin/Guangxi/P5E/2017
 pangolin/Guangxi/P5L/2017
 tiger/USA/NY-040420/2020
 tiger/USA/NY-AHDC-01/2020
+bat/Cambodia/RShSTT200/2010
+pangolin/Yunnan/MP20/2017
 
 # grand princess
 Canada/BC_64686/2020
@@ -456,7 +458,12 @@ USA/FL-BPHL-2845/2020
 USA/NJ-Yale-1570/2021
 USA/IL-Yale-1520/2021
 USA/MD-MDH-0669/2021
+USA/NY-Yale-1421/2021
 
 # issues with metadata
 USA/CA-LACPHL-AF00294/2020
 Italy/ABR-IZSGC-67527/2021
+
+#clock outliers 20210325
+Zambia/ZMB-70147/2020
+SouthAfrica/R05475/2020
