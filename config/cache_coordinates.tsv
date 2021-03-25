@@ -91,6 +91,11 @@ country	Serbia	44.1534121	20.55144
 country	Sint Maarten	52.7736657	4.7448352
 country	Zimbabwe	-19.01688	29.35365015971339
 country	Dominican Republic	19.28131815	-70.035906834967
+<<<<<<< Updated upstream
+=======
+country	Lesotho	-29.6039267	28.3350193
+country	Senegal	14.46517725	-14.765340959100413
+>>>>>>> Stashed changes
 
 division	Connecticut	41.6500201	-72.7342163
 division	New Jersey	40.0757384	-74.4041622
@@ -222,6 +227,11 @@ division	Sint Maarten	52.7736657	4.7448352
 division	Northern Mariana Islands	14.149020499999999	145.21345248318923
 division	Zimbabwe	-19.01688	29.35365015971339
 division	Dominican Republic	19.28131815	-70.035906834967
+<<<<<<< Updated upstream
+=======
+division	Lesotho	-29.6039267	28.3350193
+division	Senegal	14.46517725	-14.765340959100413
+>>>>>>> Stashed changes
 
 location	Amston-Mansfield	41.74139	-72.33055
 location	Ashford-Putnam	41.90667	-71.94786
@@ -478,4 +488,10 @@ location	Sint Maarten	52.7736657	4.7448352
 location	Northern Mariana Islands	14.149020499999999	145.21345248318923
 location	Zimbabwe	-19.01688	29.35365015971339
 location	Dominican Republic	19.28131815	-70.035906834967
+<<<<<<< Updated upstream
+=======
+location	Lesotho	-29.6039267	28.3350193
+location	Senegal	14.46517725	-14.765340959100413
+location	Hamilton County NY	43.7801807	-74.2255633
+>>>>>>> Stashed changes
 

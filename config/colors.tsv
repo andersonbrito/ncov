@@ -1,0 +1,375 @@
+region	Oceania	#D270B2
+region	Eastern Asia	#7A1F6B
+region	Southeastern Asia	#A35CB5
+region	Western Asia	#CC99FF
+region	Northern Europe	#2E1F7A
+region	Western Europe	#637EBC
+region	Southern Europe	#99DDFF
+region	Western Africa	#2E7A1F
+region	Eastern Africa	#85BC5C
+region	Southern Africa	#DDFF99
+region	Central America	#7A7A1F
+region	South America	#7A5B1F
+region	Caribbean	#7A3D1F
+region	North America	#7A1F1F
+
+country	Australia	#D270B2
+country	Hong Kong	#7A1F6B
+country	China	#A64796
+country	Japan	#D270C2
+country	South Korea	#FF99EE
+country	Indonesia	#6B1F7A
+country	Singapore	#AC5CBC
+country	Thailand	#EE99FF
+country	United Arab Emirates	#4C1F7A
+country	Jordan	#6C3D9B
+country	Israel	#8C5CBC
+country	Palestine	#AC7ADD
+country	Turkey	#CC99FF
+country	Ireland	#2E1F7A
+country	United Kingdom	#423390
+country	Denmark	#5747A6
+country	Sweden	#6C5CBC
+country	Norway	#8070D2
+country	Finland	#9584E8
+country	Iceland	#AA99FF
+country	France	#1F2E7A
+country	Switzerland	#334290
+country	Austria	#4757A6
+country	Belgium	#5C6CBC
+country	Germany	#7080D2
+country	Netherlands	#8495E8
+country	Sint Maarten	#99AAFF
+country	Spain	#1F5C7A
+country	Portugal	#3D7C9B
+country	Italy	#5C9CBC
+country	Serbia	#7ABCDD
+country	Slovenia	#99DDFF
+country	Senegal	#2E7A1F
+country	Nigeria	#AAFF99
+country	Zimbabwe	#3D7A1F
+country	Mozambique	#BBFF99
+country	South Africa	#5C7A1F
+country	Lesotho	#DDFF99
+country	Mexico	#D2D270
+country	Brazil	#7A6B1F
+country	Peru	#FFEE99
+country	Dominican Republic	#D2A170
+country	USA-Southwest	#7A1F1F
+country	USA-Southeast	#903333
+country	USA	#A64747
+country	USA-West	#BC5C5C
+country	USA-Northeast	#D27070
+country	USA-Midwest	#E88484
+country	Canada	#663300
+
+division	Australia	#BC5C9C
+division	Hong Kong	#7A1F6B
+division	China	#A64796
+division	Japan	#D270C2
+division	South Korea	#FF99EE
+division	Indonesia	#6B1F7A
+division	Singapore	#AC5CBC
+division	Thailand	#EE99FF
+division	United Arab Emirates	#4C1F7A
+division	Jordan	#6C3D9B
+division	Israel	#8C5CBC
+division	Palestine	#AC7ADD
+division	Turkey	#CC99FF
+division	Ireland	#2E1F7A
+division	Wales	#3B2C88
+division	England	#493A97
+division	Northern Ireland	#5747A6
+division	Scotland	#6555B5
+division	Denmark	#7262C3
+division	Sweden	#8070D2
+division	Norway	#8E7DE1
+division	Finland	#9C8BF0
+division	Iceland	#AA99FF
+division	France	#1F2E7A
+division	Switzerland	#334290
+division	Austria	#4757A6
+division	Belgium	#5C6CBC
+division	Germany	#7080D2
+division	Netherlands	#8495E8
+division	Sint Maarten	#99AAFF
+division	Spain	#1F5C7A
+division	Portugal	#3D7C9B
+division	Italy	#5C9CBC
+division	Serbia	#7ABCDD
+division	Slovenia	#99DDFF
+division	Senegal	#2E7A1F
+division	Nigeria	#AAFF99
+division	Zimbabwe	#3D7A1F
+division	Mozambique	#BBFF99
+division	South Africa	#5C7A1F
+division	Lesotho	#DDFF99
+division	Mexico	#BCBC5C
+division	Brazil	#7A6B1F
+division	Peru	#FFEE99
+division	Dominican Republic	#BC8C5C
+division	Texas	#7A1F1F
+division	New Mexico	#7C2121
+division	Arizona	#7E2323
+division	Oklahoma	#812525
+division	Puerto Rico	#832828
+division	Florida	#862A2A
+division	Louisiana	#882C2C
+division	Mississippi	#8B2E2E
+division	South Carolina	#8D3131
+division	Georgia	#903333
+division	Arkansas	#923535
+division	Alabama	#953737
+division	Tennessee	#973A3A
+division	North Carolina	#9A3C3C
+division	Virginia	#9C3E3E
+division	Kentucky	#9E4040
+division	Northern Mariana Islands	#A14343
+division	Hawaii	#A34545
+division	California	#A64747
+division	Utah	#A84949
+division	Colorado	#AB4C4C
+division	Nevada	#AD4E4E
+division	Wyoming	#B05050
+division	Oregon	#B25252
+division	Washington	#B55555
+division	Alaska	#B75757
+division	Delaware	#BA5959
+division	Washington DC	#BC5C5C
+division	Maryland	#BE5E5E
+division	Pennsylvania	#C16060
+division	New Jersey	#C36262
+division	Connecticut	#8FEECB
+division	Rhode Island	#C86767
+division	Massachusetts	#CB6969
+division	New York	#19AE77
+division	New Hampshire	#D06E6E
+division	Maine	#D27070
+division	Kansas	#D57272
+division	Missouri	#D77474
+division	Indiana	#DA7777
+division	Nebraska	#DC7979
+division	Illinois	#DE7B7B
+division	Ohio	#E17D7D
+division	Iowa	#E38080
+division	Michigan	#E68282
+division	Wisconsin	#E88484
+division	Minnesota	#EB8686
+division	North Dakota	#ED8989
+division	Nova Scotia	#F08B8B
+division	New Brunswick	#F28D8D
+division	Ontario	#F58F8F
+division	Quebec	#F79292
+division	Alberta	#FA9494
+division	British Columbia	#FC9696
+division	Manitoba	#FF9999
+
+location	Australia	#BC5C9C
+location	Hong Kong	#7A1F6B
+location	China	#A64796
+location	Japan	#D270C2
+location	South Korea	#FF99EE
+location	Indonesia	#6B1F7A
+location	Singapore	#AC5CBC
+location	Thailand	#EE99FF
+location	United Arab Emirates	#4C1F7A
+location	Jordan	#6C3D9B
+location	Israel	#8C5CBC
+location	Palestine	#AC7ADD
+location	Turkey	#CC99FF
+location	Ireland	#2E1F7A
+location	Wales	#3B2C88
+location	England	#493A97
+location	Northern Ireland	#5747A6
+location	Scotland	#6555B5
+location	Denmark	#7262C3
+location	Sweden	#8070D2
+location	Norway	#8E7DE1
+location	Finland	#9C8BF0
+location	Iceland	#AA99FF
+location	France	#1F2E7A
+location	Switzerland	#334290
+location	Austria	#4757A6
+location	Belgium	#5C6CBC
+location	Germany	#7080D2
+location	Netherlands	#8495E8
+location	Sint Maarten	#99AAFF
+location	Spain	#1F5C7A
+location	Portugal	#3D7C9B
+location	Italy	#5C9CBC
+location	Serbia	#7ABCDD
+location	Slovenia	#99DDFF
+location	Senegal	#2E7A1F
+location	Nigeria	#AAFF99
+location	Zimbabwe	#3D7A1F
+location	Mozambique	#BBFF99
+location	South Africa	#5C7A1F
+location	Lesotho	#DDFF99
+location	Mexico	#BCBC5C
+location	Brazil	#7A6B1F
+location	Peru	#FFEE99
+location	Dominican Republic	#BC8C5C
+location	Texas	#7A1F1F
+location	New Mexico	#7B2020
+location	Arizona	#7C2121
+location	Oklahoma	#7D2222
+location	Puerto Rico	#7F2323
+location	Florida	#802424
+location	Louisiana	#812626
+location	Mississippi	#832727
+location	South Carolina	#842828
+location	Georgia	#852929
+location	Arkansas	#872A2A
+location	Alabama	#882C2C
+location	Tennessee	#892D2D
+location	North Carolina	#8A2E2E
+location	Virginia	#8C2F2F
+location	Kentucky	#8D3030
+location	Northern Mariana Islands	#8E3232
+location	Hawaii	#903333
+location	California	#913434
+location	Utah	#923535
+location	Colorado	#943636
+location	Nevada	#953838
+location	Wyoming	#963939
+location	Oregon	#973A3A
+location	Washington	#993B3B
+location	Alaska	#9A3C3C
+location	Delaware	#9B3E3E
+location	Washington DC	#9D3F3F
+location	Maryland	#9E4040
+location	Pennsylvania	#9F4141
+location	New Jersey	#A14242
+location	Fairfield	#A24444
+location	New Haven	#A34545
+location	New London	#A54646
+location	New london	#A64747
+location	Rockland	#A74848
+location	Middlesex	#A84A4A
+location	Windham	#AA4B4B
+location	Litchfield	#AB4C4C
+location	Hartford	#AC4D4D
+location	Tolland	#AE4E4E
+location	Rhode Island	#AF5050
+location	Barnstable	#B05151
+location	Bristol	#B25252
+location	Plymouth	#B35353
+location	Hampden	#B45454
+location	Norfolk	#B55656
+location	Worcester	#B75757
+location	Hampshire	#B85858
+location	Suffolk	#B95959
+location	Franklin	#BB5A5A
+location	Essex	#BC5C5C
+location	Kings County NY	#BD5D5D
+location	Kings County	#BF5E5E
+location	Nassau	#C05F5F
+location	Nassau County	#C16060
+location	Queens	#C36161
+location	New York County	#C46363
+location	Manhattan	#C56464
+location	Bronx	#C66565
+location	Suffolk County	#C86666
+location	Westchester	#C96767
+location	Westchester County	#CA6969
+location	Dutchess	#CC6A6A
+location	Chemung County	#CD6B6B
+location	Broome	#CE6C6C
+location	Albany County	#D06D6D
+location	New York City	#D16F6F
+location	Erie County	#D27070
+location	Montgomery	#D37171
+location	Montgomery County NY	#D57272
+location	Saratoga County	#D67373
+location	Monroe County NY	#D77575
+location	Kings	#D97676
+location	New York	#DA7777
+location	Niagara County	#DB7878
+location	Putnam	#DD7979
+location	Hamilton County NY	#DE7B7B
+location	Manchester	#DF7C7C
+location	Nashua	#E17D7D
+location	Cheshire	#E27E7E
+location	Rockingham	#E37F7F
+location	Hillsborough	#E48181
+location	Strafford	#E68282
+location	Cumberland	#E78383
+location	Kansas	#E88484
+location	Missouri	#EA8585
+location	Indiana	#EB8787
+location	Nebraska	#EC8888
+location	Illinois	#EE8989
+location	Ohio	#EF8A8A
+location	Iowa	#F08B8B
+location	Michigan	#F18D8D
+location	Wisconsin	#F38E8E
+location	Minnesota	#F48F8F
+location	North Dakota	#F59090
+location	Nova Scotia	#F79191
+location	New Brunswick	#F89393
+location	Ontario	#F99494
+location	Quebec	#FB9595
+location	Alberta	#FC9696
+location	British Columbia	#FD9797
+location	Manitoba	#FF9999
+
+update	Update00	#0000B2
+update	Update13	#47B265
+update	Update14	#B23900
+
+us_region	Global	#CCCCCC
+us_region	Europe	#666666
+us_region	Maryland	#5C1F7A
+us_region	Delaware	#662985
+us_region	Washington DC	#713390
+us_region	District of Columbia	#7C3D9B
+us_region	New York	#19AE77
+us_region	New Jersey	#9151B1
+us_region	Pennsylvania	#9C5CBC
+us_region	Vermont	#A766C7
+us_region	New Hampshire	#B270D2
+us_region	Maine	#BC7ADD
+us_region	Massachusetts	#C784E8
+us_region	Connecticut	#8FEECB
+us_region	Rhode Island	#DD99FF
+us_region	North Dakota	#1F7A3D
+us_region	South Dakota	#2A8648
+us_region	Minnesota	#359253
+us_region	Nebraska	#409E5F
+us_region	Iowa	#4BAA6A
+us_region	Kansas	#56B676
+us_region	Missouri	#61C281
+us_region	Wisconsin	#6CCE8D
+us_region	Michigan	#77DA98
+us_region	Illinois	#82E6A4
+us_region	Indiana	#8DF2AF
+us_region	Ohio	#99FFBB
+us_region	Arizona	#7A6B1F
+us_region	New Mexico	#A69647
+us_region	Texas	#D2C270
+us_region	Oklahoma	#FFEE99
+us_region	Arkansas	#1F4C7A
+us_region	Louisiana	#295685
+us_region	Kentucky	#336190
+us_region	Tennessee	#3D6C9B
+us_region	Mississippi	#4776A6
+us_region	Alabama	#5181B1
+us_region	West Virginia	#5C8CBC
+us_region	Virginia	#6696C7
+us_region	North Carolina	#70A1D2
+us_region	South Carolina	#7AACDD
+us_region	Georgia	#84B6E8
+us_region	Florida	#8EC1F3
+us_region	Puerto Rico	#99CCFF
+us_region	Hawaii	#7A2E1F
+us_region	Alaska	#873A2B
+us_region	Washington	#944637
+us_region	Oregon	#A15343
+us_region	California	#AF5F4F
+us_region	Idaho	#BC6C5C
+us_region	Montana	#C97868
+us_region	Wyoming	#D78474
+us_region	Nevada	#E49180
+us_region	Utah	#F19D8C
+us_region	Colorado	#FFAA99
+

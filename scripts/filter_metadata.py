@@ -177,7 +177,7 @@ if __name__ == '__main__':
             for col in list_columns:
                 dict_row[col] = ''
                 if col in row:
-                    dict_row[col] = dfL.loc[idx, col]  # add values to dictionary
+                    dict_row[col] = dfL.loc[idx, col].strip()  # add values to dictionary
 
             if dict_row['location'] in ['', None]:
                 dict_row['location'] = dfL.loc[idx, 'location']
@@ -205,7 +205,11 @@ if __name__ == '__main__':
             if dict_row['division'] in us_state_abbrev:
                 code = us_state_abbrev[dict_row['division']] + '-'
 
+<<<<<<< Updated upstream
             strain = dfL.loc[idx, 'country'] + '/' + code + dfL.loc[idx, 'id'] + '/' + collection_date.split('-')[
+=======
+            strain = dfL.loc[idx, 'country'].replace(' ','') + '/' + code + dfL.loc[idx, 'id'] + '/' + collection_date.split('-')[
+>>>>>>> Stashed changes
                 0]  # set the strain name
             dict_row['strain'] = strain
             dict_row['iso'] = get_iso(dict_row['country'])
