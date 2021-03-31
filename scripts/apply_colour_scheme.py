@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
     # open metadata file as dataframe
     dfN = pd.read_csv(metadata, encoding='utf-8', sep='\t', dtype=str)
-    dfN = dfN[['region', 'country', 'division', 'location', 'update']]
+    dfN = dfN[['region', 'country', 'division', 'location']]
 
     ordered_regions = {}
     dcountries = {}
@@ -313,17 +313,7 @@ if __name__ == '__main__':
         # print(rgb)
         return RGB_to_hex(rgb)
 
-    dfN['update'].fillna('X', inplace=True)
-    list_updates = [up_number for up_number in sorted(set(dfN['update'].to_list())) if up_number != 'X']
-    list_hex = list([hue_to_rgb(int(x)) for x in np.linspace(30, 240, len(list_updates)*2, endpoint=True)])
-    skip_hex = [h for n, h in enumerate(list_hex) if n in range(0, len(list_hex), 2)]
-
     results = {trait: {} for trait in columns}
-    results['update'] = {}
-    for update, hex in zip(list_updates, skip_hex):
-        results['update'].update({update: hex})
-        print(update, hex)
-
 
 
     ''' APPLY SAME HUE FOR MEMBERS OF THE SAME SUB-CONTINENT '''
@@ -456,11 +446,10 @@ if __name__ == '__main__':
         # print(us_region, hue, divisions, gradient)
         for state, colour in zip(divisions, gradient):
             categories[state] = colour
-    #
+
     for reg, hex in categories.items():
         results['us_region'].update({reg: hex})
         print('us_region', reg, hex)
-        # print('')
 
 
     ''' EXPORT COLOUR FILE '''

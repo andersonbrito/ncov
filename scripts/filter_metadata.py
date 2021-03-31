@@ -11,6 +11,7 @@ import pycountry
 from Bio import SeqIO
 import pandas as pd
 from epiweeks import Week
+import time
 import argparse
 
 if __name__ == '__main__':
@@ -31,23 +32,26 @@ if __name__ == '__main__':
     output1 = args.output1
     output2 = args.output2
 
-    #     genomes = path + 'temp_sequences.fasta'
-    #     metadata1 = path + 'metadata_nextstrain.tsv'
-    #     metadata2 = path + 'GLab_SC2_sequencing_data.xlsx'
-    #     output1 = path + 'metadata_filtered.tsv'
-    #     output2 = path + 'sequences.fasta'
+    # path = '/Users/anderson/GLab Dropbox/Anderson Brito/projects/ncov/ncov_variants/nextstrain/runX_20210329_newpipeline/'
+    # genomes = path + 'pre-analyses/temp_sequences.fasta'
+    # metadata1 = path + 'pre-analyses/metadata_nextstrain.tsv'
+    # metadata2 = path + 'pre-analyses/GLab_SC2_sequencing_data.xlsx'
+    # output1 = path + 'pre-analyses/metadata_filtered.tsv'
+    # output2 = path + 'pre-analyses/sequences.fasta'
 
-    # create a dict of existing sequences
-    sequences = {}
-    for fasta in SeqIO.parse(open(genomes), 'fasta'):  # as fasta:
-        id, seq = fasta.description, fasta.seq
-        if id not in sequences.keys():
-            sequences[id] = str(seq)
+    # temporal boundaries
+    today = time.strftime('%Y-%m-%d', time.gmtime())
+    min_date = '2020-06-30'
+
+    # keep only lab metadata rows matching this criteria
+    filter_bycol = {'update': 'connecticut'}
+
+    variants = {'VOC': ['B.1.1.7', 'P.1', 'B.1.351', 'B.1.427', 'B.1.429'],
+                'VOI': ['B.1.526', 'B.1.525', 'P.2'],
+                'VHC': []}
 
     # get ISO alpha3 country codes
     isos = {}
-
-
     def get_iso(country):
         global isos
         if country not in isos.keys():
@@ -72,7 +76,6 @@ if __name__ == '__main__':
 
 
     # add state code
-
     us_state_abbrev = {
         'Alabama': 'AL',
         'Alaska': 'AK',
@@ -135,14 +138,21 @@ if __name__ == '__main__':
 
     # nextstrain metadata
     dfN = pd.read_csv(metadata1, encoding='utf-8', sep='\t', dtype='str')
-    try:
-        dfN.insert(4, 'iso', '')
-    except:
-        pass
-    dfN['update'] = ''
-    dfN['variants'] = ''
-
+    dfN.insert(4, 'iso', '')
+    dfN.insert(1, 'category', '')
     dfN.fillna('', inplace=True)
+
+    # add tag of variant category
+    def variant_category(lineage):
+        var_category = 'Other variants'
+        for category, list in variants.items():
+            if lineage in list:
+                var_category = category + ' (' + lineage + ')'
+        return var_category
+
+    dfN['category'] = dfN['pango_lineage'].apply(lambda x: variant_category(x))
+
+
     list_columns = dfN.columns.values  # list of column in the original metadata file
     # print(dfN)
 
@@ -155,9 +165,31 @@ if __name__ == '__main__':
         columns={'Sample-ID': 'id', 'Collection-date': 'date', 'Country': 'country', 'Division (state)': 'division',
                  'Location (county)': 'location', 'Country of exposure': 'country_exposure',
                  'State of exposure': 'division_exposure', 'Lineage': 'pango_lineage', 'Source': 'originating_lab',
-                 'Update': 'update', 'Authors':'authors','Submitting lab':'submitting_lab'})
+                 'Update': 'update'})
+    dfL['epiweek'] = ''
+
+    # exclude rows with no ID
     if 'id' in dfL.columns.to_list():
         dfL = dfL[~dfL['id'].isin([''])]
+
+    lab_sequences = dfL['id'].tolist()
+
+    # exclude unwanted lab metadata roww
+    for column, value in filter_bycol.items():
+        print('\nFiltering metadata rows where: column = ' + column + '; value = ' + value + '\n')
+        dfL = dfL[dfL[column].isin([value])]  # batch inclusion of specific rows
+
+    # list of relevant genomes sequenced
+    keep_only = dfL['id'].tolist()
+    excluded = [id for id in lab_sequences if id not in keep_only]
+
+
+    # create a dict of existing sequences
+    sequences = {}
+    for fasta in SeqIO.parse(open(genomes), 'fasta'):  # as fasta:
+        id, seq = fasta.description, fasta.seq
+        if id not in sequences.keys() and id not in excluded:
+            sequences[id] = str(seq)
 
     # add inexistent columns
     for col in list_columns:
@@ -168,7 +200,7 @@ if __name__ == '__main__':
     outputDF = pd.DataFrame(columns=list_columns)
     found = []
     lab_label = {}
-
+    metadata_issues = {}
     # process metadata from excel sheet
     for idx, row in dfL.iterrows():
         id = dfL.loc[idx, 'id']
@@ -179,6 +211,15 @@ if __name__ == '__main__':
                 if col in row:
                     dict_row[col] = dfL.loc[idx, col].strip()  # add values to dictionary
 
+            # check for missing geodata
+            geodata = ['country'] # column
+            for level in geodata:
+                if len(dict_row[level]) < 1:
+                    if id not in metadata_issues:
+                        metadata_issues[id] = [level]
+                    else:
+                        metadata_issues[id].append(level)
+
             if dict_row['location'] in ['', None]:
                 dict_row['location'] = dfL.loc[idx, 'location']
 
@@ -186,6 +227,17 @@ if __name__ == '__main__':
             if len(str(dict_row['date'])) > 1:
                 collection_date = dict_row['date'].split(' ')[0].replace('.', '-').replace('/', '-')
                 dict_row['date'] = collection_date
+                # check is date is appropriate: not from the 'future', not older than 'min_date'
+                if pd.to_datetime(today) < pd.to_datetime(collection_date) or pd.to_datetime(min_date) > pd.to_datetime(collection_date):
+                    if id not in metadata_issues:
+                        metadata_issues[id] = ['date']
+                    else:
+                        metadata_issues[id].append('date')
+            else: # missing date
+                if id not in metadata_issues:
+                    metadata_issues[id] = ['date']
+                else:
+                    metadata_issues[id].append('date')
 
             # fix exposure
             columns_exposure = ['country_exposure', 'division_exposure']
@@ -205,16 +257,14 @@ if __name__ == '__main__':
             if dict_row['division'] in us_state_abbrev:
                 code = us_state_abbrev[dict_row['division']] + '-'
 
-<<<<<<< Updated upstream
-            strain = dfL.loc[idx, 'country'] + '/' + code + dfL.loc[idx, 'id'] + '/' + collection_date.split('-')[
-=======
-            strain = dfL.loc[idx, 'country'].replace(' ','') + '/' + code + dfL.loc[idx, 'id'] + '/' + collection_date.split('-')[
->>>>>>> Stashed changes
-                0]  # set the strain name
+            strain = dfL.loc[idx, 'country'].replace(' ', '') + '/' + code + dfL.loc[idx, 'id'] + '/' + collection_date.split('-')[0]
+
+            # set the strain name
             dict_row['strain'] = strain
             dict_row['iso'] = get_iso(dict_row['country'])
-            dict_row['submitting_lab'] = dict_row['submitting_lab']
-            dict_row['authors'] = dict_row['authors']
+            dict_row['originating_lab'] = dfL.loc[idx, 'originating_lab']
+            dict_row['submitting_lab'] = 'Grubaugh Lab - Yale School of Public Health'
+            dict_row['authors'] = 'GLab team'
 
             # add lineage
             lineage = ''
@@ -222,16 +272,21 @@ if __name__ == '__main__':
                 lineage = dfL.loc[idx, 'pango_lineage']
             dict_row['pango_lineage'] = lineage
 
-            if dfL.loc[idx, 'update'] == 'variant':
-                dict_row['variants'] = get_epiweeks(collection_date)
-                dict_row['update'] = ''
-            else:
-                dict_row['update'] = 'Update' + str('0' * (2 - len(dfL.loc[idx, 'update']))) + dfL.loc[idx, 'update']
-                dict_row['variants'] = ''
-            found.append(strain)
-            lab_label[id] = strain
+            # variant classication (VOI, VOC, VHC)
+            dict_row['category'] = variant_category(lineage)
 
-            outputDF = outputDF.append(dict_row, ignore_index=True)
+            # assign epiweek
+            if len(dict_row['date']) > 0:
+                dict_row['epiweek'] = get_epiweeks(collection_date)
+            else:
+                dict_row['epiweek'] = ''
+
+            # record sequence and metadata as found
+            found.append(strain)
+            if id not in metadata_issues.keys():
+                lab_label[id] = strain
+                outputDF = outputDF.append(dict_row, ignore_index=True)
+
 
     # process metadata from TSV
     dfN = dfN[dfN['strain'].isin(sequences.keys())]
@@ -241,7 +296,10 @@ if __name__ == '__main__':
             if strain in outputDF['strain'].to_list():
                 continue
             dict_row = {}
+            date = ''
             for col in list_columns:
+                if col == 'date':
+                    date = dfN.loc[idx, col]
                 dict_row[col] = ''
                 if col in row:
                     dict_row[col] = dfN.loc[idx, col]
@@ -254,6 +312,7 @@ if __name__ == '__main__':
                     dict_row[level_exposure] = dict_row[level]
 
             dict_row['iso'] = get_iso(dict_row['country'])
+            dict_row['epiweek'] = get_epiweeks(date)
             found.append(strain)
 
             outputDF = outputDF.append(dict_row, ignore_index=True)
@@ -267,16 +326,22 @@ if __name__ == '__main__':
     with open(output2, 'w') as outfile2:
         # export new metadata lines
         for id, sequence in sequences.items():
-            if id in lab_label:
+            if id in lab_label and id not in metadata_issues.keys():
                 if lab_label[id] not in exported:
                     entry = '>' + lab_label[id] + '\n' + sequence + '\n'
                     outfile2.write(entry)
                     print('* Exporting newly sequenced genome and metadata for ' + id)
                     exported.append(lab_label[id])
             else:
-                if id not in exported:
+                if id not in exported and id not in metadata_issues.keys():
                     entry = '>' + id + '\n' + sequence + '\n'
                     outfile2.write(entry)
                     exported.append(id)
 
-print('\nMetadata file successfully reformatted and exported!\n')
+    if len(metadata_issues) > 0:
+        print('\n\n### WARNINGS!\n')
+        print('\nPlease check for metadata issues related to these samples and column (which will be otherwise ignored)\n')
+        for id, columns in metadata_issues.items():
+            print('\t- ' + id + ' (issues found at: ' + ', '.join(columns) + ')')
+
+    print('\nMetadata file successfully reformatted and exported!\n')

@@ -22,7 +22,8 @@ rule files:
 		original_dataset = "pre-analyses/gisaid_hcov-19.fasta",
 		new_genomes = "pre-analyses/new_genomes.fasta",
 		full_metadata = "pre-analyses/metadata_nextstrain.tsv",
-		metadata_lab = "pre-analyses/GLab_SC2_sequencing_data.xlsx",
+		lab_metadata = "pre-analyses/GLab_SC2_sequencing_data.xlsx",
+		extra_metadata = "pre-analyses/extra_metadata.xlsx",
 		cache = "config/cache_coordinates.tsv",
 		keep = "config/keep.txt",
 		remove = "config/remove.txt",
@@ -62,17 +63,40 @@ rule add_sequences:
 		"""
 
 
+rule merge_metadata:
+	message:
+		"""
+		Merging metadata: main lab metadata + extra metadata file
+		"""
+	input:
+		metadata1 = files.lab_metadata,
+		metadata2 = files.extra_metadata
+	params:
+		index = "Sample-ID"
+	output:
+		merged_metadata = "pre-analyses/merged_metadata.xlsx"
+	shell:
+		"""
+		python3 scripts/merge_sheets.py \
+			--sheet1 {input.metadata1} \
+			--sheet2 {input.metadata2} \
+			--index {params.index} \
+			--output {output.merged_metadata} \
+		"""
+
+
 rule filter_metadata:
 	message:
 		"""
 		Processing {input.genomes} to:
 		- Filter only lines corresponding to genomes included in {input.genomes}
 		- Reformat metadata by dropping or adding columns, and fixing some fields
+		- Perform quality assessment: purge rows with problematic/missing metadata (date, country)
 		"""
 	input:
 		genomes = rules.add_sequences.output.sequences,
 		metadata1 = files.full_metadata,
-		metadata2 = files.metadata_lab
+		metadata2 = rules.merge_metadata.output.merged_metadata
 	output:
 		filtered_metadata = "pre-analyses/metadata_filtered.tsv",
 		sequences = "data/sequences.fasta"
@@ -396,6 +420,35 @@ rule clades:
 			--output {output.clade_data}
 		"""
 
+### Estimate tip frequency
+
+rule tip_frequencies:
+    message: "Estimating censored KDE frequencies for tips"
+    input:
+        tree = rules.refine.output.tree,
+        metadata = input_metadata
+    output:
+        tip_frequencies_json = "results/ncov_update_tip-frequencies.json"
+    log:
+        "results/tip_frequencies.txt"
+    params:
+        min_date = 2020.915,
+        pivot_interval = 3,
+        narrow_bandwidth = 0.05,
+        proportion_wide = 0.0
+    shell:
+        """
+        augur frequencies \
+            --method kde \
+            --metadata {input.metadata} \
+            --tree {input.tree} \
+            --min-date {params.min_date} \
+            --pivot-interval {params.pivot_interval} \
+            --narrow-bandwidth {params.narrow_bandwidth} \
+            --proportion-wide {params.proportion_wide} \
+            --output {output.tip_frequencies_json} 2>&1 | tee {log}
+        """
+
 ### Generating final results for visualization with auspice
 
 rule export:
@@ -410,9 +463,11 @@ rule export:
 		colors = colors,
 		lat_longs = lat_longs,
 		clades = rules.clades.output.clade_data,
-		auspice_config = auspice_config
+		auspice_config = auspice_config,
+		frequencies = rules.tip_frequencies.output.tip_frequencies_json
 	output:
-		auspice = rules.all.input.auspice
+		auspice = rules.all.input.auspice,
+		tip_frequency_json = "auspice/ncov_update_tip-frequencies.json",
 	shell:
 		"""
 		augur export v2 \
@@ -423,6 +478,7 @@ rule export:
 			--lat-longs {input.lat_longs} \
 			--auspice-config {input.auspice_config} \
 			--output {output.auspice}
+		cp {input.frequencies} {output.tip_frequency_json}
 		"""
 
 
@@ -449,6 +505,17 @@ rule reset:
 		"data",
 		"config/colors.tsv",
 		"config/latlongs.tsv",
+		"pre-analyses/metadata_filtered.tsv",
+		"pre-analyses/temp_sequences.fasta"
+
+	shell:
+		"""
+		rm -rfv {params}
+		"""
+
+rule sanitize:
+	message: "Removing directories: {params}"
+	params:
 		"pre-analyses/metadata_filtered.tsv",
 		"pre-analyses/temp_sequences.fasta"
 

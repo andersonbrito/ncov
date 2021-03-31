@@ -37,13 +37,13 @@
       "type": "categorical"
     },
     {
-      "key": "update",
-      "title": "Update",
+      "key": "epiweek",
+      "title": "Epidemiological Week",
       "type": "categorical"
     },
     {
-      "key": "variants",
-      "title": "Epidemiological Week",
+      "key": "category",
+      "title": "Variant category",
       "type": "categorical"
     }
   ],
@@ -61,8 +61,8 @@
     "branch_label": "clade"
   },
   "filters": [
-    "update",
-    "variants",
+    "epiweek",
+    "category",
     "pango_lineage",
     "location",
     "division",
@@ -75,6 +75,7 @@
   "panels": [
     "tree",
     "map",
-    "entropy"
+    "entropy",
+    "frequencies"
   ]
 }
