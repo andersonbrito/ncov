@@ -433,7 +433,8 @@ rule tip_frequencies:
         "results/tip_frequencies.txt"
     params:
         min_date = 2020.915,
-        pivot_interval = 3,
+        pivot_interval = 1,
+        pivot_interval_units = "weeks",
         narrow_bandwidth = 0.05,
         proportion_wide = 0.0
     shell:
@@ -444,6 +445,7 @@ rule tip_frequencies:
             --tree {input.tree} \
             --min-date {params.min_date} \
             --pivot-interval {params.pivot_interval} \
+            --pivot-interval-units {params.pivot_interval_units} \
             --narrow-bandwidth {params.narrow_bandwidth} \
             --proportion-wide {params.proportion_wide} \
             --output {output.tip_frequencies_json} 2>&1 | tee {log}
