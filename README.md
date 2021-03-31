@@ -76,24 +76,21 @@ Files in the `pre-analyses` directory need to be downloaded from distinct source
 | gisaid_hcov-19.fasta |         Downloaded from GISAID (all complete genomes submitted from 2019-Dec-01)        |
 |        new_genomes.fasta¹       | Newly sequenced genomes, with headers formatted as ">Yale-XXX", downloaded from the Lab's Dropbox |
 | metadata_nextstrain.tsv² | File 'nextmeta.tsv' available on GISAID |
-|    COVID-19_sequencing.xlsx³    |                     Metadata spreadsheet downloaded from an internal Google Sheet                    |
-
+|    GLab_SC2_sequencing_data.xlsx³    |                     Metadata spreadsheet downloaded from an internal Google Sheet                    |
+|    extra_metadata.xlsx⁴    |                     Metadata spreadsheet (XLSX) with extra rows, where column names match the main sheet                    |
 
 
 Notes:<br />
 ¹ FASTA file containing all genomes sequenced by the lab, including newly sequenced genomes<br />
 ² The user will need credentials (login/password) to access and download this file from GISAID<br />
-³ This Excel spreadsheet must have the following columns, named as shown below:<br />
+³,⁴ These Excel spreadsheet must have the following columns, named as shown below:<br />
 
 - Sample-ID *→ lab samples unique identifier, as described below*
 - Collection-date
 - Country
-- State *→ state acronym*
-- Division  *→ state full name*
-- Location  *→ city, town or any other local name*
-- Host
+- Division (state)  *→ state name*
+- Location (county)  *→ city, town or any other local name*
 - Source *→ lab source of the viral samples*
-- Update *→ number of the genome release, if new genomes are released in a regular basis*
 
 ## Running the pipeline
 
