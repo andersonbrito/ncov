@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 41 of /Users/anderson/GLab Dropbox/Anderson Brito/github/ncov/Snakefile:
+Missing input files for rule add_sequences:
+pre-analyses/gisaid_hcov-19.fasta
