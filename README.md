@@ -62,11 +62,11 @@ ncov/
 │ ├── COVID-19_sequencing.xlsx 	→ Custom lab metadata file
 │ └── extra_metadata.xlsx	→ Extra metadata file (can be left blank)
 │
-├── scripts/		→ Set of scripts included in the pipeline
+├── scripts/			→ Set of scripts included in the pipeline
 │
-├── README.md		→ Instruction about the pipeline
+├── README.md			→ Instruction about the pipeline
 ├── workflow.svg		→ Diagram with pipeline steps
-└── Snakefile		→ Snakemake workflow
+└── Snakefile			→ Snakemake workflow
 ```
 
 
