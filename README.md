@@ -62,7 +62,7 @@ ncov/
 │ ├── new_genomes.fasta 	→ FASTA file with the lab's newly sequenced genomes
 │ ├── metadata_nextstrain.tsv	→ nextstrain metadata file, downloaded from GISAID
 │ ├── COVID-19_sequencing.xlsx 	→ Custom lab metadata file
-│ └── extra_metadata.xlsx	→ Extra metadata file from secondary sources (can be left brank)
+│ └── extra_metadata.xlsx	→ Extra metadata file from secondary sources (can be left blank)
 │
 └── README.md
 ```
