@@ -47,11 +47,11 @@ ncov/
 │ ├── auspice_config.json	→ Auspice configuration file
 │ ├── cache_coordinates.tsv 	→ TSV file with pre-existing latitudes and longitudes
 │ ├── clades.tsv 		→ TSV file with clade-defining mutations
-│ ├── colour_grid.html 	  → HTML file with HEX color matrices
+│ ├── colour_grid.html 	  	→ HTML file with HEX color matrices
 │ ├── dropped_strains.txt	→ List of genome names to be dropped during the run
 │ ├── geoscheme.xml 		→ Geographic scheme to aggregate locations
-│ ├── keep.txt 		    → List of GISAID genomes to be added in the analysis
-│ ├── nextstrain.yaml 	  → File used to install nextstrain dependencies
+│ ├── keep.txt 		    	→ List of GISAID genomes to be added in the analysis
+│ ├── nextstrain.yaml 		→ File used to install nextstrain dependencies
 │ ├── reference.gb 		→ GenBank file containing the reference genome annotation
 │ └── remove.txt 		→ List of GISAID genomes to be removed prior to the run
 │
