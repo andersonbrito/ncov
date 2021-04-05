@@ -49,7 +49,7 @@ ncov/
 │ ├── clades.tsv 		→ TSV file with clade-defining mutations
 │ ├── colour_grid.html 	  	→ HTML file with HEX color matrices
 │ ├── dropped_strains.txt	→ List of genome names to be dropped during the run
-│ ├── geoscheme.xml 		→ Geographic scheme to aggregate locations
+│ ├── geoscheme.tsv 		→ Geographic scheme to aggregate locations
 │ ├── keep.txt 		    	→ List of GISAID genomes to be added in the analysis
 │ ├── nextstrain.yaml 		→ File used to install nextstrain dependencies
 │ ├── reference.gb 		→ GenBank file containing the reference genome annotation
