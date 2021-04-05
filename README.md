@@ -43,28 +43,29 @@ This minimal set of files and directories are expected in the working directory.
 ```
 ncov/
 │
-├── auspice/ 			→ directory where the input for auspice will be stored
-│
 ├── config/
-│ ├── auspice_config.json	→ JSON file used to create the file used by auspice
-│ ├── cache_coordinates.tsv 	→ TSV file with preexisting latitudes and longitudes
+│ ├── auspice_config.json	→ Auspice configuration file
+│ ├── cache_coordinates.tsv 	→ TSV file with pre-existing latitudes and longitudes
 │ ├── clades.tsv 		→ TSV file with clade-defining mutations
-│ ├── colour_grid.html 		→ HTML file with HEX colour matrices
-│ ├── dropped_strains.txt	→ TXT file with IDs of sequences to be dropped along the run
-│ ├── geoscheme.xml 		→ XML file with geographic scheme
-│ ├── keep.txt 			→ TXT file with accession number of genomes to be included in the analysis
-│ ├── nextstrain.yaml 		→ YAML file used to install dependencies
-│ ├── reference.gb 		→ GenBank file of a reference genome
-│ └── remove.txt 		→ TXT file with IDs of genomes to be removed prior to the run
+│ ├── colour_grid.html 		→ HTML file with HEX color matrices
+│ ├── dropped_strains.txt	→ List of genome names to be dropped during the run
+│ ├── geoscheme.xml 		→ Geographic scheme to aggregate locations
+│ ├── keep.txt 		→ List of GISAID genomes to be added in the analysis
+│ ├── nextstrain.yaml 		→ File used to install nextstrain dependencies
+│ ├── reference.gb 		→ GenBank file containing the reference genome annotation
+│ └── remove.txt 		→ List of GISAID genomes to be removed prior to the run
 │
 ├── pre-analyses/
 │ ├── gisaid_hcov-19.fasta 	→ FASTA file with the latest genomes from GISAID
 │ ├── new_genomes.fasta 	→ FASTA file with the lab's newly sequenced genomes
 │ ├── metadata_nextstrain.tsv	→ nextstrain metadata file, downloaded from GISAID
 │ ├── COVID-19_sequencing.xlsx 	→ Custom lab metadata file
-│ └── extra_metadata.xlsx	→ Extra metadata file from secondary sources (can be left blank)
+│ └── extra_metadata.xlsx	→ Extra metadata file (can be left blank)
 │
-└── README.md
+├── scripts/		→ Set of scripts included in the pipeline
+├── README.md		→ Instruction about the pipeline
+├── workflow.svg		→ Diagram with pipeline steps
+└── Snakefile		→ Snakemake workflow
 ```
 
 
