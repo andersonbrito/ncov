@@ -65,7 +65,7 @@ ncov/
 ├── scripts/			→ Set of scripts included in the pipeline
 │
 ├── README.md			→ Instruction about the pipeline
-├── workflow.svg		→ Diagram with pipeline steps
+├── workflow.svg		→ Diagram showing the pipeline steps
 └── Snakefile			→ Snakemake workflow
 ```
 
