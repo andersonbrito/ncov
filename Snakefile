@@ -1,6 +1,7 @@
 rule all:
 	input:
-		auspice = "auspice/ncov_update.json",
+		auspice = "auspice/nextstrain-ref_connecticut.json",
+		frequencies = "auspice/nextstrain-ref_connecticut_tip-frequencies.json"
 
 # Triggers the pre-analyses
 rule preanalyses:
@@ -428,14 +429,14 @@ rule tip_frequencies:
         tree = rules.refine.output.tree,
         metadata = input_metadata
     output:
-        tip_frequencies_json = "results/ncov_update_tip-frequencies.json"
+        tip_frequencies_json = rules.all.input.frequencies
     log:
         "results/tip_frequencies.txt"
     params:
-        min_date = 2020.915,
+        min_date = 2020.75,
         pivot_interval = 1,
         pivot_interval_units = "weeks",
-        narrow_bandwidth = 0.05,
+        narrow_bandwidth = 0.01,
         proportion_wide = 0.0
     shell:
         """
@@ -469,7 +470,6 @@ rule export:
 		frequencies = rules.tip_frequencies.output.tip_frequencies_json
 	output:
 		auspice = rules.all.input.auspice,
-		tip_frequency_json = "auspice/ncov_update_tip-frequencies.json",
 	shell:
 		"""
 		augur export v2 \
@@ -480,7 +480,6 @@ rule export:
 			--lat-longs {input.lat_longs} \
 			--auspice-config {input.auspice_config} \
 			--output {output.auspice}
-		cp {input.frequencies} {output.tip_frequency_json}
 		"""
 
 
