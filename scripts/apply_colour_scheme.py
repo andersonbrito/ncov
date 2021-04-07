@@ -461,7 +461,7 @@ if __name__ == '__main__':
     for category, hex in zip(list_category, skip_hex):
         results['category'].update({category: hex})
         print(category, hex)
-    results['category'].update({'Other variants': '#555555'})
+    results['category'].update({'Other variants': '#808080'})
 
 
 
