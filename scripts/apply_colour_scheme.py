@@ -457,10 +457,11 @@ if __name__ == '__main__':
     list_hex = list([hue_to_rgb(int(x)) for x in np.linspace(30, 240, len(list_category)*2, endpoint=True)])
     skip_hex = [h for n, h in enumerate(list_hex) if n in range(0, len(list_hex), 2)][::-1]
 
-    results['category'] = {'Other variants': '#CECECE'}
+    results['category'] = {}
     for category, hex in zip(list_category, skip_hex):
         results['category'].update({category: hex})
         print(category, hex)
+    results['category'].update({'Other variants': '#555555'})
 
 
 
