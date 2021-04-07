@@ -28,8 +28,8 @@ if __name__ == '__main__':
     columns = args.columns
     output = args.output
 
-    # path = '/Users/anderson/GLab Dropbox/Anderson Brito/projects/ncov/ncov_variants/nextstrain/run6_20210202_b117/ncov/'
-    # metadata = path + 'pre-analyses/metadata_geo.tsv'
+    # path = '/Users/anderson/GLab Dropbox/Anderson Brito/projects/ncov/ncov_variants/nextstrain/runX_ncov_20210407_vocvoicolours/'
+    # metadata = path + 'data/metadata.tsv'
     # coordinates = path + 'config/latlongs.tsv'
     # geoscheme = path + 'config/geoscheme.tsv'
     # grid = path + 'config/colour_grid.html'
@@ -80,6 +80,7 @@ if __name__ == '__main__':
 
     # open metadata file as dataframe
     dfN = pd.read_csv(metadata, encoding='utf-8', sep='\t', dtype=str)
+    df = dfN
     dfN = dfN[['region', 'country', 'division', 'location']]
 
     ordered_regions = {}
@@ -450,6 +451,17 @@ if __name__ == '__main__':
     for reg, hex in categories.items():
         results['us_region'].update({reg: hex})
         print('us_region', reg, hex)
+
+    # VOC / VOI
+    list_category = [up_number for up_number in sorted(set(df['category'].to_list())) if up_number != 'Other variants']
+    list_hex = list([hue_to_rgb(int(x)) for x in np.linspace(30, 240, len(list_category)*2, endpoint=True)])
+    skip_hex = [h for n, h in enumerate(list_hex) if n in range(0, len(list_hex), 2)][::-1]
+
+    results['category'] = {'Other variants': '#CECECE'}
+    for category, hex in zip(list_category, skip_hex):
+        results['category'].update({category: hex})
+        print(category, hex)
+
 
 
     ''' EXPORT COLOUR FILE '''
