@@ -32,7 +32,7 @@ if __name__ == '__main__':
     output1 = args.output1
     output2 = args.output2
 
-    # path = '/Users/anderson/GLab Dropbox/Anderson Brito/projects/ncov/ncov_variants/nextstrain/runX_20210329_newpipeline/'
+    # path = '/Users/anderson/GLab Dropbox/Anderson Brito/projects/ncov/ncov_variants/nextstrain/runX_ncov_20210413_combineVOCs/'
     # genomes = path + 'pre-analyses/temp_sequences.fasta'
     # metadata1 = path + 'pre-analyses/metadata_nextstrain.tsv'
     # metadata2 = path + 'pre-analyses/GLab_SC2_sequencing_data.xlsx'
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     filter_bycol = {'update': 'connecticut'}
 
     variants = {'VOC': ['B.1.1.7', 'P.1', 'B.1.351', 'B.1.427', 'B.1.429'],
-                'VOI': ['B.1.526', 'B.1.525', 'P.2'],
+                'VOI': ['B.1.526', 'B.1.526.1', 'B.1.526.2', 'B.1.525', 'P.2'],
                 'VHC': []}
 
     # get ISO alpha3 country codes
@@ -147,6 +147,8 @@ if __name__ == '__main__':
         var_category = 'Other variants'
         for category, list in variants.items():
             if lineage in list:
+                if lineage.startswith('B.1.526'):
+                    lineage = 'B.1.526'
                 var_category = category + ' (' + lineage + ')'
         return var_category
 
