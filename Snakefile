@@ -307,7 +307,7 @@ rule refine:
 		"""
 	input:
 		tree = rules.tree.output.tree,
-		alignment = rules.align.output,
+		alignment = rules.mask.output.alignment,
 		metadata = input_metadata
 	output:
 		tree = "results/tree.nwk",
@@ -346,7 +346,7 @@ rule ancestral:
 	message: "Reconstructing ancestral sequences and mutations"
 	input:
 		tree = rules.refine.output.tree,
-		alignment = rules.align.output
+		alignment = rules.mask.output.alignment
 	output:
 		node_data = "results/nt_muts.json"
 	params:
