@@ -3,7 +3,7 @@
 # Created by: Anderson Brito
 # Email: andersonfbrito@gmail.com
 # Release date: 2020-03-24
-# Last update: 2021-01-30
+# Last update: 2021-04-27
 
 
 import pycountry_convert as pyCountry
@@ -46,8 +46,8 @@ if __name__ == '__main__':
     # keep only lab metadata rows matching this criteria
     filter_bycol = {'update': 'connecticut'}
 
-    variants = {'VOC': ['B.1.1.7', 'P.1', 'B.1.351', 'B.1.427', 'B.1.429'],
-                'VOI': ['B.1.526', 'B.1.526.1', 'B.1.526.2', 'B.1.525', 'P.2'],
+    variants = {'VOI': ['B.1.526', 'B.1.526.1', 'B.1.525', 'P.2'],
+                'VOC': ['B.1.1.7', 'P.1', 'B.1.351', 'B.1.427', 'B.1.429'],
                 'VHC': []}
 
     # get ISO alpha3 country codes
@@ -147,8 +147,8 @@ if __name__ == '__main__':
         var_category = 'Other variants'
         for category, list in variants.items():
             if lineage in list:
-                if lineage.startswith('B.1.526'):
-                    lineage = 'B.1.526'
+                # if lineage.startswith('B.1.526'):
+                #     lineage = 'B.1.526'
                 var_category = category + ' (' + lineage + ')'
         return var_category
 
