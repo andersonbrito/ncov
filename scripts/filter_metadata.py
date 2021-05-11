@@ -46,7 +46,7 @@ if __name__ == '__main__':
     # keep only lab metadata rows matching this criteria
     filter_bycol = {'update': 'connecticut'}
 
-    variants = {'VOI': ['B.1.526', 'B.1.526.1', 'B.1.525', 'P.2'],
+    variants = {'VOI': ['B.1.526', 'B.1.526.1', 'B.1.525', 'P.2', 'B.1.617', 'B.1.617.1', 'B.1.617.2', 'B.1.617.3'],
                 'VOC': ['B.1.1.7', 'P.1', 'B.1.351', 'B.1.427', 'B.1.429'],
                 'VHC': []}
 
