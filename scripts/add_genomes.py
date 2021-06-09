@@ -85,10 +85,10 @@ if __name__ == '__main__':
                 for line in infile:
                     entry = json.loads(line)
                     id = entry['covv_virus_name'].replace('hCoV-19/', '').replace(' ', '')
-                    seq = entry['sequence'].replace('\n', '')
                     all_sequences.append(id)
                     if id not in remove_sequences:
                         if id in keep_sequences:  # filter out unwanted sequences
+                            seq = entry['sequence'].replace('\n', '')
                             if int(len(seq)) >= min_size:
                                 entry = ">" + id + "\n" + seq.upper() + "\n"
                                 exported.append(id)
@@ -156,3 +156,4 @@ if __name__ == '__main__':
     print(str(len(low_coverage)) + ' low coverage genomes were ignored')
     print(str(len(ignored)) + ' genomes were REMOVED according to remove.txt\n')
     print(str(len(exported)) + ' genomes included in FINAL dataset\n')
+    
