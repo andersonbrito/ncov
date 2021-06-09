@@ -20,7 +20,7 @@ options = rules.options.params
 # Define file names
 rule files:
 	params:
-		original_dataset = "pre-analyses/gisaid_hcov-19.fasta",
+		original_dataset = "pre-analyses/provision.json",
 		new_genomes = "pre-analyses/new_genomes.fasta",
 		full_metadata = "pre-analyses/metadata_nextstrain.tsv",
 		lab_metadata = "pre-analyses/GLab_SC2_sequencing_data.xlsx",
@@ -55,7 +55,7 @@ rule add_sequences:
 		sequences = "pre-analyses/temp_sequences.fasta"
 	shell:
 		"""
-		python3 scripts/add_newgenomes.py \
+		python3 scripts/add_genomes.py \
 			--genomes {input.genomes} \
 			--new-genomes {input.new_genomes} \
 			--keep {input.include} \
