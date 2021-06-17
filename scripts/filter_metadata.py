@@ -22,6 +22,7 @@ if __name__ == '__main__':
     parser.add_argument("--genomes", required=True, help="FASTA file genomes to be used")
     parser.add_argument("--metadata1", required=True, help="Metadata file from NextStrain")
     parser.add_argument("--metadata2", required=False, help="Custom lab metadata file")
+    parser.add_argument("--filter", required=False, nargs='+', type=str,  help="List of filters for tagged rows in lab metadata")
     parser.add_argument("--output1", required=True, help="Filtered metadata file")
     parser.add_argument("--output2", required=True, help="Reformatted, final FASTA file")
     args = parser.parse_args()
@@ -29,25 +30,24 @@ if __name__ == '__main__':
     genomes = args.genomes
     metadata1 = args.metadata1
     metadata2 = args.metadata2
+    filterby = args.filter
     output1 = args.output1
     output2 = args.output2
 
-    # path = '/Users/anderson/GLab Dropbox/Anderson Brito/projects/ncov/ncov_variants/nextstrain/runX_ncov_20210413_combineVOCs/'
+    # path = '/Users/anderson/GLab Dropbox/Anderson Brito/projects/ncov/ncov_variants/nextstrain/runX_20210617_filter/'
     # genomes = path + 'pre-analyses/temp_sequences.fasta'
     # metadata1 = path + 'pre-analyses/metadata_nextstrain.tsv'
     # metadata2 = path + 'pre-analyses/GLab_SC2_sequencing_data.xlsx'
+    # filterby = ['caribe', 'test']
     # output1 = path + 'pre-analyses/metadata_filtered.tsv'
     # output2 = path + 'pre-analyses/sequences.fasta'
 
     # temporal boundaries
     today = time.strftime('%Y-%m-%d', time.gmtime())
-    min_date = '2020-06-30'
+    min_date = '2019-12-15'
 
-    # keep only lab metadata rows matching this criteria
-    filter_bycol = {'update': 'connecticut'}
-
-    variants = {'VOI': ['B.1.526', 'B.1.526.1', 'B.1.525', 'P.2', 'B.1.617', 'B.1.617.1', 'B.1.617.2', 'B.1.617.3'],
-                'VOC': ['B.1.1.7', 'P.1', 'B.1.351', 'B.1.427', 'B.1.429'],
+    variants = {'VOI': ['B.1.526', 'B.1.526.1', 'B.1.525', 'P.2', 'B.1.617', 'B.1.617.1', 'B.1.617.3'],
+                'VOC': ['B.1.1.7', 'P.1', 'B.1.351', 'B.1.427', 'B.1.429', 'B.1.617.2'],
                 'VHC': []}
 
     # get ISO alpha3 country codes
@@ -159,32 +159,33 @@ if __name__ == '__main__':
     # print(dfN)
 
     # Lab genomes metadata
-    dfL = pd.read_excel(metadata2, index_col=None, header=0, sheet_name=0,
-                        converters={'Sample-ID': str, 'Collection-date': str, 'Update': str})
-    dfL.fillna('', inplace=True)
+    dfE = pd.read_excel(metadata2, index_col=None, header=0, sheet_name=0,
+                        converters={'Sample-ID': str, 'Collection-date': str})
+    dfE.fillna('', inplace=True)
 
-    dfL = dfL.rename(
+    dfE = dfE.rename(
         columns={'Sample-ID': 'id', 'Collection-date': 'date', 'Country': 'country', 'Division (state)': 'division',
                  'Location (county)': 'location', 'Country of exposure': 'country_exposure',
                  'State of exposure': 'division_exposure', 'Lineage': 'pango_lineage', 'Source': 'originating_lab',
-                 'Update': 'update'})
-    dfL['epiweek'] = ''
+                 'Filter': 'filter'})
+    dfE['epiweek'] = ''
 
     # exclude rows with no ID
-    if 'id' in dfL.columns.to_list():
-        dfL = dfL[~dfL['id'].isin([''])]
+    if 'id' in dfE.columns.to_list():
+        dfE = dfE[~dfE['id'].isin([''])]
 
-    lab_sequences = dfL['id'].tolist()
-
-    # exclude unwanted lab metadata roww
-    for column, value in filter_bycol.items():
-        print('\nFiltering metadata rows where: column = ' + column + '; value = ' + value + '\n')
-        dfL = dfL[dfL[column].isin([value])]  # batch inclusion of specific rows
+    lab_sequences = dfE['id'].tolist()
+    # exclude unwanted lab metadata row
+    if len(filterby) > 0:
+        print('\nFiltering metadata by category: ' + ', '.join(filterby) + '\n')
+    dfL = pd.DataFrame(columns=dfE.columns.to_list())
+    for value in filterby:
+        dfF = dfE[dfE['filter'].isin([value])]  # batch inclusion of specific rows
+        dfL = pd.concat([dfL, dfF]) # add filtered rows to dataframe with lab metadata
 
     # list of relevant genomes sequenced
     keep_only = dfL['id'].tolist()
     excluded = [id for id in lab_sequences if id not in keep_only]
-
 
     # create a dict of existing sequences
     sequences = {}
@@ -328,14 +329,14 @@ if __name__ == '__main__':
     with open(output2, 'w') as outfile2:
         # export new metadata lines
         for id, sequence in sequences.items():
-            if id in lab_label and id not in metadata_issues.keys():
+            if id in lab_label and id not in metadata_issues.keys(): # export lab generated sequences
                 if lab_label[id] not in exported:
                     entry = '>' + lab_label[id] + '\n' + sequence + '\n'
                     outfile2.write(entry)
                     print('* Exporting newly sequenced genome and metadata for ' + id)
                     exported.append(lab_label[id])
-            else:
-                if id not in exported and id not in metadata_issues.keys():
+            else:  # export publicly available sequences
+                if id not in exported and id in outputDF['strain'].tolist():
                     entry = '>' + id + '\n' + sequence + '\n'
                     outfile2.write(entry)
                     exported.append(id)

@@ -98,6 +98,8 @@ rule filter_metadata:
 		genomes = rules.add_sequences.output.sequences,
 		metadata1 = files.full_metadata,
 		metadata2 = rules.merge_metadata.output.merged_metadata
+	params:
+		filter = "connecticut"
 	output:
 		filtered_metadata = "pre-analyses/metadata_filtered.tsv",
 		sequences = "data/sequences.fasta"
@@ -107,6 +109,7 @@ rule filter_metadata:
 			--genomes {input.genomes} \
 			--metadata1 {input.metadata1} \
 			--metadata2 {input.metadata2} \
+			--filter {params.filter} \
 			--output1 {output.filtered_metadata} \
 			--output2 {output.sequences}
 		"""
