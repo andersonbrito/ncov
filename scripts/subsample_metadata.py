@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+#!/usr/bin/python
 
 # Created by: Anderson Brito
 # Email: andersonfbrito@gmail.com
-# Release date: 2020-03-24
-# Last update: 2021-03-29
+# Release date: 2020-04-30
+# Last update: 2021-06-25
 
 import pandas as pd
 import numpy as np
@@ -20,7 +21,9 @@ if __name__ == '__main__':
     parser.add_argument("--keep", required=False, help="List of samples to keep, in all instances")
     parser.add_argument("--remove", required=False, help="List of samples to remove, in all instances")
     parser.add_argument("--scheme", required=True, help="Subsampling scheme")
-    parser.add_argument("--output", required=True, help="Selected list of samples")
+    parser.add_argument("--output", required=True, help="Selected list of genomes")
+    parser.add_argument("--format", required=True, nargs=1, type=str,  default='strain',
+                        choices=['strain', 'accession'], help="Output format: list of \'strain\' names or \'accession\' number")
     parser.add_argument("--report", required=False, help="Report listing samples per category")
     args = parser.parse_args()
 
@@ -30,17 +33,22 @@ if __name__ == '__main__':
     scheme = args.scheme
     report = args.report
     output = args.output
+    format = args.format
 
-
-    # metadata = path + 'metadata_geo.tsv'
-    # keep = path + 'keep.txt'
-    # remove = path + 'remove.txt'
-    # scheme = path + 'subsampling_scheme.tsv'
+    # path = '/Users/anderson/GLab Dropbox/Anderson Brito/projects/ncov/ncov_variants/nextstrain/run6_20210202_b117/nextbs/'
+    # metadata = path + 'pre-analyses/metadata_nextstrain.tsv'
+    # keep = None
+    # remove = None
+    # scheme = path + 'config/subsampling_scheme.tsv'
     # report = path + 'report.tsv'
     # output = path + 'selected_strains.txt'
 
-
     today = time.strftime('%Y-%m-%d', time.gmtime())
+    type = ''
+    if format == 'strain':
+        type = 'strain'
+    else:
+        type = 'gisaid_epi_isl'
 
     # force genomes to be kept in final dataset
     if keep == None:
@@ -95,14 +103,6 @@ if __name__ == '__main__':
     dfN = dfN.sort_values(by='date')  # sorting lines by date
     start, end = dfN['date'].min(), today
 
-#     print('\n* Fixing information about place of exposure...')
-#     # fix exposure
-#     for exposure_column in ['region_exposure', 'country_exposure', 'division_exposure']:
-#         for idx, row in dfN.iterrows():
-#             level = exposure_column.split('_')[0]
-#             if dfN.loc[idx, exposure_column].lower() in ['', 'unknown', 'na']:
-#                 dfN.loc[idx, exposure_column] = dfN.loc[idx, level]
-
     print('\n* Assigning epiweek column...')
     # get epiweek end date, create column
     dfN['date'] = pd.to_datetime(dfN['date'], errors='coerce')
@@ -129,7 +129,6 @@ if __name__ == '__main__':
         # print(scheme_dict)
         # group by level
         for level, names in scheme_dict.items():
-            # print(level, names)
             # create dictionary for level
             if level not in results:
                 results[level] = {}
@@ -141,6 +140,7 @@ if __name__ == '__main__':
 
             glevel = dfN.groupby(level)
             for name, dfLevel in glevel:
+                # print(name, dfLevel)
                 if name in names: # check if name is among focal places
                     min_date, max_date = start, end
 
@@ -157,6 +157,7 @@ if __name__ == '__main__':
                     dfLevel = dfLevel.loc[mask]  # apply mask
 
                     gEpiweek = dfLevel.groupby('epiweek')
+                    # print(dfS.loc[dfS['name'] == name, 'size'])
                     sample_size = int(dfS.loc[dfS['name'] == name, 'size'])
                     total_genomes = dfLevel[level].count()
                     for epiweek, dfEpiweek in gEpiweek:
@@ -168,7 +169,7 @@ if __name__ == '__main__':
 
                         # selector
                         random_subset = dfEpiweek.sample(n=sampled)
-                        selected = random_subset['strain'].to_list()
+                        selected = random_subset[type].to_list()
                         results[level][name] = results[level][name] + selected
 
                     # drop pre-selected samples to prevent duplicates
