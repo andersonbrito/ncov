@@ -33,9 +33,8 @@ if __name__ == '__main__':
     scheme = args.scheme
     report = args.report
     output = args.output
-    format = args.format
+    format = args.format[0]
 
-    # path = '/Users/anderson/GLab Dropbox/Anderson Brito/projects/ncov/ncov_variants/nextstrain/run6_20210202_b117/nextbs/'
     # metadata = path + 'pre-analyses/metadata_nextstrain.tsv'
     # keep = None
     # remove = None
