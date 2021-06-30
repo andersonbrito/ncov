@@ -27,7 +27,7 @@ rule files:
 		extra_metadata = "pre-analyses/extra_metadata.xlsx",
 		cache = "config/cache_coordinates.tsv",
 		keep = "config/keep.txt",
-		remove = "config/remove.txt",
+		ignore = "config/remove.txt",
 		reference = "config/reference.gb",
 		geoscheme = "config/geoscheme.tsv",
 		colour_grid = "config/colour_grid.html",
@@ -50,7 +50,7 @@ rule add_sequences:
 		genomes = files.original_dataset,
 		new_genomes = files.new_genomes,
 		include = files.keep,
-		exclude = files.remove
+		exclude = files.ignore
 	output:
 		sequences = "pre-analyses/temp_sequences.fasta"
 	shell:
