@@ -21,9 +21,8 @@ if __name__ == '__main__':
     remove = args.remove
     outfile = args.output
 
-    # path = '/Users/anderson/GLab Dropbox/Anderson Brito/projects/ncov/ncov_variants/nextstrain/runX_20210329_newpipeline/'
-    # genomes = path + "pre-analyses/provision.json"
-    # # genomes = path + "pre-analyses/gisaid_hcov-19.fasta"
+    # # genomes = path + "pre-analyses/provision.json"
+    # genomes = path + "pre-analyses/gisaid_hcov-19.fasta"
     # new_genomes = path + "pre-analyses/new_genomes.fasta"
     # keep = path + 'config/keep.txt'
     # remove = path + "config/remove.txt"
@@ -38,7 +37,7 @@ if __name__ == '__main__':
     print('\n### Loading new sequences, and reporting genome coverage\n')
     newly_sequenced = {}
     low_coverage = {}
-    for fasta in SeqIO.parse(open(new_genomes),'fasta'):
+    for fasta in SeqIO.parse(open(new_genomes), 'fasta'):
         id, seq = fasta.description, fasta.seq
         size = len(str(seq).replace('N', '').replace('-', ''))
         if size > min_size:
@@ -52,7 +51,6 @@ if __name__ == '__main__':
             low_coverage[id] = coverage
     print('\nDone!\n')
 
-
     # create a list of sequences to be added in all instances
     keep_sequences = []
     for id in open(keep, "r").readlines():
@@ -62,14 +60,12 @@ if __name__ == '__main__':
                 if id not in keep_sequences:
                     keep_sequences.append(id)
 
-
     # create a list of sequences to be ignored in all instances
     remove_sequences = []
     for id in open(remove, "r").readlines():
         if id[0] not in ["#", "\n"]:
             id = id.strip()
             remove_sequences.append(id)
-
 
     # export only sequences to be used in the nextstrain build
     c = 1
@@ -84,7 +80,15 @@ if __name__ == '__main__':
                 c = 0
                 for line in infile:
                     entry = json.loads(line)
-                    id = entry['covv_virus_name'].replace('hCoV-19/', '').replace(' ', '')
+                    id = entry['covv_virus_name']
+                    id = id.split('|')[0].replace('hCoV-19/', '')
+                    if len(id.split('/')) == 3:
+                        country, index, year = id.split('/')
+                    elif len(id.split('/')) == 4:
+                        host, country, index, year = id.split('/')
+                    country = country.replace(' ', '').replace('\'', '-').replace('_', '')
+                    id = '/'.join([country, index, year])
+
                     all_sequences.append(id)
                     if id not in remove_sequences:
                         if id in keep_sequences:  # filter out unwanted sequences
@@ -101,10 +105,17 @@ if __name__ == '__main__':
         else:
             for fasta in SeqIO.parse(open(genomes), 'fasta'):
                 id, seq = fasta.description, fasta.seq
+                id = id.split('|')[0].replace('hCoV-19/', '')
+                if len(id.split('/')) == 3:
+                    country, index, year = id.split('/')
+                elif len(id.split('/')) == 4:
+                    host, country, index, year = id.split('/')
+                country = country.replace(' ', '').replace('\'', '-').replace('_', '')
+                id = '/'.join([country, index, year])
                 all_sequences.append(id)
 
                 if id not in remove_sequences:
-                    if id in keep_sequences: # filter out unwanted sequences
+                    if id in keep_sequences:  # filter out unwanted sequences
                         entry = ">" + id + "\n" + str(seq).upper() + "\n"
                         exported.append(id)
                         output.write(entry)
@@ -114,13 +125,12 @@ if __name__ == '__main__':
                     ignored.append(id)
 
         for id, seq in newly_sequenced.items():
-                print('* ' + str(c) + '. ' + id)
-                entry = ">" + id + "\n" + seq.upper() + "\n"
-                exported.append(id)
-                output.write(entry)
-                c += 1
+            print('* ' + str(c) + '. ' + id)
+            entry = ">" + id + "\n" + seq.upper() + "\n"
+            exported.append(id)
+            output.write(entry)
+            c += 1
     print('\n- Done!\n')
-
 
     # mismatched sequence headers
     mismatch = [genome for genome in keep_sequences if genome not in all_sequences]
@@ -133,6 +143,8 @@ if __name__ == '__main__':
         for id in mismatch:
             print(str(m) + '. ' + id)
             m += 1
+    else:
+        print('\nNo sequence name mismatches found...')
 
     if len(low_coverage) > 0:
         print('\n- Low quality sequences were ignored.\n')
@@ -140,9 +152,6 @@ if __name__ == '__main__':
         for id, coverage in low_coverage.items():
             print('\t' + str(l) + '. ' + id + ', coverage = ' + coverage + ' (FAIL)')
             l += 1
-    else:
-        print('\nNo sequence name mismatches found...')
-
 
     print('\n\n\n### Final result\n')
 
@@ -156,4 +165,3 @@ if __name__ == '__main__':
     print(str(len(low_coverage)) + ' low coverage genomes were ignored')
     print(str(len(ignored)) + ' genomes were REMOVED according to remove.txt\n')
     print(str(len(exported)) + ' genomes included in FINAL dataset\n')
-    
