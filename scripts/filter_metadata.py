@@ -3,7 +3,7 @@
 # Created by: Anderson Brito
 # Email: andersonfbrito@gmail.com
 # Release date: 2020-03-24
-# Last update: 2021-04-27
+# Last update: 2021-07-07
 
 
 import pycountry_convert as pyCountry
@@ -46,9 +46,25 @@ if __name__ == '__main__':
     today = time.strftime('%Y-%m-%d', time.gmtime())
     min_date = '2019-12-15'
 
-    variants = {'VOI': ['B.1.526', 'B.1.526.1', 'B.1.525', 'P.2', 'B.1.617', 'B.1.617.1', 'B.1.617.3'],
-                'VOC': ['B.1.1.7', 'P.1', 'B.1.351', 'B.1.427', 'B.1.429', 'B.1.617.2'],
-                'VHC': []}
+    variants = {'B.1.1.7': 'Alpha (B.1.1.7)',
+                'B.1.351': 'Beta (B.1.351)',
+                'B.1.351.2': 'Beta (B.1.351.2)',
+                'B.1.351.3': 'Beta (B.1.351.3)',
+                'P.1': 'Gamma (P.1)',
+                'P.1.1': 'Gamma (P.1.1)',
+                'P.1.2': 'Gamma (P.1.2)',
+                'B.1.617.2': 'Delta (B.1.617.2)',
+                'AY.1': 'Delta (AY.1)',
+                'AY.2': 'Delta (AY.2)',
+                'B.1.525': 'Eta (B.1.525)',
+                'B.1.526': 'Iota (B.1.526)',
+                'B.1.617.1': 'Kappa (B.1.617.1)',
+                'C.37': 'Lambda (C.37)',
+                'B.1.427': 'Epsilon (B.1.427/B.1.429)',
+                'B.1.429': 'Epsilon (B.1.427/B.1.429)',
+                'P.2': 'Zeta (P.2)'
+                }
+
 
     # get ISO alpha3 country codes
     isos = {}
@@ -145,11 +161,9 @@ if __name__ == '__main__':
     # add tag of variant category
     def variant_category(lineage):
         var_category = 'Other variants'
-        for category, list in variants.items():
-            if lineage in list:
-                # if lineage.startswith('B.1.526'):
-                #     lineage = 'B.1.526'
-                var_category = category + ' (' + lineage + ')'
+        for name in variants.keys():
+            if lineage == name:
+                var_category = variants[lineage]
         return var_category
 
     dfN['category'] = dfN['pango_lineage'].apply(lambda x: variant_category(x))
