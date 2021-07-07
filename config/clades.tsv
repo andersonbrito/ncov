@@ -11,12 +11,16 @@ Alpha (B.1.1.7)	S	982	A
 Beta (B.1.351)	ORF1a	1655	N
 Beta (B.1.351)	ORF1a	3353	R
 
-Epsilon (B.1.427/B.1.429)	ORF1a	265	I
-Epsilon (B.1.427/B.1.429)	ORF1a	4295	V
-Epsilon (B.1.427/B.1.429)	S	13	I
-Epsilon (B.1.427/B.1.429)	S	152	C
-Epsilon (B.1.427/B.1.429)	S	614	G
-Epsilon (B.1.427/B.1.429)	N	205	I
+Gamma (P.1)	N	80	R
+Gamma (P.1)	ORF1a	1188	L
+Gamma (P.1)	ORF1b	1264	D
+Gamma (P.1)	S	501	Y
+
+Delta (B.1.617.2)	M	82	T
+Delta (B.1.617.2)	N	63	G
+Delta (B.1.617.2)	ORF7a	120	I
+Delta (B.1.617.2)	ORF9b	60	A
+Delta (B.1.617.2)	S	19	R
 
 Eta (B.1.525)	E	21	F
 Eta (B.1.525)	N	12	G
@@ -26,27 +30,29 @@ Iota (B.1.526)	ORF8	11	I
 Iota (B.1.526)	S	95	I
 Iota (B.1.526)	nuc	21846	T
 
-Gamma (P.1)	N	80	R
-Gamma (P.1)	ORF1a	1188	L
-Gamma (P.1)	ORF1b	1264	D
-Gamma (P.1)	S	501	Y
-
-B.1.617	nuc	210	T
-B.1.617	nuc	27638	C
-B.1.617	ORF7a	82	A
-
 Kappa (B.1.617.1)	ORF1a	1567	I
 Kappa (B.1.617.1)	ORF1b	1129	C
 Kappa (B.1.617.1)	ORF1b	2310	R
 Kappa (B.1.617.1)	ORF1b	2312	A
 
-Delta (B.1.617.2)	M	82	T
-Delta (B.1.617.2)	N	63	G
-Delta (B.1.617.2)	ORF7a	120	I
-Delta (B.1.617.2)	ORF9b	60	A
-Delta (B.1.617.2)	S	19	R
+Lambda (C.37)	S	452	Q
+Lambda (C.37)	S	490	S
+Lambda (C.37)	nuc	23031	C
+
+Epsilon (B.1.427/B.1.429)	ORF1a	265	I
+Epsilon (B.1.427/B.1.429)	ORF1a	4295	V
+Epsilon (B.1.427/B.1.429)	S	13	I
+Epsilon (B.1.427/B.1.429)	S	152	C
+Epsilon (B.1.427/B.1.429)	S	614	G
+Epsilon (B.1.427/B.1.429)	N	205	I
+
+B.1.617	nuc	210	T
+B.1.617	nuc	27638	C
+B.1.617	ORF7a	82	A
 
 B.1.617.3	N	67	S
 B.1.617.3	ORF1a	2344	V
 B.1.617.3	ORF1a	2648	I
 B.1.617.3	ORF8	26	I
+
+
