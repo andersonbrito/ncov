@@ -21,8 +21,8 @@ if __name__ == '__main__':
     remove = args.remove
     outfile = args.output
 
-    # # genomes = path + "pre-analyses/provision.json"
-    # genomes = path + "pre-analyses/gisaid_hcov-19.fasta"
+    # genomes = path + "pre-analyses/provision.json"
+    # # genomes = path + "pre-analyses/gisaid_hcov-19.fasta"
     # new_genomes = path + "pre-analyses/new_genomes.fasta"
     # keep = path + 'config/keep.txt'
     # remove = path + "config/remove.txt"
@@ -75,32 +75,34 @@ if __name__ == '__main__':
     all_sequences = []
     with open(outfile, 'w') as output:
         if genomes.split('.')[1] == 'json':
-            print('\n### Exporting sequences\n')
             with open(genomes) as infile:
                 c = 0
                 for line in infile:
-                    entry = json.loads(line)
-                    id = entry['covv_virus_name']
-                    id = id.split('|')[0].replace('hCoV-19/', '')
-                    if len(id.split('/')) == 3:
-                        country, index, year = id.split('/')
-                    elif len(id.split('/')) == 4:
-                        host, country, index, year = id.split('/')
-                    country = country.replace(' ', '').replace('\'', '-').replace('_', '')
-                    id = '/'.join([country, index, year])
+                    try:
+                        entry = json.loads(line)
+                        id = entry['covv_virus_name']
+                        id = id.split('|')[0].replace('hCoV-19/', '')
+                        if len(id.split('/')) == 3:
+                            country, index, year = id.split('/')
+                        elif len(id.split('/')) == 4:
+                            host, country, index, year = id.split('/')
+                        country = country.replace(' ', '').replace('\'', '-').replace('_', '')
+                        id = '/'.join([country, index, year])
 
-                    all_sequences.append(id)
-                    if id not in remove_sequences:
-                        if id in keep_sequences:  # filter out unwanted sequences
-                            seq = entry['sequence'].replace('\n', '')
-                            if int(len(seq)) >= min_size:
-                                entry = ">" + id + "\n" + seq.upper() + "\n"
-                                exported.append(id)
-                                output.write(entry)
-                                print(str(c) + '. ' + id)
-                                c += 1
-                    else:
-                        ignored.append(id)
+                        all_sequences.append(id)
+                        if id not in remove_sequences:
+                            if id in keep_sequences:  # filter out unwanted sequences
+                                seq = entry['sequence'].replace('\n', '')
+                                if int(len(seq)) >= min_size:
+                                    entry = ">" + id + "\n" + seq.upper() + "\n"
+                                    exported.append(id)
+                                    output.write(entry)
+                                    print(str(c) + '. ' + id)
+                                    c += 1
+                        else:
+                            ignored.append(id)
+                    except:
+                        print('Corrupted JSON row detected. Skipping...')
 
         else:
             for fasta in SeqIO.parse(open(genomes), 'fasta'):
